@@ -1,0 +1,19 @@
+{{- range .Values.pvcs }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "helpers.app.fullname" (dict "name" .name "context" $) }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "helpers.app.labels" $ | nindent 4 }}
+    {{- with .labels }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+  annotations:
+    {{- with .annotations }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+spec:
+  storageClassName: {{ .storageClassName }}
+  accessModes: {{- include "helpers.tplvalues.render" ( dict "value" .accessModes "context" $ ) | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .size | default "1Gi" }}
+{{- end }}

@@ -1,0 +1,130 @@
+{{- with .Values.deployment }}
+{{- if .enabled }}
+{{- $name := .name }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "helpers.app.name" $ }}
+  {{- include "helpers.app.commonMetadata" $ | nindent 2 }}
+spec:
+  {{- if not (and $.Values.hpa $.Values.hpa.enabled) }}
+  replicas: {{ .replicas }}
+  {{- end }}
+  revisionHistoryLimit: 2
+  {{- if .strategy }}
+  strategy:
+    type: {{ .strategy.type }}
+    {{- if eq .strategy.type "RollingUpdate" }}
+    rollingUpdate:
+      maxSurge: {{ .strategy.maxSurge }}
+      maxUnavailable: {{ .strategy.maxUnavailable }}
+    {{- end }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helpers.app.selectorLabels" $ | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with $.Values.generic.podAnnotations }}
+        {{- include "helpers.tplvalues.render" ( dict "value" . "context" $ ) | nindent 10 }}
+        {{- end }}
+        {{- with .podAnnotations }}
+        {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+        {{- end }}
+      labels:
+        {{- include "helpers.app.labels" $ | nindent 10 }}
+    spec:
+      {{- if .serviceAccountName }}
+      serviceAccountName: {{ .serviceAccountName }}
+      {{- end }}
+      {{- with .securityContext }}
+      securityContext: {{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 8 }}
+      {{- end }}
+      {{ if .imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .imagePullSecrets }}
+      - name: {{ .name }}
+      {{- end }}
+      {{- end }}
+      {{- if .terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .terminationGracePeriodSeconds }}
+      {{- end }}
+      initContainers:
+        {{- range .initContainers }}
+        -
+          name: {{ .name | default (printf "%s-%s" $name (lower (randAlphaNum 5))) }}
+          image: {{ .image.repository }}:{{ .image.tag }}
+          imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
+          {{- with .securityContext }}
+          securityContext: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
+          {{- end }}
+          {{- with .args }}
+          args: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- if .command }}
+          {{- if typeIs "string" .command }}
+          command: {{ printf "[\"%s\"]" (join ("\", \"") (without (splitList " " .command) "" )) }}
+          {{- else }}
+          command: {{- include "helpers.tplvalues.render" ( dict "value" .command "context" $) | nindent 10 }}
+          {{- end }}
+          {{- end }}
+          {{- include "helpers.containers.env" (dict "value" . "context" $) | indent 10 }}
+          {{- include "helpers.containers.envFrom" (dict "value" . "context" $) | indent 10 }}
+          {{- with .ports }}
+          ports: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .lifecycle }}
+          lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .livenessProbe }}
+          livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .readinessProbe }}
+          readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .resources }}
+          resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" .volumeMounts "context" $) | nindent 10 }}
+        {{- end }}
+      containers:
+        {{- range .containers }}
+        -
+          name: {{ .name | default (printf "%s-%s" $name (lower (randAlphaNum 5))) }}
+          image: {{ .image.repository }}:{{ .image.tag }}
+          imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
+          {{- with .securityContext }}
+          securityContext: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
+          {{- end }}
+          {{- with .args }}
+          args: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- if .command }}
+          {{- if typeIs "string" .command }}
+          command: {{ printf "[\"%s\"]" (join ("\", \"") (without (splitList " " .command) "" )) }}
+          {{- else }}
+          command: {{- include "helpers.tplvalues.render" ( dict "value" .command "context" $) | nindent 10 }}
+          {{- end }}
+          {{- end }}
+          {{- include "helpers.containers.env" (dict "value" . "context" $) | indent 10 }}
+          {{- include "helpers.containers.envFrom" (dict "value" . "context" $) | indent 10 }}
+          {{- with .ports }}
+          ports: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .lifecycle }}
+          lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .livenessProbe }}
+          livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .readinessProbe }}
+          readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          {{- with .resources }}
+          resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          {{- end }}
+          volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" .volumeMounts "context" $) | nindent 10 }}
+        {{- end }}
+{{- end }}
+{{- end }}

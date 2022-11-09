@@ -1,0 +1,32 @@
+{{- with .Values.ingress }}
+{{- if .enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "helpers.app.fullname" (dict "name" (.name | default .host) "context" $) }}
+  namespace: {{ $.Release.Namespace | quote }}
+  labels:
+    {{- include "helpers.app.labels" $ | nindent 4 }}
+    {{- with .labels }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  {{- range .hosts }}
+    -
+      host: {{ include "helpers.tplvalues.render" (dict "value" .host "context" $) }}
+      http:
+        paths:
+        {{- range .paths }}
+        - path: {{ default "/" .path }}
+          pathType: {{ default "Prefix" .pathType }}
+          backend:
+            {{- include "helpers.ingress.backend" (dict "serviceName" (include "helpers.app.fullname" (dict "name" .serviceName "context" $)) "servicePort" .servicePort "context" $) | nindent 12 }}
+        {{- end }}
+  {{- end }}
+  {{- if .tls.enabled }}
+  tls:
+    - secretName: {{ include "helpers.app.fullname" (dict "name" .tls.secretName "context" $) }}
+  {{- end }}
+{{- end }}
+{{- end }}
