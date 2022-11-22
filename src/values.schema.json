@@ -1,0 +1,1519 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "additionalProperties": false,
+    "default": {},
+    "examples": [
+        {
+            "todo": "TODO"
+        }
+    ],
+    "anyOf": [
+        {
+            "properties": {
+                "deployment": {
+                    "properties": {
+                        "containers": {
+                            "minContains": 1
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "hpa": {
+                        "const": null
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "deployment": {
+                        "required": [
+                            "replicas"
+                        ]
+                    }
+                }
+            },
+            "else": {
+                "properties": {
+                    "deployment": {
+                        "properties": {
+                            "replicas": {
+                                "const": null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "properties": {
+        "nameOverride": {
+            "$id": "#/properties/nameOverride",
+            "title": "The overriden name",
+            "description": "The custom release name to use instead of .Release.Name",
+            "type": [ "string", "null" ],
+            "default": null
+        },
+        "configMaps": {
+            "$id": "#/properties/configMaps",
+            "title": "The configMaps schema",
+            "description": "Structure of the configMap object collection.",
+            "type": "array",
+            "additionalItems": true,
+            "default": [],
+            "items": {
+                "$id": "#/properties/configMaps/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/configMaps/items/anyOf/0",
+                        "title": "The configMap schema",
+                        "description": "Structure of the configMap object.",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "name",
+                            "data"
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/configMaps/items/anyOf/0/properties/name",
+                                "title": "The configMap",
+                                "description": "The name of the configMap to be created.",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "namespace": {
+                                "$id": "#/properties/configMaps/items/anyOf/0/properties/namespace",
+                                "title": "The namespace",
+                                "description": "The namespace of the configMap to be created.",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "data": {
+                                "$id": "#/properties/configMaps/items/anyOf/0/properties/data",
+                                "title": "The data of the configMap",
+                                "description": "Collection of key-value pairs to represent the configMap data.",
+                                "type": "object",
+                                "additionalProperties": true,
+                                "default": {}
+                            },
+                            "labels": {
+                                "$id": "#/properties/configMaps/items/anyOf/0/properties/labels",
+                                "title": "The labels schema",
+                                "description": "Additional labels to be added to the configMap.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": true
+                            },
+                            "annotations": {
+                                "$id": "#/properties/configMaps/items/anyOf/0/properties/annotations",
+                                "title": "The annotations schema",
+                                "description": "Additional annotations to be added to the configMap.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "deployment": {
+            "$id": "#/properties/deployment",
+            "title": "The deployment schema",
+            "description": "Structue of the deployment object.",
+            "type": [ "object", "null" ],
+            "default": null,
+            "additionalProperties": false,
+            "required": [
+                "strategy",
+                "containers"
+            ],
+            "properties": {
+                "replicas": {
+                    "$id": "#/properties/deployment/properties/replicas",
+                    "title": "The replicas count",
+                    "description": "The number of replicas for this deployment",
+                    "type": "integer",
+                    "default": 0,
+                    "minimum": 0,
+                    "maximum": 5
+                },
+                "strategy": {
+                    "$id": "#/properties/deployment/strategy",
+                    "title": "The deployment strategy",
+                    "description": "",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": false,
+                    "required": [
+                        "type"
+                    ],
+                    "allOf": [
+                        {
+                            "if": {
+                                "properties": {
+                                    "type": {
+                                        "const": "RollingUpdate"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "required": [
+                                    "maxSurge",
+                                    "maxUnavailable"
+                                ],
+                                "allOf": [
+                                    {
+                                        "anyOf": [
+                                            {
+                                                "properties": {
+                                                    "maxSurge": {
+                                                        "type": "string",
+                                                        "pattern": "^[1-9][0-9]?%$|^100%$"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "properties": {
+                                                    "maxSurge": {
+                                                        "type": "integer",
+                                                        "maximum": 5
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "anyOf": [
+                                            {
+                                                "properties": {
+                                                    "maxUnavailable": {
+                                                        "type": "string",
+                                                        "pattern": "^[1-9][0-9]?%$|^100%$"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "properties": {
+                                                    "maxUnavailable": {
+                                                        "type": "integer",
+                                                        "maximum": 5
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "else": {
+                                "properties": {
+                                    "maxSurge": {
+                                        "const": null
+                                    },
+                                    "maxUnavailable": {
+                                        "const": null
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "$id": "#/properties/deployment/strategy/properties/type",
+                            "title": "The strategy type",
+                            "description": "",
+                            "type": "string",
+                            "default": "",
+                            "enum": [
+                                "Recreate",
+                                "RollingUpdate"
+                            ]
+                        },
+                        "maxSurge": {
+                            "$id": "#/properties/deployment/strategy/properties/maxSurge",
+                            "title": "The max surge count",
+                            "description": "The maximum number of replicas to deploy over the current replicas limit",
+                            "type": [ "integer", "string" ],
+                            "default": 1
+                        },
+                        "maxUnavailable": {
+                            "$id": "#/properties/deployment/strategy/properties/maxUnavailable",
+                            "title": "The max unavailable count",
+                            "description": "The maximum number of replicas to make unavailable when deploying newer replicas",
+                            "type": [ "integer", "string" ],
+                            "default": 1
+                        }
+                    }
+                },
+                "serviceAccountName": {
+                    "$id": "#/properties/deployment/properties/serviceAccountName",
+                    "title": "The service account name",
+                    "description": "",
+                    "type": "string",
+                    "default": ""
+                },
+                "securityContext": {
+                    "$id": "#/properties/deployment/properties/securityContext",
+                    "title": "The security context",
+                    "description": "Structue of the securityContext object.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                        "runAsUser",
+                        "runAsGroup",
+                        "fsGroup"
+                    ],
+                    "properties": {
+                        "runAsUser": {
+                            "$id": "#/properties/deployment/properties/securityContext/properties/runAsUser",
+                            "title": "The user id",
+                            "description": "The id of the user to run as.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "runAsGroup": {
+                            "$id": "#/properties/deployment/properties/securityContext/properties/runAsGroup",
+                            "title": "The group id",
+                            "description": "The id of the group to run as.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "fsGroup": {
+                            "$id": "#/properties/deployment/properties/securityContext/properties/runAsUser",
+                            "title": "The group id",
+                            "description": "The supplemental group id for all containers in the pod.",
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "imagePullSecrets": {
+                    "$id": "#/properties/deployment/properties/imagePullSecrets",
+                    "title": "The image pull secrets",
+                    "description": "The secrets used to pull images from private registries.",
+                    "type": "array",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/deployment/properties/imagePullSecrets/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/deployment/properties/imagePullSecrets/items/anyOf/0",
+                                "title": "The image pull secret",
+                                "description": "The secret used to pull images from private registries.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": false,
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/deployment/properties/imagePullSecrets/items/anyOf/0/properties/name",
+                                        "title": "The image pull secret name",
+                                        "description": "The image pull secret name.",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "terminationGracePeriodSeconds": {
+                    "$id": "#/properties/deployment/properties/terminationGracePeriodSeconds",
+                    "title": "The schema of terminationGracePeriodSeconds",
+                    "description": "The amount of seconds to wait before forcefully stopping the pod after entering the Terminating state.",
+                    "type": "integer",
+                    "default": 0
+                },
+                "initContainers": {
+                    "$id": "#/properties/deployment/properties/initContainers",
+                    "$ref": "#/properties/deployment/properties/containers",
+                    "title": "The schema of init containers",
+                    "description": ""
+                },
+                "containers": {
+                    "$id": "#/properties/deployment/properties/containers",
+                    "title": "The schema of containers",
+                    "description": "The containers to be created as part of this deployment.",
+                    "type": "array",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/deployment/properties/containers/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0",
+                                "title": "The schema of a container",
+                                "description": "",
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                    "name",
+                                    "image",
+                                    "resources"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/configMaps/items/anyOf/0/properties/name",
+                                        "title": "The container",
+                                        "description": "The name of the container to be created.",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "image": {
+                                        "$id": "#/properties/configMaps/items/anyOf/0/properties/image",
+                                        "title": "The docker image",
+                                        "description": "The docker image to be used as template for the container.",
+                                        "type": "object",
+                                        "default": {},
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "repository",
+                                            "tag"
+                                        ],
+                                        "properties": {
+                                            "repository": {
+                                                "$id": "#/properties/configMaps/items/anyOf/0/properties/image/properties/repository",
+                                                "title": "The docker image repository",
+                                                "description": "The image repository from where to pull it.",
+                                                "type": "string",
+                                                "default": ""
+                                            },
+                                            "tag": {
+                                                "$id": "#/properties/configMaps/items/anyOf/0/properties/image/properties/tag",
+                                                "title": "The docker image tag",
+                                                "description": "The image tag to pull (i.e. latest).",
+                                                "type": "string",
+                                                "default": ""
+                                            }
+                                        }
+                                    },
+                                    "imagePullPolicy": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/imagePullPolicy",
+                                        "title": "The image pull policy",
+                                        "description": "The image pull policy.",
+                                        "type": "string",
+                                        "default": "Always"
+                                    },
+                                    "securityContext": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/securityContext",
+                                        "$ref": "#/properties/deployment/properties/securityContext",
+                                        "title": "The security context",
+                                        "description": "Structue of the securityContext object."
+                                    },
+                                    "args": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/args",
+                                        "title": "The container args",
+                                        "description": "The arguments to pass to the container entrypoint or the command, if a command is defined.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/args/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/args/items/anyOf/0",
+                                                    "title": "The argument",
+                                                    "description": "Argument to be passed to the container entrypoint or command.",
+                                                    "type": "string",
+                                                    "default": ""
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "command": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/command",
+                                        "title": "The conainter commands",
+                                        "description": "The command to be executed by the container.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/command/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/command/items/anyOf/0",
+                                                    "title": "The command",
+                                                    "description": "Command to be executed by the container.",
+                                                    "type": "string",
+                                                    "default": ""
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "env": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/env",
+                                        "title": "The environment variables",
+                                        "description": "Environment variables to be passed to the container.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/env/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/env/items/anyOf/0",
+                                                    "title": "The environment variable",
+                                                    "description": "Structure of an environment variable.",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "additionalProperties": false,
+                                                    "required": [
+                                                        "name",
+                                                        "value"
+                                                    ],
+                                                    "properties": {
+                                                        "name": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/env/items/anyOf/0/properties/name",
+                                                            "title": "The environment variable",
+                                                            "description": "The name of the environment variable.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "value": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/env/items/anyOf/0/properties/value",
+                                                            "title": "The environment variable value",
+                                                            "description": "The value of the environment variable.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "envFromSecret": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret",
+                                        "title": "The environment variables from secrets",
+                                        "description": "The environment variables to retrieve from secrets.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/items/anyOf/0",
+                                                    "title": "The environment variables from secret",
+                                                    "description": "The environment variables to retrieve from a certain secret.",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "required": [
+                                                        "secretName",
+                                                        "envs"
+                                                    ],
+                                                    "properties": {
+                                                        "secretName": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/secretName",
+                                                            "title": "The secret name",
+                                                            "description": "The name of the secret to retrieve environment variables from.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "envs": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs",
+                                                            "title": "The environment variables",
+                                                            "description": "The environment variables to retrieve from the secret.",
+                                                            "type": "array",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs/items",
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs/items/anyOf/0",
+                                                                        "title": "The environment variable",
+                                                                        "description": "The environment variable to retrie from the secret.",
+                                                                        "type": "object",
+                                                                        "default": {},
+                                                                        "additionalProperties": false,
+                                                                        "required": [
+                                                                            "name",
+                                                                            "key"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "name": {
+                                                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs/items/anyOf/0/properties/name",
+                                                                                "title": "The environment variable name",
+                                                                                "description": "The name of the environment variable inside the container.",
+                                                                                "type": "string",
+                                                                                "default": ""
+                                                                            },
+                                                                            "key": {
+                                                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs/items/anyOf/0/properties/key",
+                                                                                "title": "The secret key",
+                                                                                "description": "The key from the secret to retrieve the environment variable from.",
+                                                                                "type": "string",
+                                                                                "default": ""
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "envFromConfigmap": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap",
+                                        "title": "The environment variables from configMaps",
+                                        "description": "The environment variables to retrieve from configMaps.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/items/anyOf/0",
+                                                    "title": "The environment variables from configMap",
+                                                    "description": "The environment variables to retrieve from a certain configMap.",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "required": [
+                                                        "configMapName",
+                                                        "envs"
+                                                    ],
+                                                    "properties": {
+                                                        "configMapName": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/configMapName",
+                                                            "title": "The configMap name",
+                                                            "description": "The name of the configMap to retrieve environment variables from.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "envs": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs",
+                                                            "title": "The environment variables",
+                                                            "description": "The environment variables to retrieve from the configMap.",
+                                                            "type": "array",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs/items",
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs/items/anyOf/0",
+                                                                        "title": "The environment variable",
+                                                                        "description": "The environment variable to retrie from the configMap.",
+                                                                        "type": "object",
+                                                                        "default": {},
+                                                                        "additionalProperties": false,
+                                                                        "required": [
+                                                                            "name",
+                                                                            "key"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "name": {
+                                                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs/items/anyOf/0/properties/name",
+                                                                                "title": "The environment variable name",
+                                                                                "description": "The name of the environment variable inside the container.",
+                                                                                "type": "string",
+                                                                                "default": ""
+                                                                            },
+                                                                            "key": {
+                                                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs/items/anyOf/0/properties/key",
+                                                                                "title": "The configMap key",
+                                                                                "description": "The key from the configMap to retrieve the environment variable from.",
+                                                                                "type": "string",
+                                                                                "default": ""
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "ports": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports",
+                                        "title": "The container ports",
+                                        "description": "The container ports to forward to the outside.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports/items/anyOf/0",
+                                                    "title": "The container port",
+                                                    "description": "Structure of the port object.",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "additionalProperties": false,
+                                                    "required": [
+                                                        "name",
+                                                        "containerPort"
+                                                    ],
+                                                    "properties": {
+                                                        "name": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports/items/anyOf/0/properties/name",
+                                                            "title": "The port name",
+                                                            "description": "The name of the port outside of the container.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "containerPort": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports/items/anyOf/0/properties/containerPort",
+                                                            "title": "The container port",
+                                                            "description": "The port of the container to forward outside of it.",
+                                                            "type": "number",
+                                                            "default": 0,
+                                                            "minimum": 0
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "TODO: lifecycle": {
+                                    },
+                                    "TODO: livenessProbe": {
+                                    },
+                                    "TODO: readinessProbe": {
+                                    },
+                                    "resources": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources",
+                                        "title": "The container resources",
+                                        "description": "",
+                                        "type": "object",
+                                        "default": {},
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "limits",
+                                            "requests"
+                                        ],
+                                        "properties": {
+                                            "requests": {
+                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests",
+                                                "title": "The container resources requests",
+                                                "description": "The soft limit for the resources used by the container",
+                                                "type": "object",
+                                                "default": {},
+                                                "additionalProperties": false,
+                                                "required": [
+                                                    "cpu",
+                                                    "memory"
+                                                ],
+                                                "properties": {
+                                                    "cpu": {
+                                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests/properties/cpu",
+                                                        "title": "The cpu limit",
+                                                        "description": "Required to be at least 10m",
+                                                        "type": "string",
+                                                        "default": "100m",
+                                                        "pattern": "^[1-9][0-9]+m$"
+                                                    },
+                                                    "memory": {
+                                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests/properties/memory",
+                                                        "title": "The memory limit",
+                                                        "description": "Required to be at least 10Mi",
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "pattern": "^[1-9][0-9]+Mi$"
+                                                    }
+                                                }
+                                            },
+                                            "limits": {
+                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/limits",
+                                                "$ref": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests",
+                                                "title": "The container resources limits",
+                                                "description": "The hard limit for the resources used by the container"
+                                            }
+                                        }
+                                    },
+                                    "volumeMounts": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts",
+                                        "title": "The volume mounts",
+                                        "description": "The volumes to be mounted inside the container.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0",
+                                                    "title": "The volume mount",
+                                                    "description": "The volume to be mounted inside the container.",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "additionalProperties": false,
+                                                    "required": [
+                                                        "name",
+                                                        "mountPath"
+                                                    ],
+                                                    "properties": {
+                                                        "name": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0/properties/name",
+                                                            "title": "The volume name",
+                                                            "description": "The name of the volume to mount.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "mountPath": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0/properties/mountPath",
+                                                            "title": "The mount path",
+                                                            "description": "The path where to mount the volume inside the container.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "volumes": {
+                    "$id": "#/properties/deployment/properties/volumes",
+                    "title": "The volumes",
+                    "description": "The volumes to attach.",
+                    "type": "array",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/deployment/properties/volumes/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/deployment/properties/volumes/items/anyOf/0",
+                                "title": "The volume",
+                                "description": "The volume attach to the deployment instance.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": false,
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "typeName"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/deployment/properties/volumes/items/anyOf/0/properties/name",
+                                        "title": "The volume name",
+                                        "description": "The name of the volume.",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "type": {
+                                        "$id": "#/properties/deployment/properties/volumes/items/anyOf/0/properties/type",
+                                        "title": "The volume type",
+                                        "description": "The type of the volume.",
+                                        "type": "string",
+                                        "default": "",
+                                        "enum": [
+                                            "secret",
+                                            "pvc",
+                                            "configMap"
+                                        ]
+                                    },
+                                    "typeName": {
+                                        "$id": "#/properties/deployment/properties/volumes/items/anyOf/0/properties/typeName",
+                                        "title": "The type name",
+                                        "description": "The name of the object of the specified type.",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "items": {
+                                        "$id": "#/properties/deployment/properties/volumes/items/anyOf/0/properties/items",
+                                        "title": "ConfigMap or secret items",
+                                        "description": "Array of configurations for volumes created from configMaps or secrets.",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "hpa": {
+            "$id": "#/properties/hpa",
+            "additionalProperties": false,
+            "title": "The horizontal pod autoscaler",
+            "description": "The schema of HPA.",
+            "type": [ "object", "null" ],
+            "default": null,
+            "required": [
+                "name",
+                "scaleTargetRef",
+                "minReplicas",
+                "maxReplicas",
+                "targetCPU",
+                "targetMemory"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/hpa/properties/name",
+                    "title": "The hpa name",
+                    "description": "",
+                    "type": "string",
+                    "default": ""
+                },
+                "scaleTargetRef": {
+                    "$id": "#/properties/hpa/properties/scaleTargetRef",
+                    "title": "The scaled target ref",
+                    "description": "The target of the HPA.",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": false,
+                    "required": [
+                        "kind",
+                        "name"
+                    ],
+                    "properties": {
+                        "kind": {
+                            "$id": "#/properties/hpa/properties/scaleTargetRef/properties/kind",
+                            "title": "The target kind",
+                            "description": "The kind to target with the HPA (i.e. Deployment)",
+                            "type": "string",
+                            "default": "",
+                            "enum": [
+                                "Deployment"
+                            ]
+                        },
+                        "name": {
+                            "$id": "#/properties/hpa/properties/scaleTargetRef/properties/name",
+                            "title": "The target name",
+                            "description": "The name of the target for HPA.",
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                },
+                "minReplicas": {
+                    "$id": "#/properties/hpa/properties/minReplicas",
+                    "title": "The min replicas",
+                    "description": "The minimum number of replicas for the HPA target.",
+                    "type": "integer",
+                    "default": 0,
+                    "minimum": 1,
+                    "maximum": 3
+                },
+                "maxReplicas": {
+                    "$id": "#/properties/hpa/properties/maxReplicas",
+                    "title": "The max replicas",
+                    "description": "The maximum number of replicas for the HPA target.",
+                    "type": "integer",
+                    "default": 0,
+                    "minimum": 2,
+                    "maximum": 5
+                },
+                "targetCPU": {
+                    "$id": "#/properties/hpa/properties/targetCPU",
+                    "title": "The CPU target",
+                    "description": "The CPU target for each replica before firing up a new one, in percentage.",
+                    "type": "integer",
+                    "default": 0,
+                    "minimum": 70,
+                    "maximum": 100
+                },
+                "targetMemory": {
+                    "$id": "#/properties/hpa/properties/targetCPU",
+                    "title": "The memory target",
+                    "description": "The memory target for each replica before firing up a new one, in percentage.",
+                    "type": "integer",
+                    "default": 0,
+                    "minimum": 70,
+                    "maximum": 100
+                }
+            }
+        },
+        "ingress": {
+            "$id": "#/properties/ingress",
+            "title": "The ingress",
+            "description": "The schema of an ingress.",
+            "type": "object",
+            "default": {},
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "hosts"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/ingress/properties/name",
+                    "title": "The ingress name",
+                    "description": "",
+                    "type": "string",
+                    "default": ""
+                },
+                "hosts": {
+                    "$id": "#/properties/ingress/properties/hosts",
+                    "title": "The ingress hosts",
+                    "description": "",
+                    "type": "array",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/ingress/properties/hosts/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/ingress/properties/hosts/items/anyOf/0",
+                                "title": "The ingress host",
+                                "description": "The schema of an ingress host.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": false,
+                                "required": [
+                                    "host",
+                                    "paths"
+                                ],
+                                "properties": {
+                                    "host": {
+                                        "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/host",
+                                        "title": "The domain name",
+                                        "description": "",
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "paths": {
+                                        "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths",
+                                        "title": "The paths for the host",
+                                        "description": "",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0",
+                                                    "title": "The host paths",
+                                                    "description": "",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "additionalProperties": false,
+                                                    "required": [
+                                                        "path",
+                                                        "pathType",
+                                                        "serviceName",
+                                                        "servicePort"
+                                                    ],
+                                                    "properties": {
+                                                        "path": {
+                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/path",
+                                                            "title": "The host path",
+                                                            "description": "",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "pathType": {
+                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/pathType",
+                                                            "title": "The host path type",
+                                                            "description": "",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "serviceName": {
+                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/serviceName",
+                                                            "title": "The service name",
+                                                            "description": "",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "servicePort": {
+                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort",
+                                                            "title": "The service port",
+                                                            "description": "The port of the service where to forward the requests. This can be the name or the number of the port.",
+                                                            "type": [ "string", "integer" ],
+                                                            "default": "",
+                                                            "anyOf": [
+                                                                {
+                                                                    "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort/anyOf/0",
+                                                                    "title": "The service port name",
+                                                                    "description": "",
+                                                                    "type": "string",
+                                                                    "default": "",
+                                                                    "minLength": 1
+                                                                },
+                                                                {
+                                                                    "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort/anyOf/1",
+                                                                    "title": "The service port number",
+                                                                    "description": "",
+                                                                    "type": "integer",
+                                                                    "default": "",
+                                                                    "minLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "tls": {
+                    "$id": "#/properties/ingress/properties/tls",
+                    "title": "The TLS reference",
+                    "description": "",
+                    "type": [ "object", "null" ],
+                    "default": null,
+                    "additionalProperties": false,
+                    "required": [
+                        "secretName"
+                    ],
+                    "properties": {
+                        "secretName": {
+                            "$id": "#/properties/ingress/properties/tls/properties/secretName",
+                            "title": "The secret name",
+                            "description": "The name of the secret that containers the TLS certificate and key.",
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                }
+            }
+        },
+        "pvs": {
+            "$id": "#/properties/pvs",
+            "title": "The persistent volumes",
+            "description": "The persistent volumes to create.",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/pvs/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/pvs/items/anyOf/0",
+                        "title": "The persistent volume",
+                        "description": "The schema of persistent volume.",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "required": [
+                            "name",
+                            "storageClassName",
+                            "accessModes",
+                            "hostPath"
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/name",
+                                "title": "The pv name",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "storageClassName": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/storageClassName",
+                                "title": "The storage class name",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "accessModes": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes",
+                                "title": "The access modes",
+                                "description": "",
+                                "type": "array",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items",
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items/anyOf/0",
+                                            "title": "The access mode",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": ""
+                                        }
+                                    ]
+                                }
+                            },
+                            "hostPath": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/hostPath",
+                                "title": "The host path",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "pvcs": {
+            "$id": "#/properties/pvcs",
+            "title": "The persistent volume claims",
+            "description": "",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/pvcs/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/pvcs/items/anyOf/0",
+                        "title": "The persistent volume claim",
+                        "description": "The schema of a PVC.",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "required": [
+                            "name",
+                            "storageClassName",
+                            "accessModes",
+                            "size"
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/pvcs/items/anyOf/0/properties/name",
+                                "title": "The pvc name",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "storageClassName": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/storageClassName",
+                                "title": "The storage class name",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "accessModes": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes",
+                                "title": "The access modes",
+                                "description": "",
+                                "type": "array",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items",
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items/anyOf/0",
+                                            "title": "The access mode",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": ""
+                                        }
+                                    ]
+                                }
+                            },
+                            "size": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/size",
+                                "title": "The size of the persistent volume",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "secrets": {
+            "$id": "#/properties/secrets",
+            "title": "The secrets",
+            "description": "",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/secrets/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/secrets/items/anyOf/0",
+                        "title": "The secret",
+                        "description": "The schema of a secret.",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "required": [
+                            "name",
+                            "type",
+                            "data"
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/secrets/items/anyOf/0/properties/name",
+                                "title": "The name of the secret",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "type": {
+                                "$id": "#/properties/secrets/items/anyOf/0/properties/name",
+                                "title": "The type of the secret",
+                                "description": "",
+                                "type": "string",
+                                "default": "",
+                                "enum": [
+                                    "Opaque",
+                                    "kubernetes.io/service-account-token",
+                                    "kubernetes.io/dockercfg",
+                                    "kubernetes.io/dockerconfigjson",
+                                    "kubernetes.io/basic-auth",
+                                    "kubernetes.io/ssh-auth",
+                                    "kubernetes.io/tls"
+                                ]
+                            },
+                            "data": {
+                                "$id": "#/properties/secrets/items/anyOf/0/properties/data",
+                                "title": "The data of the secret",
+                                "description": "",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": true,
+                                "patternProperties": {
+                                    "^[A-Za-z\\._-][A-Za-z0-9\\._-]*$": {
+                                        "$id": "#/properties/secrets/items/anyOf/0/properties/data/anyOf/0",
+                                        "title": "The key-value pair for the secret",
+                                        "description": "",
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "services": {
+            "$id": "#/properties/services",
+            "title": "The services",
+            "description": "",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/services/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/services/items/anyOf/0",
+                        "title": "The service",
+                        "description": "The schema of a service",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "required": [
+                            "name",
+                            "ports"
+                        ],
+                        "allOf": [
+                            {
+                                "if": {
+                                    "properties": {
+                                        "healthCheckNodePort": {
+                                            "not": {
+                                                "const": 0
+                                            }
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "type",
+                                        "externalTrafficPolicy"
+                                    ],
+                                    "properties": {
+                                        "type": {
+                                            "const": "LoadBalancer"
+                                        },
+                                        "externalTrafficPolicy": {
+                                            "const": "Local"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/name",
+                                "title": "The service name",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "clusterIP": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/clusterIP",
+                                "title": "The cluster ip",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "type": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/type",
+                                "title": "The service type",
+                                "description": "",
+                                "type": "string",
+                                "default": "",
+                                "enum": [
+                                    "ClusterIP",
+                                    "NodePort",
+                                    "LoadBalancer",
+                                    "ExternalName"
+                                ]
+                            },
+                            "loadBalancerIp": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerIp",
+                                "title": "The load balancer ip",
+                                "description": "",
+                                "type": "string",
+                                "default": "",
+                                "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:/[0-2]\\d|/3[0-2])?$"
+                            },
+                            "loadBalancerSourceRanges": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerSourceRanges",
+                                "title": "The load balancer source ranges",
+                                "description": "",
+                                "type": "array",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerSourceRanges/items",
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerSourceRanges/items/anyOf/0",
+                                            "title": "The load balancer source range",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": "",
+                                            "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:/[0-2]\\d|/3[0-2])?$"
+                                        }
+                                    ]
+                                }
+                            },
+                            "externalTrafficPolicy": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/externalTrafficPolicy",
+                                "title": "The external traffic policy",
+                                "description": "",
+                                "type": "string",
+                                "default": "",
+                                "enum": [
+                                    "Cluster",
+                                    "Local"
+                                ]
+                            },
+                            "healthCheckNodePort": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/healthCheckNodePort",
+                                "title": "The health check node port",
+                                "description": "",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "externalIPs": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/externalIPs",
+                                "title": "The external ips",
+                                "description": "",
+                                "type": "array",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "$id": "#/properties/services/items/anyOf/0/properties/externalIPs/items",
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/services/items/anyOf/0/properties/externalIPs/items/anyOf/0",
+                                            "title": "The external ip",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": "",
+                                            "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}$"
+                                        }
+                                    ]
+                                }
+                            },
+                            "ports": {
+                                "$id": "#/properties/services/items/anyOf/0/properties/ports",
+                                "title": "The service ports",
+                                "description": "",
+                                "type": "array",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items",
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0",
+                                            "title": "The service port",
+                                            "description": "",
+                                            "type": "object",
+                                            "default": {},
+                                            "additionalProperties": false,
+                                            "required": [
+                                                "name",
+                                                "port"
+                                            ],
+                                            "properties": {
+                                                "name": {
+                                                   "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/name",
+                                                   "title": "The port name",
+                                                   "description": "",
+                                                   "type": "string",
+                                                   "default": "" 
+                                                },
+                                                "port": {
+                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/port",
+                                                    "title": "The service port",
+                                                    "description": "",
+                                                    "type": "integer",
+                                                    "minimum": 1
+                                                },
+                                                "protocol": {
+                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/protocol",
+                                                    "title": "The port protocol",
+                                                    "description": "",
+                                                    "type": "string",
+                                                    "default": "TCP",
+                                                    "enum": [
+                                                        "TCP",
+                                                        "UDP",
+                                                        "SCTP",
+                                                        "HTTP"
+                                                    ]
+                                                },
+                                                "targetPort": {
+                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/targetPort",
+                                                    "title": "The target port",
+                                                    "description": "",
+                                                    "type": "integer",
+                                                    "minimum": 1
+                                                },
+                                                "nodePort": {
+                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/nodePort",
+                                                    "title": "The node port",
+                                                    "description": "",
+                                                    "type": "integer",
+                                                    "minimum": 1
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

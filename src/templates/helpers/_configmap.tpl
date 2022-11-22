@@ -1,4 +1,4 @@
-{{- define "helpers.configmap.renderConfigMap" -}}
+{{- define "helpers.configMap.renderConfigMap" -}}
 {{- $v := dict -}}
 {{- if typeIs "string" .value -}}
 {{- $v = fromYaml .value -}}
@@ -18,39 +18,15 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "helpers.configmap.includeEnv" -}}
+{{- define "helpers.configMap.includeEnv" -}}
 {{- $ctx := .context -}}
-{{- $s := dict -}}
-{{- if typeIs "string" .value -}}
-{{- $s = fromYaml .value -}}
-{{- else if kindIs "map" .value -}}
-{{- $s = .value -}}
-{{- end -}}
-{{- range $sName, $envKeys := $s -}}
-{{- range $i, $envKey := $envKeys }}
-{{- if kindIs "string" $envKey }}
-- name: {{ $envKey }}
+{{- range $index, $mainObject := .value }}
+{{- range $index, $envObject := $mainObject.envs }}
+- name: {{ $envObject.name }}
   valueFrom:
     configMapKeyRef:
-      name: {{ include "helpers.app.fullname" (dict "name" $sName "context" $ctx) }}
-      key: {{ $envKey }}
-{{- else if kindIs "map" $envKey -}}
-{{- range $keyName, $key := $envKey }}
-- name: {{ $keyName }}
-  valueFrom:
-    configMapKeyRef:
-      name: {{ include "helpers.app.fullname" (dict "name" $sName "context" $ctx) }}
-      key: {{ $key }}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-
-{{- define "helpers.configmap.includeEnvConfigmap" -}}
-{{- $ctx := .context -}}
-{{- range $i, $sName := .value }}
-- configMapRef:
-    name: {{ include "helpers.app.fullname" (dict "name" $sName "context" $ctx) }}
-{{- end -}}
-{{- end -}}
+      name: {{ include "helpers.app.fullname" (dict "name" $mainObject.configMapName "context" $ctx) }}
+      key: {{ $envObject.key }}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,4 +1,3 @@
-{{- if and .Values.deployment.enabled .Values.hpa .Values.hpa.enabled }}
 {{- with .Values.hpa }}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -27,12 +26,12 @@ spec:
       stabilizationWindowSeconds: 0
       policies:
         - type: Percent
-      value: 100
-      periodSeconds: 15
+          value: 100
+          periodSeconds: 15
         - type: Pods
-      value: 4
-      periodSeconds: 15
-      selectPolicy: Max
+          value: 4
+          periodSeconds: 15
+          selectPolicy: Max
   metrics:
     {{- if not (empty .targetCPU) }}
     - type: Resource
@@ -50,5 +49,4 @@ spec:
           type: Utilization
           averageUtilization: {{ .targetMemory }}
     {{- end }}
-{{- end }}
 {{- end }}

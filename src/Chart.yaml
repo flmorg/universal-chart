@@ -1,6 +1,6 @@
 apiVersion: v2
 name: universal-chart
-description: A universal Helm chart for Flaminel's apps.
+description: An universal Helm chart for Flaminel's apps.
 type: application
 version: 1.0.0
-appVersion: 0.0.0
+appVersion: 1.0.0

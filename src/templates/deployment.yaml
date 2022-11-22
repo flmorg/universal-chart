@@ -1,13 +1,12 @@
+{{- if .Values.deployment }}
 {{- with .Values.deployment }}
-{{- if .enabled }}
-{{- $name := .name }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "helpers.app.name" $ }}
   {{- include "helpers.app.commonMetadata" $ | nindent 2 }}
 spec:
-  {{- if not (and $.Values.hpa $.Values.hpa.enabled) }}
+  {{- if .replicas }}
   replicas: {{ .replicas }}
   {{- end }}
   revisionHistoryLimit: 2
@@ -26,22 +25,19 @@ spec:
   template:
     metadata:
       annotations:
-        {{- with $.Values.generic.podAnnotations }}
-        {{- include "helpers.tplvalues.render" ( dict "value" . "context" $ ) | nindent 10 }}
-        {{- end }}
-        {{- with .podAnnotations }}
+        {{- with .annotations }}
         {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
         {{- end }}
       labels:
         {{- include "helpers.app.labels" $ | nindent 10 }}
     spec:
-      {{- if .serviceAccountName }}
+      {{- with .serviceAccountName }}
       serviceAccountName: {{ .serviceAccountName }}
       {{- end }}
       {{- with .securityContext }}
       securityContext: {{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 8 }}
       {{- end }}
-      {{ if .imagePullSecrets }}
+      {{- if .imagePullSecrets }}
       imagePullSecrets:
       {{- range .imagePullSecrets }}
       - name: {{ .name }}
@@ -50,10 +46,11 @@ spec:
       {{- if .terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .terminationGracePeriodSeconds }}
       {{- end }}
+      {{- with .initcontainers }}
       initContainers:
-        {{- range .initContainers }}
+        {{- range . }}
         -
-          name: {{ .name | default (printf "%s-%s" $name (lower (randAlphaNum 5))) }}
+          name: {{ .name | default (printf "%s-%s" .name (lower (randAlphaNum 5))) }}
           image: {{ .image.repository }}:{{ .image.tag }}
           imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
           {{- with .securityContext }}
@@ -84,14 +81,16 @@ spec:
           readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
           {{- end }}
           {{- with .resources }}
-          resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" .volumeMounts "context" $) | nindent 10 }}
         {{- end }}
+      {{- end }}
+      {{- with .containers }}
       containers:
-        {{- range .containers }}
+        {{- range . }}
         -
-          name: {{ .name | default (printf "%s-%s" $name (lower (randAlphaNum 5))) }}
+          name: {{ .name | default (printf "%s-%s" .name (lower (randAlphaNum 5))) }}
           image: {{ .image.repository }}:{{ .image.tag }}
           imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
           {{- with .securityContext }}
@@ -122,9 +121,15 @@ spec:
           readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
           {{- end }}
           {{- with .resources }}
-          resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
-          volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" .volumeMounts "context" $) | nindent 10 }}
+          {{- with .volumeMounts }}
+          volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" . "context" $) | nindent 10 -}}
+          {{- end }}
         {{- end }}
+      {{- end }}
+      {{- with .volumes }}
+      volumes: {{- include "helpers.volumes.renderVolume" (dict "value" . "context" $) | indent 8 -}}
+      {{- end }}
 {{- end }}
 {{- end }}

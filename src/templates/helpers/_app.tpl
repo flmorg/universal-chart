@@ -38,7 +38,6 @@ Selector labels
 pricegrabber.xyz/app: {{ include "helpers.app.name" . }}
 app.kubernetes.io/name: {{ include "helpers.app.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- include "helpers.app.genericSelectorLabels" $ }}
 {{- end }}
 
 {{- define "helpers.app.labels" -}}
@@ -47,21 +46,6 @@ helm.sh/chart: {{ include "helpers.app.chart" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-{{- with .Values.generic.labels }}
-{{ include "helpers.tplvalues.render" (dict "value" . "context" $) }}
-{{- end }}
-{{- end }}
-
-{{- define "helpers.app.genericSelectorLabels" -}}
-{{- with .Values.generic.extraSelectorLabels }}
-{{- include "helpers.tplvalues.render" (dict "value" . "context" .) }}
-{{- end }}
-{{- end }}
-
-{{- define "helpers.app.genericAnnotations" -}}
-{{- with .Values.generic.annotations }}
-{{ include "helpers.tplvalues.render" (dict "value" . "context" $) }}
 {{- end }}
 {{- end }}
 
@@ -76,6 +60,5 @@ Common Metadata
 */}}
 {{- define "helpers.app.commonMetadata" -}}
 namespace: {{ .Release.Namespace }}
-labels:
-{{ include "helpers.app.labels" . | nindent 2 }}
+labels: {{ include "helpers.app.labels" . | nindent 2 }}
 {{- end }}

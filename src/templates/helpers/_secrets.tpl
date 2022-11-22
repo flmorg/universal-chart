@@ -1,4 +1,4 @@
-{{- define "helpers.secrets.includeEnv" -}}
+{{- define "helpers.secrets.includeEnv2" -}}
 {{- $ctx := .context -}}
 {{- $s := dict -}}
 {{- if typeIs "string" .value -}}
@@ -26,6 +26,19 @@
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "helpers.secrets.includeEnv" -}}
+{{- $ctx := .context -}}
+{{- range $index, $mainObject := .value }}
+{{- range $index, $envObject := $mainObject.envs }}
+- name: {{ $envObject.name }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "helpers.app.fullname" (dict "name" $mainObject.secretName "context" $ctx) }}
+      key: {{ $envObject.key }}
+{{- end }}
+{{- end }}
+{{- end }}
 
 {{- define "helpers.secrets.includeEnvSecrets" -}}
 {{- $ctx := .context -}}

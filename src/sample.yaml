@@ -1,127 +1,123 @@
-generic:
-  annotations:
-  extraSelectorLabels:
-  labels:
-  podAnnotations:
+nameOverride: CUSTOM_RELEASE_NAME
 
-configmaps:
-  configmap-name:
+configMaps:
+  -
+    name: test
     labels:
       lemon: squiz
-    annotations:
     namespace: nginx
     data:
       ez: pz
-  json-file:
+  -
+    name: json-file
     data:
       file.json: {
         "arg": "value"
       }
 
 deployment:
-  enabled: true
-  autoscaling:
-    enabled: false
   replicas: 1
   strategy:
-    type: RollingUpdate
+    type: "RollingUpdate"
     maxSurge: 1
     maxUnavailable: 1
-  podAnnotations:
-  serviceAccountName: account
-  securityContext:
-    runAsUser: 1000
-    runAsGroup: 3000
-    fsGroup: 2000
-  imagePullSecrets:
-    - name: docker-secret
-  terminationGracePeriodSeconds: 10
+    # maxSurge: 50%
+    # maxUnavailable: 50%
   # initContainers have the same specs as containers
   containers:
     -
-      name: test
+      name: container1
       image:
         repository: user/repo
         tag: 1.0.0
-      imagePullPolicy: Always
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 3000
-        fsGroup: 2000
-      args:
-        - --arg1
-        - --arg2
-      command: [ "./test.sh" ]
-      env:
-        - name: var1
-          value: value1
-        - name: var2
-          value: value2
-      envFromSecret:
-        webadmin:
-          - JAVA_OPTS: JVM_OPTS
-          - RND
-      envSecrets:
-        - secret-envs
-      envFromConfigmap:
-        configmap-name:
-        - EZ: PZ
-      envConfigmaps:
-        - envs
       ports:
         - name: http
-          containerPort: 80
+          containerPort: 8080
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
+      env:
+        - name: env1
+          value: value1
+        - name: env2
+          value: value2
+      envFromConfigmap:
+        - configMapName: cfg-map
+          envs:
+            - name: cfgEnv1
+              key: cfgKey1
+            - name: cfgEnv2
+              key: cfgKey2
+      envFromSecret:
+        - secretName: name-of-the-secret
+          envs:
+            - name: secretEnv1
+              key: secretKey1
+            - name: secretEnv2
+              key: secretKey2
       volumeMounts:
-        - name: secret-file
+        - name: secretFile
           mountPath: /var/lib/secret
         - name: app-pvc
           mountPath: /var/www/html/files
   volumes:
-    - name: secret-file
-      type: secret
-    - name: app-data
+    - name: app-pvc
       type: pvc
+      typeName: claimName
+    - name: secretFile
+      type: secret
+      typeName: secretName
+      # items:
+      #   - key: secretKey
+      #     mode: 0600
+      #     path: /path/to/mount
+    - name: cfg
+      type: configMap
+      typeName: configMapName
+      # items:
+      #   - key: cfgKey
+      #     mode: 0600
+      #     path: /path/to/mount
 
 hpa:
-  enabled: true
   name: test
   scaleTargetRef:
-    kind: deployment
+    kind: Deployment
     name: target-name
   minReplicas: 1
   maxReplicas: 2
   targetCPU: 90
   targetMemory: 90
 
-imagePullSecrets: {}
-#  registry.org: |
-#    {"auths":{"registry.org":{"auth":"<token>"}}}
-#  registry.org-rw: b64:<base64_encrypted_string>
-
 ingress:
-  enabled: true
   name: test
-  labels:
   hosts: 
     -
-      host: domain.com
+      host: sub1.domain.com
       paths:
         -
           path: /api
           pathType: Prefix
           serviceName: service
           servicePort: 80
-        # servicePort: http 
+    -
+      host: sub2.domain.com
+      paths:
+        -
+          path: /api
+          pathType: Prefix
+          serviceName: service
+          servicePort: http 
   tls:
-    enabled: true
     secretName: secret
 
 pvs:
   -
     name: pv
-    labels:
-      type: local
-    annotations:
     storageClassName: manual
     accessModes:
       - ReadWriteMany
@@ -130,8 +126,6 @@ pvs:
 pvcs:
   -
     name: pvc
-    labels:
-    annotations:
     storageClassName: manual
     accessModes:
       - ReadWriteOnce
@@ -139,33 +133,50 @@ pvcs:
     size: 1Gi
 
 secrets:
-  secret-file:
+  - 
+    name: registry.org
+    type: kubernetes.io/dockerconfigjson
+    data:
+      .dockerconfigjson: |
+        {"auths":{"registry.org":{"auth":"<token>"}}}
+  - 
+    name: registry.org-token
+    type: kubernetes.io/dockerconfigjson
+    data:
+      .dockerconfigjson: b64:<base64_encrypted_string>
+  - 
+    name: secret-file
     type: Opaque
     data:
       api.key: |-
         super-secret-key
-  test:
-    labels:
-      foo: bar
-    annotations:
-      bar: foo
+  -
+    name: test
     type: Opaque
     data:
       key: value
-  tls-secret:
+  -
+    name: tls-secret
     type: kubernetes.io/tls
     data:
-      tls.crt: crt
-      tls.key: key
+      tls.crt: b64:crt
+      tls.key: b64:key
 
 services:
-  nginx:
+  -
+    name: nginx
     clusterIP: None
+    type: LoadBalancer
+    loadBalancerIp: 192.168.0.1/24
+    loadBalancerSourceRanges:
+      - 192.168.0.1/24
+    externalTrafficPolicy: Local
+    healthCheckNodePort: 1234
+    externalIPs:
+      - 192.168.0.1
     ports:
-    -
-      name: http
-      protocol: TCP
-      port: 80
-      targetPort: 8080
-    extraSelectorLabels:
-      app: my-nginx
+      -
+        name: http
+        protocol: TCP
+        port: 80
+        targetPort: 8080
