@@ -40,7 +40,7 @@ spec:
       {{- if .imagePullSecrets }}
       imagePullSecrets:
       {{- range .imagePullSecrets }}
-      - name: {{ .name }}
+      - name: {{ include "helpers.app.fullname" (dict "name" .name "context" $) }}
       {{- end }}
       {{- end }}
       {{- if .terminationGracePeriodSeconds }}

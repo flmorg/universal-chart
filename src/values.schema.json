@@ -1322,15 +1322,27 @@
                         "allOf": [
                             {
                                 "if": {
-                                    "properties": {
-                                        "healthCheckNodePort": {
-                                            "not": {
-                                                "const": 0
+                                    "anyOf": [
+                                        {
+                                            "properties": {
+                                                "healthCheckNodePort": {
+                                                    "const": 0
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "properties": {
+                                                "healthCheckNodePort": {
+                                                    "const": null
+                                                }
                                             }
                                         }
-                                    }
+                                    ]
                                 },
                                 "then": {
+                                    
+                                },
+                                "else": {
                                     "required": [
                                         "type",
                                         "externalTrafficPolicy"
@@ -1418,7 +1430,7 @@
                                 "$id": "#/properties/services/items/anyOf/0/properties/healthCheckNodePort",
                                 "title": "The health check node port",
                                 "description": "",
-                                "type": "integer",
+                                "type": [ "integer", "null" ],
                                 "default": 0
                             },
                             "externalIPs": {
