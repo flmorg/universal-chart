@@ -12,6 +12,8 @@ metadata:
     {{- with .annotations }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
 spec:
   storageClassName: {{ .storageClassName }}
+  capacity:
+    storage: {{ .size }}
   accessModes: {{- include "helpers.tplvalues.render" ( dict "value" .accessModes "context" $ ) | nindent 4 }}
   hostPath:
     path: {{ .hostPath }}

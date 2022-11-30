@@ -119,6 +119,7 @@ pvs:
   -
     name: pv
     storageClassName: manual
+    size: 1Gi
     accessModes:
       - ReadWriteMany
     hostPath: "/tmp"

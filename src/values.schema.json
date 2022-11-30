@@ -1117,6 +1117,7 @@
                         "required": [
                             "name",
                             "storageClassName",
+                            "size",
                             "accessModes",
                             "hostPath"
                         ],
@@ -1131,6 +1132,13 @@
                             "storageClassName": {
                                 "$id": "#/properties/pvs/items/anyOf/0/properties/storageClassName",
                                 "title": "The storage class name",
+                                "description": "",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "size": {
+                                "$id": "#/properties/pvs/items/anyOf/0/properties/size",
+                                "title": "The size of the persistent volume",
                                 "description": "",
                                 "type": "string",
                                 "default": ""
@@ -1227,7 +1235,7 @@
                             },
                             "size": {
                                 "$id": "#/properties/pvs/items/anyOf/0/properties/size",
-                                "title": "The size of the persistent volume",
+                                "title": "The size requested from the persistent volume",
                                 "description": "",
                                 "type": "string",
                                 "default": ""
