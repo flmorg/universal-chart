@@ -62,8 +62,10 @@ deployment:
       volumeMounts:
         - name: secretFile
           mountPath: /var/lib/secret
+          subPath: subDir/
         - name: app-pvc
           mountPath: /var/www/html/files
+          subPath: subDir2/
   volumes:
     - name: app-pvc
       type: pvc

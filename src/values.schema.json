@@ -764,7 +764,8 @@
                                                     "additionalProperties": false,
                                                     "required": [
                                                         "name",
-                                                        "mountPath"
+                                                        "mountPath",
+                                                        "subPath"
                                                     ],
                                                     "properties": {
                                                         "name": {
@@ -778,6 +779,13 @@
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0/properties/mountPath",
                                                             "title": "The mount path",
                                                             "description": "The path where to mount the volume inside the container.",
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "subPath": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0/properties/subPath",
+                                                            "title": "The sub path",
+                                                            "description": "The sub directory to create and use inside the persistent volume.",
                                                             "type": "string",
                                                             "default": ""
                                                         }
@@ -1207,24 +1215,24 @@
                                 "default": ""
                             },
                             "storageClassName": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/storageClassName",
+                                "$id": "#/properties/pvcs/items/anyOf/0/properties/storageClassName",
                                 "title": "The storage class name",
                                 "description": "",
                                 "type": "string",
                                 "default": ""
                             },
                             "accessModes": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes",
+                                "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes",
                                 "title": "The access modes",
                                 "description": "",
                                 "type": "array",
                                 "default": [],
                                 "additionalItems": true,
                                 "items": {
-                                    "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items",
+                                    "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes/items",
                                     "anyOf": [
                                         {
-                                            "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items/anyOf/0",
+                                            "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes/items/anyOf/0",
                                             "title": "The access mode",
                                             "description": "",
                                             "type": "string",
@@ -1234,7 +1242,7 @@
                                 }
                             },
                             "size": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/size",
+                                "$id": "#/properties/pvcs/items/anyOf/0/properties/size",
                                 "title": "The size requested from the persistent volume",
                                 "description": "",
                                 "type": "string",
