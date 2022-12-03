@@ -49,7 +49,7 @@ spec:
       {{- if .terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .terminationGracePeriodSeconds }}
       {{- end }}
-      {{- with .initcontainers }}
+      {{- with .initContainers }}
       initContainers:
         {{- range . }}
         -
@@ -86,7 +86,9 @@ spec:
           {{- with .resources }}
           resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
-          volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" .volumeMounts "context" $) | nindent 10 }}
+          {{- with .volumeMounts }}
+          volumeMounts: {{- include "helpers.volumes.renderVolumeMounts" (dict "value" . "context" $) | nindent 10 -}}
+          {{- end }}
         {{- end }}
       {{- end }}
       {{- with .containers }}
