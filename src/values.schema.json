@@ -759,8 +759,7 @@
                                                     "additionalProperties": false,
                                                     "required": [
                                                         "name",
-                                                        "mountPath",
-                                                        "subPath"
+                                                        "mountPath"
                                                     ],
                                                     "properties": {
                                                         "name": {
