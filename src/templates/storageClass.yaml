@@ -2,7 +2,7 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: {{ include "helpers.app.fullname" (dict "name" .name "context" $) }}
+  name: {{ .name }}
 provisioner: {{ .provisioner }}
 volumeBindingMode: {{ .volumeBindingMode }}
 reclaimPolicy: {{ .reclaimPolicy }}

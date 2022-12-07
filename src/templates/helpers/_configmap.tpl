@@ -25,7 +25,7 @@
 - name: {{ $envObject.name }}
   valueFrom:
     configMapKeyRef:
-      name: {{ include "helpers.app.fullname" (dict "name" $mainObject.configMapName "context" $ctx) }}
+      name: {{ $mainObject.configMapName }}
       key: {{ $envObject.key }}
 {{- end }}
 {{- end }}

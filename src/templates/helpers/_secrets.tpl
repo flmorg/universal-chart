@@ -12,14 +12,14 @@
 - name: {{ $envKey }}
   valueFrom:
     secretKeyRef:
-      name: {{ include "helpers.app.fullname" (dict "name" $sName "context" $ctx) }}
+      name: {{ $sName "context" }}
       key: {{ $secretKey }}
 {{- else if kindIs "map" $secretKey -}}
 {{- range $keyName, $key := $secretKey }}
 - name: {{ $keyName }}
   valueFrom:
     secretKeyRef:
-      name: {{ include "helpers.app.fullname" (dict "name" $sName "context" $ctx) }}
+      name: {{ $sName }}
       key: {{ $key }}
 {{- end -}}
 {{- end -}}
@@ -34,7 +34,7 @@
 - name: {{ $envObject.name }}
   valueFrom:
     secretKeyRef:
-      name: {{ include "helpers.app.fullname" (dict "name" $mainObject.secretName "context" $ctx) }}
+      name: {{ $mainObject.secretName }}
       key: {{ $envObject.key }}
 {{- end }}
 {{- end }}
@@ -44,7 +44,7 @@
 {{- $ctx := .context -}}
 {{- range $i, $sName := .value }}
 - secretRef:
-    name: {{ include "helpers.app.fullname" (dict "name" $sName "context" $ctx) }}
+    name: {{ $sName }}
 {{- end -}}
 {{- end -}}
 

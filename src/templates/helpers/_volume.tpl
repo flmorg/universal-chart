@@ -14,7 +14,7 @@
 - name: {{ .name }}
   configMap:
     {{- with .typeName }}
-    name: {{ include "helpers.app.fullname" (dict "name" . "context" $ctx) }}
+    name: {{ . }}
     {{- end }}
     {{- with .items }}
     items: {{- include "helpers.tplvalues.render" (dict "value" . "context" $ctx) | nindent 4 }}
@@ -23,7 +23,7 @@
 - name: {{ .name }}
   secret:
     {{- with .typeName }}
-    secretName: {{ include "helpers.app.fullname" (dict "name" . "context" $ctx) }}
+    secretName: {{ . }}
     {{- end }}
     {{- with .items }}
     items: {{- include "helpers.tplvalues.render" (dict "value" . "context" $ctx) | nindent 4 }}
@@ -32,7 +32,7 @@
 - name: {{ .name }}
   persistentVolumeClaim:
     {{- with .typeName }}
-    claimName: {{ include "helpers.app.fullname" (dict "name" . "context" $ctx) }}
+    claimName: {{ . }}
     {{- end }}
 {{- end }}
 {{- end }}

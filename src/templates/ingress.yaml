@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "helpers.app.fullname" (dict "name" (.name | default .host) "context" $) }}
+  name: {{ .name | default .host }}
   namespace: {{ $.Release.Namespace | quote }}
   labels:
     {{- include "helpers.app.labels" $ | nindent 4 }}
@@ -20,11 +20,11 @@ spec:
         - path: {{ default "/" .path }}
           pathType: {{ default "Prefix" .pathType }}
           backend:
-            {{- include "helpers.ingress.backend" (dict "serviceName" (include "helpers.app.fullname" (dict "name" .serviceName "context" $)) "servicePort" .servicePort "context" $) | nindent 12 }}
+            {{- include "helpers.ingress.backend" (dict "serviceName" .serviceName "servicePort" .servicePort "context" $) | nindent 12 }}
         {{- end }}
   {{- end }}
   {{- with .tls }}
   tls:
-    - secretName: {{ include "helpers.app.fullname" (dict "name" .secretName "context" $) }}
+    - secretName: {{ .secretName }}
   {{- end }}
 {{- end }}

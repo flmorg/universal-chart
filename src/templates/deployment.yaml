@@ -34,7 +34,7 @@ spec:
         {{- include "helpers.app.labels" $ | nindent 10 }}
     spec:
       {{- with .serviceAccountName }}
-      serviceAccountName: {{ include "helpers.app.fullname" (dict "name" . "context" $) }}
+      serviceAccountName: {{ . }}
       {{- end }}
       {{- with .securityContext }}
       securityContext: {{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 8 }}
@@ -42,7 +42,7 @@ spec:
       {{- if .imagePullSecrets }}
       imagePullSecrets:
       {{- range .imagePullSecrets }}
-      - name: {{ include "helpers.app.fullname" (dict "name" .name "context" $) }}
+      - name: {{ .name }}
       {{- end }}
       {{- end }}
       {{- if .terminationGracePeriodSeconds }}
