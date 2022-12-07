@@ -1,5 +1,18 @@
 nameOverride: CUSTOM_RELEASE_NAME
 
+clusterRole:
+  name: role
+  rules:
+    -
+      apiGroups: [ "" ]
+      resources: [ "nodes" ]
+      verbs: [ "get" ]
+
+clusterRoleBinding:
+  name: binding
+  clusterRoleName: role
+  serviceAccountName: account
+
 configMaps:
   -
     name: test
@@ -165,6 +178,9 @@ secrets:
       tls.crt: b64:crt
       tls.key: b64:key
 
+serviceAccount:
+  name: account
+
 services:
   -
     name: nginx
@@ -183,3 +199,9 @@ services:
         protocol: TCP
         port: 80
         targetPort: 8080
+
+storageClass:
+  name: class
+  provisioner: provisioner
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete
