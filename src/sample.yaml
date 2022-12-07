@@ -72,6 +72,9 @@ deployment:
               key: secretKey1
             - name: secretEnv2
               key: secretKey2
+      envFromFieldRef:
+        - name: POD_NAMESPACE
+          fieldPath: metadata.namespace
       volumeMounts:
         - name: secretFile
           mountPath: /var/lib/secret

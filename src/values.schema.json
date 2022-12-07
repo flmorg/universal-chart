@@ -822,6 +822,49 @@
                                             ]
                                         }
                                     },
+                                    "envFromFieldRef": {
+                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap",
+                                        "title": "The environment variables from field refs",
+                                        "description": "",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/items/anyOf/0",
+                                                    "title": "The env from field ref",
+                                                    "description": "",
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "additionalProperties": false,
+                                                    "required": [
+                                                        "name",
+                                                        "fieldPath"
+                                                    ],
+                                                    "properties": {
+                                                        "name": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/items/anyOf/0/properties/name",
+                                                            "title": "The environment variable name",
+                                                            "description": "",
+                                                            "type": "string",
+                                                            "default": "",
+                                                            "minLength": 1
+                                                        },
+                                                        "fieldPath": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/items/anyOf/0/properties/fieldPath",
+                                                            "title": "The field path",
+                                                            "description": "",
+                                                            "type": "string",
+                                                            "default": "",
+                                                            "minLength": 1
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
                                     "ports": {
                                         "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports",
                                         "title": "The container ports",
@@ -865,11 +908,11 @@
                                             ]
                                         }
                                     },
-                                    "TODO: lifecycle": {
+                                    "lifecycle": {
                                     },
-                                    "TODO: livenessProbe": {
+                                    "livenessProbe": {
                                     },
-                                    "TODO: readinessProbe": {
+                                    "readinessProbe": {
                                     },
                                     "resources": {
                                         "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources",

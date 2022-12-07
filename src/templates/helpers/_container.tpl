@@ -1,11 +1,12 @@
 {{- define "helpers.containers.env" -}}
 {{- $ctx := .context -}}
 {{- $v := .value -}}
-{{- if or (or $v.envFromConfigmap $v.envFromSecret) $v.env }}
+{{- if or $v.envFromConfigmap $v.envFromSecret $v.envFromFieldRef $v.env }}
 env:
 {{- with $v.envFromConfigmap }}{{- include "helpers.configMap.includeEnv" ( dict "value" . "context" $ctx) }}{{- end }}
 {{- with $v.envFromSecret }}{{- include "helpers.secrets.includeEnv" ( dict "value" . "context" $ctx) }}{{- end }}
-{{ with $v.env }}{{- include "helpers.tplvalues.render" ( dict "value" . "context" $ctx) }}{{- end }}
+{{- with $v.envFromFieldRef }}{{- include "helpers.field.includeEnv" ( dict "value" . "context" $ctx) }}{{- end }}
+{{- with $v.env }}{{- include "helpers.tplvalues.render" ( dict "value" . "context" $ctx) }}{{- end }}
 {{- end }}
 {{- end }}
 
