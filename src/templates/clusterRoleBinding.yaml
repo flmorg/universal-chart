@@ -1,0 +1,14 @@
+{{- with .Values.clusterRoleBinding }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "helpers.app.fullname" (dict "name" .name "context" $) }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "helpers.app.fullname" (dict "name" .clusterRoleName "context" $) }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "helpers.app.fullname" (dict "name" .serviceAccountName "context" $) }}
+    namespace: {{ $.Release.Namespace | quote }}
+{{- end }}

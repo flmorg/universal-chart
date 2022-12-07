@@ -68,6 +68,157 @@
             "type": [ "string", "null" ],
             "default": null
         },
+        "clusterRole": {
+            "$id": "#/properties/clusterRole",
+            "title": "The cluster role",
+            "description": "",
+            "type": "object",
+            "default": {},
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "rules"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/clusterRole/properties/name",
+                    "title": "The name of the cluster role",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "rules": {
+                    "$id": "#/properties/clusterRole/properties/rules",
+                    "title": "The service account rules",
+                    "description": "",
+                    "type": "array",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/clusterRole/properties/rules/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0",
+                                "title": "The service account rule",
+                                "description": "",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": false,
+                                "required": [
+                                    "apiGroups",
+                                    "resources",
+                                    "verbs"
+                                ],
+                                "properties": {
+                                    "apiGroups": {
+                                        "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/apiGroups",
+                                        "title": "The api groups to get access for",
+                                        "description": "",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/apiGroups/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/apiGroups/items/anyOf/0",
+                                                    "title": "An api group",
+                                                    "description": "",
+                                                    "type": "string",
+                                                    "default": ""
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "resources": {
+                                        "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/resources",
+                                        "title": "The resources to get access for",
+                                        "description": "",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/resources/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/resources/items/anyOf/0",
+                                                    "title": "A resource",
+                                                    "description": "",
+                                                    "type": "string",
+                                                    "default": "",
+                                                    "minLength": 1
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "verbs": {
+                                        "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/verbs",
+                                        "title": "The verbs to get access for",
+                                        "description": "",
+                                        "type": "array",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/verbs/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/clusterRole/properties/rules/items/anyOf/0/properties/verbs/items/anyOf/0",
+                                                    "title": "A verb",
+                                                    "description": "",
+                                                    "type": "string",
+                                                    "default": "",
+                                                    "minLength": 1
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "clusterRoleBinding": {
+            "$id": "#/properties/clusterRoleBinding",
+            "title": "The cluster role binding",
+            "description": "Describes a binding between a cluster role and a service account",
+            "type": "object",
+            "default": {},
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "clusterRoleName",
+                "serviceAccountName"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/clusterRoleBinding/properties/name",
+                    "title": "The binding name",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "clusterRoleName": {
+                    "$id": "#/properties/clusterRoleBinding/properties/clusterRoleName",
+                    "title": "The cluster role name to bind",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "serviceAccountName": {
+                    "$id": "#/properties/clusterRoleBinding/properties/serviceAccountName",
+                    "title": "The service account name to bind",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                }
+            }
+        },
         "configMaps": {
             "$id": "#/properties/configMaps",
             "title": "The configMaps schema",
@@ -94,14 +245,16 @@
                                 "title": "The configMap",
                                 "description": "The name of the configMap to be created.",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "namespace": {
                                 "$id": "#/properties/configMaps/items/anyOf/0/properties/namespace",
                                 "title": "The namespace",
                                 "description": "The namespace of the configMap to be created.",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "data": {
                                 "$id": "#/properties/configMaps/items/anyOf/0/properties/data",
@@ -272,7 +425,8 @@
                     "title": "The service account name",
                     "description": "",
                     "type": "string",
-                    "default": ""
+                    "default": "",
+                    "minLength": 1
                 },
                 "securityContext": {
                     "$id": "#/properties/deployment/properties/securityContext",
@@ -330,7 +484,8 @@
                                         "title": "The image pull secret name",
                                         "description": "The image pull secret name.",
                                         "type": "string",
-                                        "default": ""
+                                        "default": "",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -377,7 +532,8 @@
                                         "title": "The container",
                                         "description": "The name of the container to be created.",
                                         "type": "string",
-                                        "default": ""
+                                        "default": "",
+                                        "minLength": 1
                                     },
                                     "image": {
                                         "$id": "#/properties/configMaps/items/anyOf/0/properties/image",
@@ -396,14 +552,16 @@
                                                 "title": "The docker image repository",
                                                 "description": "The image repository from where to pull it.",
                                                 "type": "string",
-                                                "default": ""
+                                                "default": "",
+                                                "minLength": 1
                                             },
                                             "tag": {
                                                 "$id": "#/properties/configMaps/items/anyOf/0/properties/image/properties/tag",
                                                 "title": "The docker image tag",
                                                 "description": "The image tag to pull (i.e. latest).",
                                                 "type": "string",
-                                                "default": ""
+                                                "default": "",
+                                                "minLength": 1
                                             }
                                         }
                                     },
@@ -412,7 +570,12 @@
                                         "title": "The image pull policy",
                                         "description": "The image pull policy.",
                                         "type": "string",
-                                        "default": "Always"
+                                        "default": "Always",
+                                        "enum": [
+                                            "Always",
+                                            "IfNotPresent",
+                                            "Never"
+                                        ]
                                     },
                                     "securityContext": {
                                         "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/securityContext",
@@ -435,7 +598,8 @@
                                                     "title": "The argument",
                                                     "description": "Argument to be passed to the container entrypoint or command.",
                                                     "type": "string",
-                                                    "default": ""
+                                                    "default": "",
+                                                    "minLength": 1
                                                 }
                                             ]
                                         }
@@ -455,7 +619,8 @@
                                                     "title": "The command",
                                                     "description": "Command to be executed by the container.",
                                                     "type": "string",
-                                                    "default": ""
+                                                    "default": "",
+                                                    "minLength": 1
                                                 }
                                             ]
                                         }
@@ -487,14 +652,16 @@
                                                             "title": "The environment variable",
                                                             "description": "The name of the environment variable.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "value": {
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/env/items/anyOf/0/properties/value",
                                                             "title": "The environment variable value",
                                                             "description": "The value of the environment variable.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         }
                                                     }
                                                 }
@@ -527,7 +694,8 @@
                                                             "title": "The secret name",
                                                             "description": "The name of the secret to retrieve environment variables from.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "envs": {
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs",
@@ -556,14 +724,16 @@
                                                                                 "title": "The environment variable name",
                                                                                 "description": "The name of the environment variable inside the container.",
                                                                                 "type": "string",
-                                                                                "default": ""
+                                                                                "default": "",
+                                                                                "minLength": 1
                                                                             },
                                                                             "key": {
                                                                                 "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromSecret/properties/envs/items/anyOf/0/properties/key",
                                                                                 "title": "The secret key",
                                                                                 "description": "The key from the secret to retrieve the environment variable from.",
                                                                                 "type": "string",
-                                                                                "default": ""
+                                                                                "default": "",
+                                                                                "minLength": 1
                                                                             }
                                                                         }
                                                                     }
@@ -601,7 +771,8 @@
                                                             "title": "The configMap name",
                                                             "description": "The name of the configMap to retrieve environment variables from.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "envs": {
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs",
@@ -630,14 +801,16 @@
                                                                                 "title": "The environment variable name",
                                                                                 "description": "The name of the environment variable inside the container.",
                                                                                 "type": "string",
-                                                                                "default": ""
+                                                                                "default": "",
+                                                                                "minLength": 1
                                                                             },
                                                                             "key": {
                                                                                 "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/envFromConfigmap/properties/envs/items/anyOf/0/properties/key",
                                                                                 "title": "The configMap key",
                                                                                 "description": "The key from the configMap to retrieve the environment variable from.",
                                                                                 "type": "string",
-                                                                                "default": ""
+                                                                                "default": "",
+                                                                                "minLength": 1
                                                                             }
                                                                         }
                                                                     }
@@ -676,7 +849,8 @@
                                                             "title": "The port name",
                                                             "description": "The name of the port outside of the container.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "containerPort": {
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports/items/anyOf/0/properties/containerPort",
@@ -734,7 +908,7 @@
                                                         "title": "The memory limit",
                                                         "description": "Required to be at least 10Mi",
                                                         "type": "string",
-                                                        "default": "",
+                                                        "default": "128Mi",
                                                         "pattern": "^[1-9][0-9]+Mi$"
                                                     }
                                                 }
@@ -774,21 +948,24 @@
                                                             "title": "The volume name",
                                                             "description": "The name of the volume to mount.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "mountPath": {
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0/properties/mountPath",
                                                             "title": "The mount path",
                                                             "description": "The path where to mount the volume inside the container.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "subPath": {
                                                             "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/volumeMounts/items/anyOf/0/properties/subPath",
                                                             "title": "The sub path",
                                                             "description": "The sub directory to create and use inside the persistent volume.",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         }
                                                     }
                                                 }
@@ -828,7 +1005,8 @@
                                         "title": "The volume name",
                                         "description": "The name of the volume.",
                                         "type": "string",
-                                        "default": ""
+                                        "default": "",
+                                        "minLength": 1
                                     },
                                     "type": {
                                         "$id": "#/properties/deployment/properties/volumes/items/anyOf/0/properties/type",
@@ -847,7 +1025,8 @@
                                         "title": "The type name",
                                         "description": "The name of the object of the specified type.",
                                         "type": "string",
-                                        "default": ""
+                                        "default": "",
+                                        "minLength": 1
                                     },
                                     "items": {
                                         "$id": "#/properties/deployment/properties/volumes/items/anyOf/0/properties/items",
@@ -885,7 +1064,8 @@
                     "title": "The hpa name",
                     "description": "",
                     "type": "string",
-                    "default": ""
+                    "default": "",
+                    "minLength": 1
                 },
                 "scaleTargetRef": {
                     "$id": "#/properties/hpa/properties/scaleTargetRef",
@@ -914,7 +1094,8 @@
                             "title": "The target name",
                             "description": "The name of the target for HPA.",
                             "type": "string",
-                            "default": ""
+                            "default": "",
+                            "minLength": 1
                         }
                     }
                 },
@@ -973,7 +1154,8 @@
                     "title": "The ingress name",
                     "description": "",
                     "type": "string",
-                    "default": ""
+                    "default": "",
+                    "minLength": 1
                 },
                 "hosts": {
                     "$id": "#/properties/ingress/properties/hosts",
@@ -1002,7 +1184,8 @@
                                         "title": "The domain name",
                                         "description": "",
                                         "type": "string",
-                                        "default": ""
+                                        "default": "",
+                                        "minLength": 1
                                     },
                                     "paths": {
                                         "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths",
@@ -1033,21 +1216,24 @@
                                                             "title": "The host path",
                                                             "description": "",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "pathType": {
                                                             "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/pathType",
                                                             "title": "The host path type",
                                                             "description": "",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "serviceName": {
                                                             "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/serviceName",
                                                             "title": "The service name",
                                                             "description": "",
                                                             "type": "string",
-                                                            "default": ""
+                                                            "default": "",
+                                                            "minLength": 1
                                                         },
                                                         "servicePort": {
                                                             "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort",
@@ -1069,8 +1255,8 @@
                                                                     "title": "The service port number",
                                                                     "description": "",
                                                                     "type": "integer",
-                                                                    "default": "",
-                                                                    "minLength": 1
+                                                                    "default": 0,
+                                                                    "minimum": 1
                                                                 }
                                                             ]
                                                         }
@@ -1100,7 +1286,8 @@
                             "title": "The secret name",
                             "description": "The name of the secret that containers the TLS certificate and key.",
                             "type": "string",
-                            "default": ""
+                            "default": "",
+                            "minLength": 1
                         }
                     }
                 }
@@ -1136,21 +1323,24 @@
                                 "title": "The pv name",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "storageClassName": {
                                 "$id": "#/properties/pvs/items/anyOf/0/properties/storageClassName",
                                 "title": "The storage class name",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "size": {
                                 "$id": "#/properties/pvs/items/anyOf/0/properties/size",
                                 "title": "The size of the persistent volume",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "accessModes": {
                                 "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes",
@@ -1167,7 +1357,8 @@
                                             "title": "The access mode",
                                             "description": "",
                                             "type": "string",
-                                            "default": ""
+                                            "default": "",
+                                            "minLength": 1
                                         }
                                     ]
                                 }
@@ -1177,7 +1368,8 @@
                                 "title": "The host path",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             }
                         }
                     }
@@ -1213,14 +1405,16 @@
                                 "title": "The pvc name",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "storageClassName": {
                                 "$id": "#/properties/pvcs/items/anyOf/0/properties/storageClassName",
                                 "title": "The storage class name",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "accessModes": {
                                 "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes",
@@ -1237,7 +1431,8 @@
                                             "title": "The access mode",
                                             "description": "",
                                             "type": "string",
-                                            "default": ""
+                                            "default": "",
+                                            "minLength": 1
                                         }
                                     ]
                                 }
@@ -1247,7 +1442,8 @@
                                 "title": "The size requested from the persistent volume",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             }
                         }
                     }
@@ -1282,7 +1478,8 @@
                                 "title": "The name of the secret",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "type": {
                                 "$id": "#/properties/secrets/items/anyOf/0/properties/name",
@@ -1313,13 +1510,34 @@
                                         "title": "The key-value pair for the secret",
                                         "description": "",
                                         "type": "string",
-                                        "default": ""
+                                        "default": "",
+                                        "minLength": 1
                                     }
                                 }
                             }
                         }
                     }
                 ]
+            }
+        },
+        "serviceAccount": {
+            "$id": "#/properties/serviceAccount",
+            "title": "The service account",
+            "description": "",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/serviceAccount/properties/name",
+                    "title": "The service account name",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                }
             }
         },
         "services": {
@@ -1388,14 +1606,16 @@
                                 "title": "The service name",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "clusterIP": {
                                 "$id": "#/properties/services/items/anyOf/0/properties/clusterIP",
                                 "title": "The cluster ip",
                                 "description": "",
                                 "type": "string",
-                                "default": ""
+                                "default": "",
+                                "minLength": 1
                             },
                             "type": {
                                 "$id": "#/properties/services/items/anyOf/0/properties/type",
@@ -1505,7 +1725,8 @@
                                                    "title": "The port name",
                                                    "description": "",
                                                    "type": "string",
-                                                   "default": "" 
+                                                   "default": "",
+                                                   "minLength": 1
                                                 },
                                                 "port": {
                                                     "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/port",
@@ -1549,6 +1770,60 @@
                         }
                     }
                 ]
+            }
+        },
+        "storageClass": {
+            "$id": "#/properties/storageClass",
+            "title": "The storage class",
+            "description": "",
+            "type": "object",
+            "default": {},
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "provisioner",
+                "volumeBindingMode",
+                "reclaimPolicy"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/storageClass/properties/name",
+                    "title": "The name of the cluster role",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "provisioner": {
+                    "$id": "#/properties/storageClass/properties/provisioner",
+                    "title": "The provisioner",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "volumeBindingMode": {
+                    "$id": "#/properties/storageClass/properties/provisioner",
+                    "title": "The volume binding mode",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "enum": [
+                        "Immediate",
+                        "WaitForFirstConsumer"
+                    ]
+                },
+                "reclaimPolicy": {
+                    "$id": "#/properties/storageClass/properties/provisioner",
+                    "title": "The provisioner",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "enum": [
+                        "Delete",
+                        "Retain"
+                    ]
+                }
             }
         }
     }
