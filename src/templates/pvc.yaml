@@ -16,4 +16,5 @@ spec:
   resources:
     requests:
       storage: {{ .size }}
+  volumeMode: {{ .volumeMode }}
 {{- end }}

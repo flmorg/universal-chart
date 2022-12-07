@@ -1487,6 +1487,17 @@
                                 "type": "string",
                                 "default": "",
                                 "minLength": 1
+                            },
+                            "volumeMode": {
+                                "$id": "#/properties/pvcs/items/anyOf/0/properties/volumeMode",
+                                "title": "The volume mode",
+                                "description": "",
+                                "type": "string",
+                                "default": "Filesystem",
+                                "enum": [
+                                    "Block",
+                                    "Filesystem"
+                                ]
                             }
                         }
                     }
