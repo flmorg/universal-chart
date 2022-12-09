@@ -90,6 +90,7 @@ spec:
           {{- end }}
         {{- end }}
       {{- end }}
+      {{- include "helpers.initContainers.renderDefaults" (dict "context" .) | nindent 6 -}}
       {{- with .containers }}
       containers:
         {{- range . }}
