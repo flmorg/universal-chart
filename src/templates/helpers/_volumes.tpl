@@ -10,6 +10,7 @@
 {{- define "helpers.volumes.typed" -}}
 {{- $ctx := .context -}}
 {{- range .volumes -}}
+{{- if or .type }}
 {{- if eq .type "configMap" }}
 - name: {{ .name }}
   configMap:
@@ -36,6 +37,21 @@
     {{- end }}
 {{- end }}
 {{- end }}
+{{- if .projected }}
+- name: {{ .name }}
+  projected:
+    sources:
+{{- range .projected }}
+{{- include "helpers.volumes.renderProjectedVolume" (dict "value" .)  | nindent 6 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "helpers.volumes.renderProjectedVolume" -}}
+-
+  {{ .value.type }}:
+    name: {{ .value.typeName }}
 {{- end }}
 
 {{- define "helpers.volumes.renderVolumeMounts" -}}
