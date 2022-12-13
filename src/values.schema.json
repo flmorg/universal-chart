@@ -1550,6 +1550,51 @@
                 ]
             }
         },
+        "role": {
+            "$id": "#/properties/role",
+            "title": "The role",
+            "description": "",
+            "$ref": "#/properties/clusterRole"
+        },
+        "roleBinding": {
+            "$id": "#/properties/roleBinding",
+            "title": "The role binding",
+            "description": "Describes a binding between a role and a service account",
+            "type": "object",
+            "default": {},
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "roleName",
+                "serviceAccountName"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/roleBinding/properties/name",
+                    "title": "The binding name",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "roleName": {
+                    "$id": "#/properties/roleBinding/properties/roleName",
+                    "title": "The role name to bind",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "serviceAccountName": {
+                    "$id": "#/properties/roleBinding/properties/serviceAccountName",
+                    "title": "The service account name to bind",
+                    "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                }
+            }
+        },
         "secrets": {
             "$id": "#/properties/secrets",
             "title": "The secrets",
@@ -1634,6 +1679,21 @@
                     "$id": "#/properties/serviceAccount/properties/name",
                     "title": "The service account name",
                     "description": "",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "automountServiceAccountToken": {
+                    "$id": "#/properties/serviceAccount/properties/automountServiceAccountToken",
+                    "title": "The automount token flag",
+                    "description": "Whether to mount the service account token automatically to the pod or not",
+                    "type": "boolean",
+                    "default": false
+                },
+                "secretName": {
+                    "$id": "#/properties/serviceAccount/properties/secrets",
+                    "title": "The name of the secret",
+                    "description": "The name of the secret to be created where the token will be stored",
                     "type": "string",
                     "default": "",
                     "minLength": 1
