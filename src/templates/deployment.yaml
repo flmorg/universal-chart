@@ -74,7 +74,7 @@ spec:
           ports: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
           {{- end }}
           {{- with .lifecycle }}
-          lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .livenessProbe }}
           livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
@@ -117,7 +117,7 @@ spec:
           ports: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
           {{- end }}
           {{- with .lifecycle }}
-          lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .livenessProbe }}
           livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
