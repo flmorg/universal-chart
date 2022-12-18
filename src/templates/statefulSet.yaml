@@ -69,10 +69,10 @@ spec:
           lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .livenessProbe }}
-          livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .readinessProbe }}
-          readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .resources }}
           resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
@@ -112,10 +112,10 @@ spec:
           lifecycle: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .livenessProbe }}
-          livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          livenessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .readinessProbe }}
-          readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+          readinessProbe: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
           {{- end }}
           {{- with .resources }}
           resources: {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 12 }}
