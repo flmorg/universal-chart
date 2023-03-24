@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        {{- if .forceRedeploy }}
+        {{- if $.Values.forceRedeploy }}
         rollme: {{ randAlphaNum 5 | quote }}
         {{- end }}
         {{- with .annotations }}
