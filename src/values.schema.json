@@ -349,6 +349,8 @@
                 "containers"
             ],
             "properties": {
+                "annotations": {
+                },
                 "replicas": {
                     "$id": "#/properties/deployment/properties/replicas",
                     "title": "The replicas count",
@@ -2007,6 +2009,8 @@
                 "containers"
             ],
             "properties": {
+                "annotations": {
+                },
                 "serviceName": {
                     "$id": "#/properties/statefulSet/properties/serviceName",
                     "title": "The name of the service that governs this StatefulSet",
