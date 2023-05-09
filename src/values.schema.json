@@ -949,6 +949,19 @@
                                                             "type": "number",
                                                             "default": 0,
                                                             "minimum": 0
+                                                        },
+                                                        "protocol": {
+                                                            "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/ports/items/anyOf/0/properties/protocol",
+                                                            "title": "The port protocol",
+                                                            "description": "",
+                                                            "type": "string",
+                                                            "default": "TCP",
+                                                            "enum": [
+                                                                "TCP",
+                                                                "UDP",
+                                                                "SCTP",
+                                                                "HTTP"
+                                                            ]
                                                         }
                                                     }
                                                 }

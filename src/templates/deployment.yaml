@@ -28,10 +28,10 @@ spec:
         rollme: {{ randAlphaNum 5 | quote }}
         {{- end }}
         {{- with .annotations }}
-        {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 10 }}
+        {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "helpers.app.labels" $ | nindent 10 }}
+        {{- include "helpers.app.labels" $ | nindent 8 }}
     spec:
       {{- with .serviceAccountName }}
       serviceAccountName: {{ . }}
