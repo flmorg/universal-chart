@@ -1990,8 +1990,7 @@
                                                     "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/targetPort",
                                                     "title": "The target port",
                                                     "description": "",
-                                                    "type": "integer",
-                                                    "minimum": 1
+                                                    "type": ["integer", "string"]
                                                 },
                                                 "nodePort": {
                                                     "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/nodePort",
