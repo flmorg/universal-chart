@@ -1304,6 +1304,107 @@
                 }
             }
         },
+        "infisicalSecrets": {
+            "$id": "#/properties/infisicalSecrets",
+            "title": "Infisical secrets definitions",
+            "description": "",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/infisicalSecrets/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/infisicalSecrets/items/anyOf/0",
+                        "title": "The infisical secret",
+                        "description": "",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "required": [
+                            "name",
+                            "serviceTokenSecretName",
+                            "secretsPath",
+                            "secretName"
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/name",
+                                "title": "The name of this resource",
+                                "description": "",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "resyncInterval": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/resyncInterval",
+                                "title": "The resync interval in seconds",
+                                "description": "The number of seconds to wait before checking if the secret has changed",
+                                "type": "integer",
+                                "default": 60,
+                                "minimum": 30
+                            },
+                            "serviceTokenSecretName": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/serviceTokenSecretName",
+                                "title": "The service token secret name",
+                                "description": "The secret that contains the service token used to call the infisical API",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "serviceTokenSecretNamespace": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/serviceTokenSecretNamespace",
+                                "title": "The namespace of the service token secret",
+                                "description": "",
+                                "type": "string",
+                                "default": "default",
+                                "minLength": 1
+                            },
+                            "env": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/env",
+                                "title": "The infisical environment of the desired secrets",
+                                "description": "",
+                                "type": "string",
+                                "default": "prod",
+                                "enum": [
+                                    "dev",
+                                    "stg",
+                                    "prod"
+                                ]
+                            },
+                            "secretsPath": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/secretsPath",
+                                "title": "The infisical path to the desired secrets",
+                                "description": "",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "secretName": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/secretName",
+                                "title": "The name of the secret to be generated",
+                                "description": "The name of the secret that will contain the infisical secret values",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "secretType": {
+                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/secretType",
+                                "title": "The type of the secret",
+                                "description": "",
+                                "type": "string",
+                                "default": "Opaque",
+                                "enum": [
+                                    "Opaque",
+                                    "kubernetes.io/service-account-token",
+                                    "kubernetes.io/dockercfg",
+                                    "kubernetes.io/dockerconfigjson",
+                                    "kubernetes.io/basic-auth",
+                                    "kubernetes.io/ssh-auth",
+                                    "kubernetes.io/tls"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
         "ingress": {
             "$id": "#/properties/ingress",
             "title": "The ingress",
@@ -1692,7 +1793,6 @@
                         "additionalProperties": false,
                         "required": [
                             "name",
-                            "type",
                             "data"
                         ],
                         "properties": {
@@ -1709,7 +1809,7 @@
                                 "title": "The type of the secret",
                                 "description": "",
                                 "type": "string",
-                                "default": "",
+                                "default": "Opaque",
                                 "enum": [
                                     "Opaque",
                                     "kubernetes.io/service-account-token",
