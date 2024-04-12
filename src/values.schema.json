@@ -2148,6 +2148,12 @@
                                 }
                             }
                         }
+                    },
+                    "labels": {
+                        "$id": "#/properties/storageClasses/items/properties/labels",
+                        "title": "The labels",
+                        "description": "Labels to attach to the StorageClass",
+                        "type": "object"
                     }
                 }
             }

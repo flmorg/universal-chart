@@ -4,6 +4,10 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: {{ .name }}
+{{- if .labels }}
+  labels:
+{{ toYaml .labels | indent 4 }}
+{{- end }}
 provisioner: {{ .provisioner }}
 volumeBindingMode: {{ .volumeBindingMode }}
 reclaimPolicy: {{ .reclaimPolicy }}
