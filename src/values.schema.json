@@ -110,7 +110,10 @@
             "$id": "#/properties/nameOverride",
             "title": "The overriden name",
             "description": "The custom release name to use instead of .Release.Name",
-            "type": [ "string", "null" ],
+            "type": [
+                "string",
+                "null"
+            ],
             "default": null
         },
         "forceRedeploy": {
@@ -349,8 +352,7 @@
                 "containers"
             ],
             "properties": {
-                "annotations": {
-                },
+                "annotations": {},
                 "replicas": {
                     "$id": "#/properties/deployment/properties/replicas",
                     "title": "The replicas count",
@@ -455,14 +457,20 @@
                             "$id": "#/properties/deployment/strategy/properties/maxSurge",
                             "title": "The max surge count",
                             "description": "The maximum number of replicas to deploy over the current replicas limit",
-                            "type": [ "integer", "string" ],
+                            "type": [
+                                "integer",
+                                "string"
+                            ],
                             "default": 1
                         },
                         "maxUnavailable": {
                             "$id": "#/properties/deployment/strategy/properties/maxUnavailable",
                             "title": "The max unavailable count",
                             "description": "The maximum number of replicas to make unavailable when deploying newer replicas",
-                            "type": [ "integer", "string" ],
+                            "type": [
+                                "integer",
+                                "string"
+                            ],
                             "default": 1
                         }
                     }
@@ -968,12 +976,9 @@
                                             ]
                                         }
                                     },
-                                    "lifecycle": {
-                                    },
-                                    "livenessProbe": {
-                                    },
-                                    "readinessProbe": {
-                                    },
+                                    "lifecycle": {},
+                                    "livenessProbe": {},
+                                    "readinessProbe": {},
                                     "resources": {
                                         "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources",
                                         "title": "The container resources",
@@ -1214,7 +1219,10 @@
             "additionalProperties": false,
             "title": "The horizontal pod autoscaler",
             "description": "The schema of HPA.",
-            "type": [ "object", "null" ],
+            "type": [
+                "object",
+                "null"
+            ],
             "default": null,
             "required": [
                 "name",
@@ -1313,96 +1321,91 @@
             "additionalItems": true,
             "items": {
                 "$id": "#/properties/infisicalSecrets/items",
-                "anyOf": [
-                    {
-                        "$id": "#/properties/infisicalSecrets/items/anyOf/0",
-                        "title": "The infisical secret",
+                "title": "Infisical secret",
+                "description": "",
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "serviceTokenSecretName",
+                    "secretsPath",
+                    "secretName"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/name",
+                        "title": "Resource name",
                         "description": "",
-                        "type": "object",
-                        "default": {},
-                        "additionalProperties": false,
-                        "required": [
-                            "name",
-                            "serviceTokenSecretName",
-                            "secretsPath",
-                            "secretName"
-                        ],
-                        "properties": {
-                            "name": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/name",
-                                "title": "The name of this resource",
-                                "description": "",
-                                "type": "string",
-                                "minLength": 1
-                            },
-                            "resyncInterval": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/resyncInterval",
-                                "title": "The resync interval in seconds",
-                                "description": "The number of seconds to wait before checking if the secret has changed",
-                                "type": "integer",
-                                "default": 60,
-                                "minimum": 30
-                            },
-                            "serviceTokenSecretName": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/serviceTokenSecretName",
-                                "title": "The service token secret name",
-                                "description": "The secret that contains the service token used to call the infisical API",
-                                "type": "string",
-                                "minLength": 1
-                            },
-                            "serviceTokenSecretNamespace": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/serviceTokenSecretNamespace",
-                                "title": "The namespace of the service token secret",
-                                "description": "",
-                                "type": "string",
-                                "default": "default",
-                                "minLength": 1
-                            },
-                            "env": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/env",
-                                "title": "The infisical environment of the desired secrets",
-                                "description": "",
-                                "type": "string",
-                                "default": "prod",
-                                "enum": [
-                                    "dev",
-                                    "stg",
-                                    "prod"
-                                ]
-                            },
-                            "secretsPath": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/secretsPath",
-                                "title": "The infisical path to the desired secrets",
-                                "description": "",
-                                "type": "string",
-                                "minLength": 1
-                            },
-                            "secretName": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/secretName",
-                                "title": "The name of the secret to be generated",
-                                "description": "The name of the secret that will contain the infisical secret values",
-                                "type": "string",
-                                "minLength": 1
-                            },
-                            "secretType": {
-                                "$id": "#/properties/infisicalSecrets/items/anyOf/0/properties/secretType",
-                                "title": "The type of the secret",
-                                "description": "",
-                                "type": "string",
-                                "default": "Opaque",
-                                "enum": [
-                                    "Opaque",
-                                    "kubernetes.io/service-account-token",
-                                    "kubernetes.io/dockercfg",
-                                    "kubernetes.io/dockerconfigjson",
-                                    "kubernetes.io/basic-auth",
-                                    "kubernetes.io/ssh-auth",
-                                    "kubernetes.io/tls"
-                                ]
-                            }
-                        }
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "resyncInterval": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/resyncInterval",
+                        "title": "Resync interval (seconds)",
+                        "description": "The number of seconds to wait before checking if the secret has changed",
+                        "type": "integer",
+                        "default": 60,
+                        "minimum": 30
+                    },
+                    "serviceTokenSecretName": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/serviceTokenSecretName",
+                        "title": "Service token secret name",
+                        "description": "The secret that contains the service token used to call the Infisical API",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "serviceTokenSecretNamespace": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/serviceTokenSecretNamespace",
+                        "title": "Service token secret namespace",
+                        "description": "",
+                        "type": "string",
+                        "default": "default",
+                        "minLength": 1
+                    },
+                    "env": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/env",
+                        "title": "Infisical environment",
+                        "description": "",
+                        "type": "string",
+                        "default": "prod",
+                        "enum": [
+                            "dev",
+                            "stg",
+                            "prod"
+                        ]
+                    },
+                    "secretsPath": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/secretsPath",
+                        "title": "Infisical secrets path",
+                        "description": "",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "secretName": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/secretName",
+                        "title": "Secret name",
+                        "description": "The name of the secret that will contain the Infisical secret values",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "secretType": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/secretType",
+                        "title": "Secret type",
+                        "description": "",
+                        "type": "string",
+                        "default": "Opaque",
+                        "enum": [
+                            "Opaque",
+                            "kubernetes.io/service-account-token",
+                            "kubernetes.io/dockercfg",
+                            "kubernetes.io/dockerconfigjson",
+                            "kubernetes.io/basic-auth",
+                            "kubernetes.io/ssh-auth",
+                            "kubernetes.io/tls"
+                        ]
                     }
-                ]
+                }
             }
         },
         "ingress": {
@@ -1419,7 +1422,7 @@
             "properties": {
                 "name": {
                     "$id": "#/properties/ingress/properties/name",
-                    "title": "The ingress name",
+                    "title": "Ingress name",
                     "description": "",
                     "type": "string",
                     "default": "",
@@ -1427,122 +1430,116 @@
                 },
                 "hosts": {
                     "$id": "#/properties/ingress/properties/hosts",
-                    "title": "The ingress hosts",
+                    "title": "Ingress hosts",
                     "description": "",
                     "type": "array",
                     "default": [],
                     "additionalItems": true,
                     "items": {
                         "$id": "#/properties/ingress/properties/hosts/items",
-                        "anyOf": [
-                            {
-                                "$id": "#/properties/ingress/properties/hosts/items/anyOf/0",
-                                "title": "The ingress host",
-                                "description": "The schema of an ingress host.",
-                                "type": "object",
-                                "default": {},
-                                "additionalProperties": false,
-                                "required": [
-                                    "host",
-                                    "paths"
-                                ],
-                                "properties": {
-                                    "host": {
-                                        "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/host",
-                                        "title": "The domain name",
-                                        "description": "",
-                                        "type": "string",
-                                        "default": "",
-                                        "minLength": 1
-                                    },
-                                    "paths": {
-                                        "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths",
-                                        "title": "The paths for the host",
-                                        "description": "",
-                                        "type": "array",
-                                        "default": [],
-                                        "additionalItems": true,
-                                        "items": {
-                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items",
+                        "title": "Ingress host",
+                        "description": "The schema of an ingress host.",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "host",
+                            "paths"
+                        ],
+                        "properties": {
+                            "host": {
+                                "$id": "#/properties/ingress/properties/hosts/items/properties/host",
+                                "title": "Domain name",
+                                "description": "",
+                                "type": "string",
+                                "default": "",
+                                "minLength": 1
+                            },
+                            "paths": {
+                                "$id": "#/properties/ingress/properties/hosts/items/properties/paths",
+                                "title": "Paths for the host",
+                                "description": "",
+                                "type": "array",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items",
+                                    "title": "Host paths",
+                                    "description": "",
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                        "path",
+                                        "pathType",
+                                        "serviceName",
+                                        "servicePort"
+                                    ],
+                                    "properties": {
+                                        "path": {
+                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/path",
+                                            "title": "Host path",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": "",
+                                            "minLength": 1
+                                        },
+                                        "pathType": {
+                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/pathType",
+                                            "title": "Host path type",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": "",
+                                            "minLength": 1
+                                        },
+                                        "serviceName": {
+                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/serviceName",
+                                            "title": "Service name",
+                                            "description": "",
+                                            "type": "string",
+                                            "default": "",
+                                            "minLength": 1
+                                        },
+                                        "servicePort": {
+                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/servicePort",
+                                            "title": "Service port",
+                                            "description": "The port of the service where to forward the requests. This can be the name or the number of the port.",
+                                            "type": [
+                                                "string",
+                                                "integer"
+                                            ],
+                                            "default": "",
                                             "anyOf": [
                                                 {
-                                                    "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0",
-                                                    "title": "The host paths",
+                                                    "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/servicePort/anyOf/0",
+                                                    "title": "Service port name",
                                                     "description": "",
-                                                    "type": "object",
-                                                    "default": {},
-                                                    "additionalProperties": false,
-                                                    "required": [
-                                                        "path",
-                                                        "pathType",
-                                                        "serviceName",
-                                                        "servicePort"
-                                                    ],
-                                                    "properties": {
-                                                        "path": {
-                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/path",
-                                                            "title": "The host path",
-                                                            "description": "",
-                                                            "type": "string",
-                                                            "default": "",
-                                                            "minLength": 1
-                                                        },
-                                                        "pathType": {
-                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/pathType",
-                                                            "title": "The host path type",
-                                                            "description": "",
-                                                            "type": "string",
-                                                            "default": "",
-                                                            "minLength": 1
-                                                        },
-                                                        "serviceName": {
-                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/serviceName",
-                                                            "title": "The service name",
-                                                            "description": "",
-                                                            "type": "string",
-                                                            "default": "",
-                                                            "minLength": 1
-                                                        },
-                                                        "servicePort": {
-                                                            "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort",
-                                                            "title": "The service port",
-                                                            "description": "The port of the service where to forward the requests. This can be the name or the number of the port.",
-                                                            "type": [ "string", "integer" ],
-                                                            "default": "",
-                                                            "anyOf": [
-                                                                {
-                                                                    "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort/anyOf/0",
-                                                                    "title": "The service port name",
-                                                                    "description": "",
-                                                                    "type": "string",
-                                                                    "default": "",
-                                                                    "minLength": 1
-                                                                },
-                                                                {
-                                                                    "$id": "#/properties/ingress/properties/hosts/items/anyOf/0/properties/paths/items/anyOf/0/properties/servicePort/anyOf/1",
-                                                                    "title": "The service port number",
-                                                                    "description": "",
-                                                                    "type": "integer",
-                                                                    "default": 0,
-                                                                    "minimum": 1
-                                                                }
-                                                            ]
-                                                        }
-                                                    }
+                                                    "type": "string",
+                                                    "default": "",
+                                                    "minLength": 1
+                                                },
+                                                {
+                                                    "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/servicePort/anyOf/1",
+                                                    "title": "Service port number",
+                                                    "description": "",
+                                                    "type": "integer",
+                                                    "default": 0,
+                                                    "minimum": 1
                                                 }
                                             ]
                                         }
                                     }
                                 }
                             }
-                        ]
+                        }
                     }
                 },
                 "tls": {
                     "$id": "#/properties/ingress/properties/tls",
-                    "title": "The TLS reference",
+                    "title": "TLS reference",
                     "description": "",
-                    "type": [ "object", "null" ],
+                    "type": [
+                        "object",
+                        "null"
+                    ],
                     "default": null,
                     "additionalProperties": false,
                     "required": [
@@ -1551,8 +1548,8 @@
                     "properties": {
                         "secretName": {
                             "$id": "#/properties/ingress/properties/tls/properties/secretName",
-                            "title": "The secret name",
-                            "description": "The name of the secret that containers the TLS certificate and key.",
+                            "title": "Secret name",
+                            "description": "The name of the secret that contains the TLS certificate and key.",
                             "type": "string",
                             "default": "",
                             "minLength": 1
@@ -1567,81 +1564,65 @@
             "description": "The persistent volumes to create.",
             "type": "array",
             "default": [],
-            "additionalItems": true,
             "items": {
                 "$id": "#/properties/pvs/items",
-                "anyOf": [
-                    {
-                        "$id": "#/properties/pvs/items/anyOf/0",
-                        "title": "The persistent volume",
-                        "description": "The schema of persistent volume.",
-                        "type": "object",
-                        "default": {},
-                        "additionalProperties": false,
-                        "required": [
-                            "name",
-                            "storageClassName",
-                            "size",
-                            "accessModes",
-                            "hostPath"
-                        ],
-                        "properties": {
-                            "name": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/name",
-                                "title": "The pv name",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "storageClassName": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/storageClassName",
-                                "title": "The storage class name",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "size": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/size",
-                                "title": "The size of the persistent volume",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "accessModes": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes",
-                                "title": "The access modes",
-                                "description": "",
-                                "type": "array",
-                                "default": [],
-                                "additionalItems": true,
-                                "items": {
-                                    "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items",
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/pvs/items/anyOf/0/properties/accessModes/items/anyOf/0",
-                                            "title": "The access mode",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "minLength": 1
-                                        }
-                                    ]
-                                }
-                            },
-                            "hostPath": {
-                                "$id": "#/properties/pvs/items/anyOf/0/properties/hostPath",
-                                "title": "The host path",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            }
+                "title": "The persistent volume",
+                "description": "The schema of a persistent volume.",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "storageClassName",
+                    "size",
+                    "accessModes",
+                    "hostPath"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/pvs/items/properties/name",
+                        "title": "PV name",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "storageClassName": {
+                        "$id": "#/properties/pvs/items/properties/storageClassName",
+                        "title": "Storage class name",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "size": {
+                        "$id": "#/properties/pvs/items/properties/size",
+                        "title": "Size of the persistent volume",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "accessModes": {
+                        "$id": "#/properties/pvs/items/properties/accessModes",
+                        "title": "Access modes",
+                        "description": "",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "minLength": 1
                         }
+                    },
+                    "hostPath": {
+                        "$id": "#/properties/pvs/items/properties/hostPath",
+                        "title": "Host path",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
                     }
-                ]
+                }
             }
         },
         "pvcs": {
@@ -1650,83 +1631,67 @@
             "description": "",
             "type": "array",
             "default": [],
-            "additionalItems": true,
             "items": {
                 "$id": "#/properties/pvcs/items",
-                "anyOf": [
-                    {
-                        "$id": "#/properties/pvcs/items/anyOf/0",
-                        "title": "The persistent volume claim",
-                        "description": "The schema of a PVC.",
-                        "type": "object",
-                        "default": {},
-                        "additionalProperties": false,
-                        "required": [
-                            "name",
-                            "storageClassName",
-                            "accessModes",
-                            "size"
-                        ],
-                        "properties": {
-                            "name": {
-                                "$id": "#/properties/pvcs/items/anyOf/0/properties/name",
-                                "title": "The pvc name",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "storageClassName": {
-                                "$id": "#/properties/pvcs/items/anyOf/0/properties/storageClassName",
-                                "title": "The storage class name",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "accessModes": {
-                                "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes",
-                                "title": "The access modes",
-                                "description": "",
-                                "type": "array",
-                                "default": [],
-                                "additionalItems": true,
-                                "items": {
-                                    "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes/items",
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/pvcs/items/anyOf/0/properties/accessModes/items/anyOf/0",
-                                            "title": "The access mode",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "minLength": 1
-                                        }
-                                    ]
-                                }
-                            },
-                            "size": {
-                                "$id": "#/properties/pvcs/items/anyOf/0/properties/size",
-                                "title": "The size requested from the persistent volume",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "volumeMode": {
-                                "$id": "#/properties/pvcs/items/anyOf/0/properties/volumeMode",
-                                "title": "The volume mode",
-                                "description": "",
-                                "type": "string",
-                                "default": "Filesystem",
-                                "enum": [
-                                    "Block",
-                                    "Filesystem"
-                                ]
-                            }
+                "title": "The persistent volume claim",
+                "description": "The schema of a PVC.",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "storageClassName",
+                    "accessModes",
+                    "size"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/pvcs/items/properties/name",
+                        "title": "PVC name",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "storageClassName": {
+                        "$id": "#/properties/pvcs/items/properties/storageClassName",
+                        "title": "Storage class name",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "accessModes": {
+                        "$id": "#/properties/pvcs/items/properties/accessModes",
+                        "title": "Access modes",
+                        "description": "",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "minLength": 1
                         }
+                    },
+                    "size": {
+                        "$id": "#/properties/pvcs/items/properties/size",
+                        "title": "Requested size",
+                        "description": "The size requested from the persistent volume",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "volumeMode": {
+                        "$id": "#/properties/pvcs/items/properties/volumeMode",
+                        "title": "Volume mode",
+                        "description": "",
+                        "type": "string",
+                        "default": "Filesystem",
+                        "enum": [
+                            "Block",
+                            "Filesystem"
+                        ]
                     }
-                ]
+                }
             }
         },
         "role": {
@@ -1783,64 +1748,59 @@
             "additionalItems": true,
             "items": {
                 "$id": "#/properties/secrets/items",
-                "anyOf": [
-                    {
-                        "$id": "#/properties/secrets/items/anyOf/0",
-                        "title": "The secret",
-                        "description": "The schema of a secret.",
+                "title": "The secret",
+                "description": "The schema of a secret.",
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "data"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/secrets/items/properties/name",
+                        "title": "The name of the secret",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "$id": "#/properties/secrets/items/properties/type",
+                        "title": "The type of the secret",
+                        "description": "",
+                        "type": "string",
+                        "default": "Opaque",
+                        "enum": [
+                            "Opaque",
+                            "kubernetes.io/service-account-token",
+                            "kubernetes.io/dockercfg",
+                            "kubernetes.io/dockerconfigjson",
+                            "kubernetes.io/basic-auth",
+                            "kubernetes.io/ssh-auth",
+                            "kubernetes.io/tls"
+                        ]
+                    },
+                    "data": {
+                        "$id": "#/properties/secrets/items/properties/data",
+                        "title": "The data of the secret",
+                        "description": "",
                         "type": "object",
                         "default": {},
-                        "additionalProperties": false,
-                        "required": [
-                            "name",
-                            "data"
-                        ],
-                        "properties": {
-                            "name": {
-                                "$id": "#/properties/secrets/items/anyOf/0/properties/name",
-                                "title": "The name of the secret",
+                        "additionalProperties": true,
+                        "patternProperties": {
+                            "^[A-Za-z\\._-][A-Za-z0-9\\._-]*$": {
+                                "$id": "#/properties/secrets/items/properties/data/patternProperties",
+                                "title": "The key-value pair for the secret",
                                 "description": "",
                                 "type": "string",
                                 "default": "",
                                 "minLength": 1
-                            },
-                            "type": {
-                                "$id": "#/properties/secrets/items/anyOf/0/properties/name",
-                                "title": "The type of the secret",
-                                "description": "",
-                                "type": "string",
-                                "default": "Opaque",
-                                "enum": [
-                                    "Opaque",
-                                    "kubernetes.io/service-account-token",
-                                    "kubernetes.io/dockercfg",
-                                    "kubernetes.io/dockerconfigjson",
-                                    "kubernetes.io/basic-auth",
-                                    "kubernetes.io/ssh-auth",
-                                    "kubernetes.io/tls"
-                                ]
-                            },
-                            "data": {
-                                "$id": "#/properties/secrets/items/anyOf/0/properties/data",
-                                "title": "The data of the secret",
-                                "description": "",
-                                "type": "object",
-                                "default": {},
-                                "additionalProperties": true,
-                                "patternProperties": {
-                                    "^[A-Za-z\\._-][A-Za-z0-9\\._-]*$": {
-                                        "$id": "#/properties/secrets/items/anyOf/0/properties/data/anyOf/0",
-                                        "title": "The key-value pair for the secret",
-                                        "description": "",
-                                        "type": "string",
-                                        "default": "",
-                                        "minLength": 1
-                                    }
-                                }
                             }
                         }
                     }
-                ]
+                }
             }
         },
         "serviceAccount": {
@@ -1863,15 +1823,15 @@
                 },
                 "automountServiceAccountToken": {
                     "$id": "#/properties/serviceAccount/properties/automountServiceAccountToken",
-                    "title": "The automount token flag",
+                    "title": "Automount token",
                     "description": "Whether to mount the service account token automatically to the pod or not",
                     "type": "boolean",
                     "default": false
                 },
                 "secretName": {
                     "$id": "#/properties/serviceAccount/properties/secrets",
-                    "title": "The name of the secret",
-                    "description": "The name of the secret to be created where the token will be stored",
+                    "title": "Secret name",
+                    "description": "Name of the secret where the token will be stored",
                     "type": "string",
                     "default": "",
                     "minLength": 1
@@ -1884,229 +1844,163 @@
             "description": "",
             "type": "array",
             "default": [],
-            "additionalItems": true,
             "items": {
-                "$id": "#/properties/services/items",
-                "anyOf": [
-                    {
-                        "$id": "#/properties/services/items/anyOf/0",
-                        "title": "The service",
-                        "description": "The schema of a service",
-                        "type": "object",
-                        "default": {},
-                        "additionalProperties": false,
-                        "required": [
-                            "name",
-                            "ports"
+                "title": "The service",
+                "description": "The schema of a service",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "ports"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/services/items/properties/name",
+                        "title": "The service name",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "clusterIP": {
+                        "$id": "#/properties/services/items/properties/clusterIP",
+                        "title": "The cluster ip",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "$id": "#/properties/services/items/properties/type",
+                        "title": "The service type",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "enum": [
+                            "ClusterIP",
+                            "NodePort",
+                            "LoadBalancer",
+                            "ExternalName"
+                        ]
+                    },
+                    "loadBalancerIp": {
+                        "$id": "#/properties/services/items/properties/loadBalancerIp",
+                        "title": "The load balancer ip",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:/[0-2]\\d|/3[0-2])?$"
+                    },
+                    "loadBalancerSourceRanges": {
+                        "$id": "#/properties/services/items/properties/loadBalancerSourceRanges",
+                        "title": "The load balancer source ranges",
+                        "description": "",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:/[0-2]\\d|/3[0-2])?$"
+                        }
+                    },
+                    "externalTrafficPolicy": {
+                        "$id": "#/properties/services/items/properties/externalTrafficPolicy",
+                        "title": "The external traffic policy",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "enum": [
+                            "Cluster",
+                            "Local"
+                        ]
+                    },
+                    "healthCheckNodePort": {
+                        "$id": "#/properties/services/items/properties/healthCheckNodePort",
+                        "title": "The health check node port",
+                        "description": "",
+                        "type": [
+                            "integer",
+                            "null"
                         ],
-                        "allOf": [
-                            {
-                                "if": {
-                                    "anyOf": [
-                                        {
-                                            "properties": {
-                                                "healthCheckNodePort": {
-                                                    "const": 0
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "properties": {
-                                                "healthCheckNodePort": {
-                                                    "const": null
-                                                }
-                                            }
-                                        }
+                        "default": 0
+                    },
+                    "externalIPs": {
+                        "$id": "#/properties/services/items/properties/externalIPs",
+                        "title": "The external ips",
+                        "description": "",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}$"
+                        }
+                    },
+                    "ports": {
+                        "$id": "#/properties/services/items/properties/ports",
+                        "title": "The service ports",
+                        "description": "",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "title": "The service port",
+                            "description": "",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "name",
+                                "port"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "$id": "#/properties/services/items/properties/ports/items/properties/name",
+                                    "title": "The port name",
+                                    "description": "",
+                                    "type": "string",
+                                    "default": "",
+                                    "minLength": 1
+                                },
+                                "port": {
+                                    "$id": "#/properties/services/items/properties/ports/items/properties/port",
+                                    "title": "The service port",
+                                    "description": "",
+                                    "type": "integer",
+                                    "minimum": 1
+                                },
+                                "protocol": {
+                                    "$id": "#/properties/services/items/properties/ports/items/properties/protocol",
+                                    "title": "The port protocol",
+                                    "description": "",
+                                    "type": "string",
+                                    "default": "TCP",
+                                    "enum": [
+                                        "TCP",
+                                        "UDP",
+                                        "SCTP",
+                                        "HTTP"
                                     ]
                                 },
-                                "then": {
-                                    
+                                "targetPort": {
+                                    "$id": "#/properties/services/items/properties/ports/items/properties/targetPort",
+                                    "title": "The target port",
+                                    "description": "",
+                                    "type": [
+                                        "integer",
+                                        "string"
+                                    ]
                                 },
-                                "else": {
-                                    "required": [
-                                        "type",
-                                        "externalTrafficPolicy"
-                                    ],
-                                    "properties": {
-                                        "type": {
-                                            "const": "LoadBalancer"
-                                        },
-                                        "externalTrafficPolicy": {
-                                            "const": "Local"
-                                        }
-                                    }
-                                }
-                            }
-                        ],
-                        "properties": {
-                            "name": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/name",
-                                "title": "The service name",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "clusterIP": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/clusterIP",
-                                "title": "The cluster ip",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "type": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/type",
-                                "title": "The service type",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "enum": [
-                                    "ClusterIP",
-                                    "NodePort",
-                                    "LoadBalancer",
-                                    "ExternalName"
-                                ]
-                            },
-                            "loadBalancerIp": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerIp",
-                                "title": "The load balancer ip",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:/[0-2]\\d|/3[0-2])?$"
-                            },
-                            "loadBalancerSourceRanges": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerSourceRanges",
-                                "title": "The load balancer source ranges",
-                                "description": "",
-                                "type": "array",
-                                "default": [],
-                                "additionalItems": true,
-                                "items": {
-                                    "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerSourceRanges/items",
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/services/items/anyOf/0/properties/loadBalancerSourceRanges/items/anyOf/0",
-                                            "title": "The load balancer source range",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:/[0-2]\\d|/3[0-2])?$"
-                                        }
-                                    ]
-                                }
-                            },
-                            "externalTrafficPolicy": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/externalTrafficPolicy",
-                                "title": "The external traffic policy",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "enum": [
-                                    "Cluster",
-                                    "Local"
-                                ]
-                            },
-                            "healthCheckNodePort": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/healthCheckNodePort",
-                                "title": "The health check node port",
-                                "description": "",
-                                "type": [ "integer", "null" ],
-                                "default": 0
-                            },
-                            "externalIPs": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/externalIPs",
-                                "title": "The external ips",
-                                "description": "",
-                                "type": "array",
-                                "default": [],
-                                "additionalItems": true,
-                                "items": {
-                                    "$id": "#/properties/services/items/anyOf/0/properties/externalIPs/items",
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/services/items/anyOf/0/properties/externalIPs/items/anyOf/0",
-                                            "title": "The external ip",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "pattern": "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}$"
-                                        }
-                                    ]
-                                }
-                            },
-                            "ports": {
-                                "$id": "#/properties/services/items/anyOf/0/properties/ports",
-                                "title": "The service ports",
-                                "description": "",
-                                "type": "array",
-                                "default": [],
-                                "additionalItems": true,
-                                "items": {
-                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items",
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0",
-                                            "title": "The service port",
-                                            "description": "",
-                                            "type": "object",
-                                            "default": {},
-                                            "additionalProperties": false,
-                                            "required": [
-                                                "name",
-                                                "port"
-                                            ],
-                                            "properties": {
-                                                "name": {
-                                                   "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/name",
-                                                   "title": "The port name",
-                                                   "description": "",
-                                                   "type": "string",
-                                                   "default": "",
-                                                   "minLength": 1
-                                                },
-                                                "port": {
-                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/port",
-                                                    "title": "The service port",
-                                                    "description": "",
-                                                    "type": "integer",
-                                                    "minimum": 1
-                                                },
-                                                "protocol": {
-                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/protocol",
-                                                    "title": "The port protocol",
-                                                    "description": "",
-                                                    "type": "string",
-                                                    "default": "TCP",
-                                                    "enum": [
-                                                        "TCP",
-                                                        "UDP",
-                                                        "SCTP",
-                                                        "HTTP"
-                                                    ]
-                                                },
-                                                "targetPort": {
-                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/targetPort",
-                                                    "title": "The target port",
-                                                    "description": "",
-                                                    "type": ["integer", "string"]
-                                                },
-                                                "nodePort": {
-                                                    "$id": "#/properties/services/items/anyOf/0/properties/ports/items/anyOf/0/properties/nodePort",
-                                                    "title": "The node port",
-                                                    "description": "",
-                                                    "type": "integer",
-                                                    "minimum": 1
-                                                }
-                                            }
-                                        }
-                                    ]
+                                "nodePort": {
+                                    "$id": "#/properties/services/items/properties/ports/items/properties/nodePort",
+                                    "title": "The node port",
+                                    "description": "",
+                                    "type": "integer",
+                                    "minimum": 1
                                 }
                             }
                         }
                     }
-                ]
+                }
             }
         },
         "statefulSet": {
@@ -2121,8 +2015,7 @@
                 "containers"
             ],
             "properties": {
-                "annotations": {
-                },
+                "annotations": {},
                 "serviceName": {
                     "$id": "#/properties/statefulSet/properties/serviceName",
                     "title": "The name of the service that governs this StatefulSet",
@@ -2165,57 +2058,97 @@
                 }
             }
         },
-        "storageClass": {
-            "$id": "#/properties/storageClass",
-            "title": "The storage class",
+        "storageClasses": {
+            "$id": "#/properties/storageClasses",
+            "title": "The list of storage classes",
             "description": "",
-            "type": "object",
-            "default": {},
-            "additionalProperties": false,
-            "required": [
-                "name",
-                "provisioner",
-                "volumeBindingMode",
-                "reclaimPolicy"
-            ],
-            "properties": {
-                "name": {
-                    "$id": "#/properties/storageClass/properties/name",
-                    "title": "The name of the cluster role",
-                    "description": "",
-                    "type": "string",
-                    "default": "",
-                    "minLength": 1
-                },
-                "provisioner": {
-                    "$id": "#/properties/storageClass/properties/provisioner",
-                    "title": "The provisioner",
-                    "description": "",
-                    "type": "string",
-                    "default": "",
-                    "minLength": 1
-                },
-                "volumeBindingMode": {
-                    "$id": "#/properties/storageClass/properties/provisioner",
-                    "title": "The volume binding mode",
-                    "description": "",
-                    "type": "string",
-                    "default": "",
-                    "enum": [
-                        "Immediate",
-                        "WaitForFirstConsumer"
-                    ]
-                },
-                "reclaimPolicy": {
-                    "$id": "#/properties/storageClass/properties/provisioner",
-                    "title": "The provisioner",
-                    "description": "",
-                    "type": "string",
-                    "default": "",
-                    "enum": [
-                        "Delete",
-                        "Retain"
-                    ]
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "provisioner",
+                    "volumeBindingMode",
+                    "reclaimPolicy"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/storageClasses/items/properties/name",
+                        "title": "The name of the storage class",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "provisioner": {
+                        "$id": "#/properties/storageClasses/items/properties/provisioner",
+                        "title": "The provisioner",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "volumeBindingMode": {
+                        "$id": "#/properties/storageClasses/items/properties/volumeBindingMode",
+                        "title": "The volume binding mode",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "enum": [
+                            "Immediate",
+                            "WaitForFirstConsumer"
+                        ]
+                    },
+                    "reclaimPolicy": {
+                        "$id": "#/properties/storageClasses/items/properties/reclaimPolicy",
+                        "title": "The reclaim policy",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "enum": [
+                            "Delete",
+                            "Retain"
+                        ]
+                    },
+                    "allowedTopologies": {
+                        "$id": "#/properties/storageClasses/items/properties/allowedTopologies",
+                        "title": "Allowed topologies",
+                        "description": "Specifies the allowed topologies for the storage class",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "matchLabelExpressions"
+                            ],
+                            "properties": {
+                                "matchLabelExpressions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "key",
+                                            "values"
+                                        ],
+                                        "properties": {
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "values": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

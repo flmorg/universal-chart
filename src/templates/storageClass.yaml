@@ -1,4 +1,5 @@
-{{- with .Values.storageClass }}
+{{- range .Values.storageClasses }}
+---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -6,4 +7,8 @@ metadata:
 provisioner: {{ .provisioner }}
 volumeBindingMode: {{ .volumeBindingMode }}
 reclaimPolicy: {{ .reclaimPolicy }}
+{{- if .allowedTopologies }}
+allowedTopologies:
+{{ toYaml .allowedTopologies | indent 2 }}
+{{- end }}
 {{- end }}
