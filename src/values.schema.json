@@ -986,10 +986,6 @@
                                         "type": "object",
                                         "default": {},
                                         "additionalProperties": false,
-                                        "required": [
-                                            "limits",
-                                            "requests"
-                                        ],
                                         "properties": {
                                             "requests": {
                                                 "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests",
