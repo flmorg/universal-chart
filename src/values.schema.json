@@ -994,10 +994,32 @@
                                                 "type": "object",
                                                 "default": {},
                                                 "additionalProperties": false,
-                                                "required": [
-                                                    "cpu",
-                                                    "memory"
-                                                ],
+                                                "properties": {
+                                                    "cpu": {
+                                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests/properties/cpu",
+                                                        "title": "The cpu limit",
+                                                        "description": "Required to be at least 10m",
+                                                        "type": "string",
+                                                        "default": "100m",
+                                                        "pattern": "^(0|[1-9][0-9]*)m$"
+                                                    },
+                                                    "memory": {
+                                                        "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests/properties/memory",
+                                                        "title": "The memory limit",
+                                                        "description": "Required to be at least 10Mi",
+                                                        "type": "string",
+                                                        "default": "128Mi",
+                                                        "pattern": "^(0|[1-9][0-9]*)Mi$"
+                                                    }
+                                                }
+                                            },
+                                            "limits": {
+                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/limits",
+                                                "title": "The container resources limits",
+                                                "description": "The hard limit for the resources used by the container",
+                                                "type": "object",
+                                                "default": {},
+                                                "additionalProperties": false,
                                                 "properties": {
                                                     "cpu": {
                                                         "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests/properties/cpu",
@@ -1016,12 +1038,6 @@
                                                         "pattern": "^[1-9][0-9]+Mi$"
                                                     }
                                                 }
-                                            },
-                                            "limits": {
-                                                "$id": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/limits",
-                                                "$ref": "#/properties/deployment/properties/containers/items/anyOf/0/properties/resources/properties/requests",
-                                                "title": "The container resources limits",
-                                                "description": "The hard limit for the resources used by the container"
                                             }
                                         }
                                     },
