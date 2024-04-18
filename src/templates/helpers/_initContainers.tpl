@@ -31,11 +31,11 @@ initContainers:
   command: {{ printf "[\"%s\"]" (join ("\", \"") (without (splitList ";" .command) "" )) }}
   resources:
     requests:
-      cpu: 500m
-      memory: 128Mi
+      cpu: 0m
+      memory: 0Mi
     limits:
-      cpu: 500m
-      memory: 128Mi
+      cpu: 100m
+      memory: 64Mi
   volumeMounts:
 {{- range $containers }}
 {{- .volumeMounts | toYaml | nindent 4 -}}
