@@ -1570,6 +1570,59 @@
                 }
             }
         },
+        "job": {
+            "$id": "#/properties/job",
+            "title": "The job schema",
+            "description": "Structue of the job object.",
+            "type": "object",
+            "default": {},
+            "additionalProperties": false,
+            "required": [
+                "containers"
+            ],
+            "properties": {
+                "annotations": {},
+                "restartPolicy": {
+                    "$id": "#/properties/job/properties/restartPolicy",
+                    "title": "The restart policy",
+                    "description": "",
+                    "type": "string",
+                    "default": "Never",
+                    "enum": [
+                        "Never",
+                        "OnFailure"
+                    ]
+                },
+                "serviceAccountName": {
+                    "$id": "#/properties/statefulSet/properties/serviceAccountName",
+                    "$ref": "#/properties/deployment/properties/serviceAccountName"
+                },
+                "securityContext": {
+                    "$id": "#/properties/statefulSet/properties/securityContext",
+                    "$ref": "#/properties/deployment/properties/securityContext"
+                },
+                "imagePullSecrets": {
+                    "$id": "#/properties/statefulSet/properties/imagePullSecrets",
+                    "$ref": "#/properties/deployment/properties/imagePullSecrets"
+                },
+                "terminationGracePeriodSeconds": {
+                    "$id": "#/properties/statefulSet/properties/terminationGracePeriodSeconds",
+                    "$ref": "#/properties/deployment/properties/terminationGracePeriodSeconds"
+                },
+                "initContainers": {
+                    "$id": "#/properties/statefulSet/properties/initContainers",
+                    "$ref": "#/properties/deployment/properties/initContainers"
+                },
+                "containers": {
+                    "$id": "#/properties/statefulSet/properties/containers",
+                    "$ref": "#/properties/deployment/properties/containers"
+                },
+                "volumes": {
+                    "$id": "#/properties/statefulSet/properties/volumes",
+                    "$ref": "#/properties/deployment/properties/volumes"
+                }
+            }
+        },
         "pvs": {
             "$id": "#/properties/pvs",
             "title": "The persistent volumes",
