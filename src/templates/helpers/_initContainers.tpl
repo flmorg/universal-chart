@@ -2,12 +2,14 @@
 {{- $ctx := .context -}}
 {{- $command := "" -}}
 {{- range $ctx.containers }}
+{{- if .volumeMounts }}
 {{- range .volumeMounts }}
 {{- if .subPath }}
 {{- if empty $command }}
 {{- $command = "sh;-c;" -}}
 {{- end }}
 {{- $command = printf "%s;chmod 777 %s" $command .mountPath -}}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -38,6 +40,8 @@ initContainers:
       memory: 64Mi
   volumeMounts:
 {{- range $containers }}
+{{- if .volumeMounts }}
 {{- .volumeMounts | toYaml | nindent 4 -}}
+{{- end }}
 {{- end }}
 {{- end }}
