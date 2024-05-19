@@ -2147,6 +2147,13 @@
                         "default": "",
                         "minLength": 1
                     },
+                    "parameters": {
+                        "$id": "#/properties/storageClasses/items/properties/parameters",
+                        "title": "The storage class parameters",
+                        "description": "",
+                        "type": "object",
+                        "default": {}
+                    },
                     "provisioner": {
                         "$id": "#/properties/storageClasses/items/properties/provisioner",
                         "title": "The provisioner",
