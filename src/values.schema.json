@@ -487,31 +487,7 @@
                     "$id": "#/properties/deployment/properties/securityContext",
                     "title": "The security context",
                     "description": "Structue of the securityContext object.",
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "runAsUser": {
-                            "$id": "#/properties/deployment/properties/securityContext/properties/runAsUser",
-                            "title": "The user id",
-                            "description": "The id of the user to run as.",
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "runAsGroup": {
-                            "$id": "#/properties/deployment/properties/securityContext/properties/runAsGroup",
-                            "title": "The group id",
-                            "description": "The id of the group to run as.",
-                            "type": "number",
-                            "minimum": 0
-                        },
-                        "fsGroup": {
-                            "$id": "#/properties/deployment/properties/securityContext/properties/runAsUser",
-                            "title": "The group id",
-                            "description": "The supplemental group id for all containers in the pod.",
-                            "type": "number",
-                            "minimum": 0
-                        }
-                    }
+                    "type": "object"
                 },
                 "imagePullSecrets": {
                     "$id": "#/properties/deployment/properties/imagePullSecrets",
@@ -1567,6 +1543,13 @@
                             "minLength": 1
                         }
                     }
+                },
+                "class": {
+                    "$id": "#properties/ingress/properties/class",
+                    "title": "Ingress class",
+                    "type": "string",
+                    "default": "nginx",
+                    "minLength": 1
                 }
             }
         },
@@ -2226,6 +2209,60 @@
                         "title": "The labels",
                         "description": "Labels to attach to the StorageClass",
                         "type": "object"
+                    }
+                }
+            }
+        },
+        "vaultSecrets": {
+            "$id": "#/properties/vaultSecrets",
+            "title": "Vault secrets definition",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/vaultSecrets/items",
+                "title": "Vault secret",
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "templates"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/vaultSecrets/items/properties/name",
+                        "title": "Resource name",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/type",
+                        "title": "Secret type",
+                        "type": "string",
+                        "default": "Opaque",
+                        "enum": [
+                            "Opaque",
+                            "kubernetes.io/service-account-token",
+                            "kubernetes.io/dockercfg",
+                            "kubernetes.io/dockerconfigjson",
+                            "kubernetes.io/basic-auth",
+                            "kubernetes.io/ssh-auth",
+                            "kubernetes.io/tls"
+                        ]
+                    },
+                    "path": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/path",
+                        "title": "Path to the secret in Vault",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "templates": {
+                        "$id": "#/properties/infisicalSecrets/items/properties/templates",
+                        "title": "Collection of key-value pairs to represent the content of the kubernetes secret",
+                        "description": "https://github.com/ricoberger/vault-secrets-operator?tab=readme-ov-file#using-templated-secrets",
+                        "type": "object",
+                        "default": {}
                     }
                 }
             }

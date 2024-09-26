@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ template "helpers.app.name" $ }}
-  {{- include "helpers.app.commonMetadata" $ | nindent 2 }}
 spec:
   {{- if .backoffLimit }}
   backoffLimit: {{ .backoffLimit }}
@@ -27,7 +26,6 @@ spec:
         {{- include "helpers.tplvalues.render" ( dict "value" . "context" $) | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "helpers.app.labels" $ | nindent 8 }}
     spec:
       {{- with .serviceAccountName }}
       serviceAccountName: {{ . }}
