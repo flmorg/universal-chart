@@ -8,7 +8,8 @@
 {{- if empty $command }}
 {{- $command = "sh;-c;" -}}
 {{- end }}
-{{- $command = printf "%s;chmod 777 %s" $command .mountPath -}}
+{{- $uniqueMountPath := printf "%s-%s" .mountPath .name -}}
+{{- $command = printf "%s;chmod 777 %s" $command $uniqueMountPath -}}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -41,7 +42,13 @@ initContainers:
   volumeMounts:
 {{- range $containers }}
 {{- if .volumeMounts }}
-{{- .volumeMounts | toYaml | nindent 4 -}}
+{{- range .volumeMounts }}
+    - name: {{ .name }}
+      mountPath: {{ printf "%s-%s" .mountPath .name }}
+      {{- if .subPath }}
+      subPath: {{ .subPath }}
+      {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
