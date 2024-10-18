@@ -1710,10 +1710,9 @@
                 "description": "The schema of a secret.",
                 "type": "object",
                 "default": {},
-                "additionalProperties": false,
+                "additionalProperties": true,
                 "required": [
-                    "name",
-                    "data"
+                    "name"
                 ],
                 "properties": {
                     "name": {
