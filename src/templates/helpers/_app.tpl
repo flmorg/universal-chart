@@ -35,7 +35,7 @@ If release name contains chart name it will be used as a full name.
 Selector labels
 */}}
 {{- define "helpers.app.selectorLabels" -}}
-mariusne.com/app: {{ include "helpers.app.name" . }}
+flmorg/app: {{ include "helpers.app.name" . }}
 app.kubernetes.io/name: {{ include "helpers.app.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
