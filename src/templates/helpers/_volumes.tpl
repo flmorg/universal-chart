@@ -35,6 +35,9 @@
     {{- with .typeName }}
     claimName: {{ . }}
     {{- end }}
+{{- else if eq .type "emptyDir" }}
+- name: {{ .name }}
+  emptyDir: {}
 {{- end }}
 {{- end }}
 {{- if .projected }}

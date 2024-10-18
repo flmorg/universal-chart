@@ -999,28 +999,9 @@
                                 "description": "The volume attach to the deployment instance.",
                                 "type": "object",
                                 "default": {},
-                                "additionalProperties": false,
+                                "additionalProperties": true,
                                 "required": [
                                     "name"
-                                ],
-                                "anyOf": [
-                                    {
-                                        "properties": {
-                                            "type": {
-                                                "minLength": 1
-                                            },
-                                            "typeName": {
-                                                "minLength": 1
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "properties": {
-                                            "projected": {
-                                                "minContains": 1
-                                            }
-                                        }
-                                    }
                                 ],
                                 "properties": {
                                     "name": {
@@ -1040,7 +1021,8 @@
                                         "enum": [
                                             "secret",
                                             "pvc",
-                                            "configMap"
+                                            "configMap",
+                                            "emptyDir"
                                         ]
                                     },
                                     "typeName": {
