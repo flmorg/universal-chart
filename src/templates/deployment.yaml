@@ -36,6 +36,15 @@ spec:
       {{- with .serviceAccountName }}
       serviceAccountName: {{ . }}
       {{- end }}
+      {{- with .automountServiceAccountToken }}
+      automountServiceAccountToken: {{ . }}
+      {{- end }}
+      {{- with .dnsPolicy }}
+      dnsPolicy: {{ . }}
+      {{- end }}
+      {{- with .enableServiceLinks }}
+      enableServiceLinks: {{ . }}
+      {{- end }}
       {{- with .securityContext }}
       securityContext: {{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 8 }}
       {{- end }}

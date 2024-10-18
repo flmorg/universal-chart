@@ -250,7 +250,7 @@
             "description": "Structue of the deployment object.",
             "type": "object",
             "default": {},
-            "additionalProperties": false,
+            "additionalProperties": true,
             "required": [
                 "strategy",
                 "containers"
