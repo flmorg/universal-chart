@@ -10,6 +10,12 @@
         }
     ],
     "properties": {
+        "var": {
+            "$id": "#/properties/var",
+            "title": "Chart variables",
+            "type": "object",
+            "default": null
+        },
         "nameOverride": {
             "$id": "#/properties/nameOverride",
             "title": "The overriden name",
