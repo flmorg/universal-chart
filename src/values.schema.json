@@ -1294,7 +1294,7 @@
             "description": "The schema of an ingress.",
             "type": "object",
             "default": {},
-            "additionalProperties": false,
+            "additionalProperties": true,
             "required": [
                 "name",
                 "hosts"
