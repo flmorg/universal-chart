@@ -1787,7 +1787,7 @@
                 "title": "The service",
                 "description": "The schema of a service",
                 "type": "object",
-                "additionalProperties": false,
+                "additionalProperties": true,
                 "required": [
                     "name",
                     "ports"

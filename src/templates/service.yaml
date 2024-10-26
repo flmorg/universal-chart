@@ -8,7 +8,11 @@ metadata:
   labels:
     {{- include "helpers.app.labels" $ | nindent 4 }}
 spec:
-  {{- if not (empty .clusterIP ) }}
+  {{- if eq .type "ExternalName" }}
+  type: ExternalName
+  externalName: {{ .externalName }}
+  {{- else }}
+  {{- if not (empty .clusterIP) }}
   clusterIP: {{ .clusterIP }}
   {{- end }}
   {{- if not (empty .type) }}
@@ -38,7 +42,7 @@ spec:
   ports:
   {{- range .ports }}
   - name: {{ .name }}
-    protocol: {{ .protocol | default "TCP"}}
+    protocol: {{ .protocol | default "TCP" }}
     port: {{ .port }}
     {{- if not (empty .targetPort) }}
     targetPort: {{ .targetPort }}
@@ -49,4 +53,5 @@ spec:
   {{- end }}
   selector:
     {{- include "helpers.app.selectorLabels" $ | nindent 4 }}
+  {{- end }}
 {{- end }}
