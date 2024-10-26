@@ -1,4 +1,5 @@
-{{- with .Values.ingress }}
+{{- range $.Values.ingresses }}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

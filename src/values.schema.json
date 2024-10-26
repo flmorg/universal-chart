@@ -1288,163 +1288,166 @@
                 }
             }
         },
-        "ingress": {
+        "ingresses": {
             "$id": "#/properties/ingress",
             "title": "The ingress",
-            "description": "The schema of an ingress.",
-            "type": "object",
-            "default": {},
-            "additionalProperties": true,
-            "required": [
-                "name",
-                "hosts"
-            ],
-            "properties": {
-                "name": {
-                    "$id": "#/properties/ingress/properties/name",
-                    "title": "Ingress name",
-                    "description": "",
-                    "type": "string",
-                    "default": "",
-                    "minLength": 1
-                },
-                "hosts": {
-                    "$id": "#/properties/ingress/properties/hosts",
-                    "title": "Ingress hosts",
-                    "description": "",
-                    "type": "array",
-                    "default": [],
-                    "additionalItems": true,
-                    "items": {
-                        "$id": "#/properties/ingress/properties/hosts/items",
-                        "title": "Ingress host",
-                        "description": "The schema of an ingress host.",
-                        "type": "object",
-                        "additionalProperties": false,
-                        "required": [
-                            "host",
-                            "paths"
-                        ],
-                        "properties": {
-                            "host": {
-                                "$id": "#/properties/ingress/properties/hosts/items/properties/host",
-                                "title": "Domain name",
-                                "description": "",
-                                "type": "string",
-                                "default": "",
-                                "minLength": 1
-                            },
-                            "paths": {
-                                "$id": "#/properties/ingress/properties/hosts/items/properties/paths",
-                                "title": "Paths for the host",
-                                "description": "",
-                                "type": "array",
-                                "default": [],
-                                "additionalItems": true,
-                                "items": {
-                                    "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items",
-                                    "title": "Host paths",
+            "description": "The schema of ingress resources.",
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                    "name",
+                    "hosts"
+                ],
+                "properties": {
+                    "name": {
+                        "$id": "#/properties/ingress/items/properties/name",
+                        "title": "Ingress name",
+                        "description": "",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "hosts": {
+                        "$id": "#/properties/ingress/items/properties/hosts",
+                        "title": "Ingress hosts",
+                        "description": "",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "$id": "#/properties/ingress/items/properties/hosts/items",
+                            "title": "Ingress host",
+                            "description": "The schema of an ingress host.",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "host",
+                                "paths"
+                            ],
+                            "properties": {
+                                "host": {
+                                    "$id": "#/properties/ingress/items/properties/hosts/items/properties/host",
+                                    "title": "Domain name",
                                     "description": "",
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "required": [
-                                        "path",
-                                        "pathType",
-                                        "serviceName",
-                                        "servicePort"
-                                    ],
-                                    "properties": {
-                                        "path": {
-                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/path",
-                                            "title": "Host path",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "minLength": 1
-                                        },
-                                        "pathType": {
-                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/pathType",
-                                            "title": "Host path type",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "minLength": 1
-                                        },
-                                        "serviceName": {
-                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/serviceName",
-                                            "title": "Service name",
-                                            "description": "",
-                                            "type": "string",
-                                            "default": "",
-                                            "minLength": 1
-                                        },
-                                        "servicePort": {
-                                            "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/servicePort",
-                                            "title": "Service port",
-                                            "description": "The port of the service where to forward the requests. This can be the name or the number of the port.",
-                                            "type": [
-                                                "string",
-                                                "integer"
-                                            ],
-                                            "default": "",
-                                            "anyOf": [
-                                                {
-                                                    "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/servicePort/anyOf/0",
-                                                    "title": "Service port name",
-                                                    "description": "",
-                                                    "type": "string",
-                                                    "default": "",
-                                                    "minLength": 1
-                                                },
-                                                {
-                                                    "$id": "#/properties/ingress/properties/hosts/items/properties/paths/items/properties/servicePort/anyOf/1",
-                                                    "title": "Service port number",
-                                                    "description": "",
-                                                    "type": "integer",
-                                                    "default": 0,
-                                                    "minimum": 1
-                                                }
-                                            ]
+                                    "type": "string",
+                                    "default": "",
+                                    "minLength": 1
+                                },
+                                "paths": {
+                                    "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths",
+                                    "title": "Paths for the host",
+                                    "description": "",
+                                    "type": "array",
+                                    "default": [],
+                                    "additionalItems": true,
+                                    "items": {
+                                        "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items",
+                                        "title": "Host paths",
+                                        "description": "",
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "path",
+                                            "pathType",
+                                            "serviceName",
+                                            "servicePort"
+                                        ],
+                                        "properties": {
+                                            "path": {
+                                                "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items/properties/path",
+                                                "title": "Host path",
+                                                "description": "",
+                                                "type": "string",
+                                                "default": "",
+                                                "minLength": 1
+                                            },
+                                            "pathType": {
+                                                "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items/properties/pathType",
+                                                "title": "Host path type",
+                                                "description": "",
+                                                "type": "string",
+                                                "default": "",
+                                                "minLength": 1
+                                            },
+                                            "serviceName": {
+                                                "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items/properties/serviceName",
+                                                "title": "Service name",
+                                                "description": "",
+                                                "type": "string",
+                                                "default": "",
+                                                "minLength": 1
+                                            },
+                                            "servicePort": {
+                                                "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items/properties/servicePort",
+                                                "title": "Service port",
+                                                "description": "The port of the service where to forward the requests. This can be the name or the number of the port.",
+                                                "type": [
+                                                    "string",
+                                                    "integer"
+                                                ],
+                                                "default": "",
+                                                "anyOf": [
+                                                    {
+                                                        "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items/properties/servicePort/anyOf/0",
+                                                        "title": "Service port name",
+                                                        "description": "",
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "minLength": 1
+                                                    },
+                                                    {
+                                                        "$id": "#/properties/ingress/items/properties/hosts/items/properties/paths/items/properties/servicePort/anyOf/1",
+                                                        "title": "Service port number",
+                                                        "description": "",
+                                                        "type": "integer",
+                                                        "default": 0,
+                                                        "minimum": 1
+                                                    }
+                                                ]
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                },
-                "tls": {
-                    "$id": "#/properties/ingress/properties/tls",
-                    "title": "TLS reference",
-                    "description": "",
-                    "type": [
-                        "object",
-                        "null"
-                    ],
-                    "default": null,
-                    "additionalProperties": false,
-                    "required": [
-                        "secretName"
-                    ],
-                    "properties": {
-                        "secretName": {
-                            "$id": "#/properties/ingress/properties/tls/properties/secretName",
-                            "title": "Secret name",
-                            "description": "The name of the secret that contains the TLS certificate and key.",
-                            "type": "string",
-                            "default": "",
-                            "minLength": 1
+                    },
+                    "tls": {
+                        "$id": "#/properties/ingress/items/properties/tls",
+                        "title": "TLS reference",
+                        "description": "",
+                        "type": [
+                            "object",
+                            "null"
+                        ],
+                        "default": null,
+                        "additionalProperties": false,
+                        "required": [
+                            "secretName"
+                        ],
+                        "properties": {
+                            "secretName": {
+                                "$id": "#/properties/ingress/items/properties/tls/properties/secretName",
+                                "title": "Secret name",
+                                "description": "The name of the secret that contains the TLS certificate and key.",
+                                "type": "string",
+                                "default": "",
+                                "minLength": 1
+                            }
                         }
+                    },
+                    "class": {
+                        "$id": "#/properties/ingress/items/properties/class",
+                        "title": "Ingress class",
+                        "type": "string",
+                        "default": "nginx",
+                        "minLength": 1
                     }
-                },
-                "class": {
-                    "$id": "#properties/ingress/properties/class",
-                    "title": "Ingress class",
-                    "type": "string",
-                    "default": "nginx",
-                    "minLength": 1
                 }
             }
-        },
+        },        
         "job": {
             "$id": "#/properties/job",
             "title": "The job schema",
