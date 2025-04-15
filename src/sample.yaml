@@ -3,7 +3,6 @@ nameOverride: CUSTOM_RELEASE_NAME
 # Certificate for wildcard domain
 certificates:
   - name: wildcard-example-com
-    namespace: your-ingress-namespace
     secretName: wildcard-example-com-tls
     issuerRef:
       name: letsencrypt-dns

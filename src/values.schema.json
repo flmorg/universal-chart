@@ -167,11 +167,6 @@
                         "title": "Certificate name",
                         "description": "The name of the Certificate resource"
                     },
-                    "namespace": {
-                        "type": "string",
-                        "title": "Namespace",
-                        "description": "The namespace where the Certificate will be created"
-                    },
                     "labels": {
                         "type": "object",
                         "title": "Labels",
