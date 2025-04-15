@@ -1,0 +1,167 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/ingress",
+    "title": "The ingress",
+    "description": "Schema for Kubernetes Ingress resources",
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+            "name",
+            "rules"
+        ],
+        "properties": {
+            "name": {
+                "title": "Ingress name",
+                "description": "Name of the Ingress resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "className": {
+                "title": "Ingress class name",
+                "description": "Name of the IngressClass resource",
+                "type": "string"
+            },
+            "rules": {
+                "title": "Ingress rules",
+                "description": "List of host rules for the Ingress",
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": ["host"],
+                    "properties": {
+                        "host": {
+                            "title": "Host",
+                            "description": "Host name for the rule",
+                            "type": "string",
+                            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+                        },
+                        "http": {
+                            "title": "HTTP rules",
+                            "description": "List of HTTP rules",
+                            "type": "object",
+                            "required": ["paths"],
+                            "properties": {
+                                "paths": {
+                                    "title": "Paths",
+                                    "description": "List of paths for the host",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "required": ["path", "pathType", "backend"],
+                                        "properties": {
+                                            "path": {
+                                                "title": "Path",
+                                                "description": "Path for the rule",
+                                                "type": "string",
+                                                "pattern": "^/.*"
+                                            },
+                                            "pathType": {
+                                                "title": "Path type",
+                                                "description": "Type of path matching",
+                                                "type": "string",
+                                                "enum": ["Exact", "Prefix", "ImplementationSpecific"],
+                                                "default": "Prefix"
+                                            },
+                                            "backend": {
+                                                "title": "Backend",
+                                                "description": "Backend service for the rule",
+                                                "type": "object",
+                                                "required": ["service"],
+                                                "properties": {
+                                                    "service": {
+                                                        "title": "Service",
+                                                        "description": "Service backend",
+                                                        "type": "object",
+                                                        "required": ["name", "port"],
+                                                        "properties": {
+                                                            "name": {
+                                                                "title": "Service name",
+                                                                "description": "Name of the service",
+                                                                "type": "string",
+                                                                "minLength": 1
+                                                            },
+                                                            "port": {
+                                                                "title": "Service port",
+                                                                "description": "Port of the service",
+                                                                "type": ["integer", "string"],
+                                                                "minimum": 1,
+                                                                "maximum": 65535
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "tls": {
+                "title": "TLS configuration",
+                "description": "TLS configuration for the Ingress",
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": ["hosts"],
+                    "properties": {
+                        "hosts": {
+                            "title": "Hosts",
+                            "description": "List of hosts included in the TLS certificate",
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+                            }
+                        },
+                        "secretName": {
+                            "title": "Secret name",
+                            "description": "Name of the secret containing the TLS certificate",
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "ingressClassName": {
+                "title": "Ingress class name (deprecated)",
+                "description": "Name of the IngressClass resource (deprecated, use className instead)",
+                "type": "string"
+            },
+            "defaultBackend": {
+                "title": "Default backend",
+                "description": "Default backend for the Ingress",
+                "type": "object",
+                "required": ["service"],
+                "properties": {
+                    "service": {
+                        "title": "Service",
+                        "description": "Service backend",
+                        "type": "object",
+                        "required": ["name", "port"],
+                        "properties": {
+                            "name": {
+                                "title": "Service name",
+                                "description": "Name of the service",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "port": {
+                                "title": "Service port",
+                                "description": "Port of the service",
+                                "type": ["integer", "string"],
+                                "minimum": 1,
+                                "maximum": 65535
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 

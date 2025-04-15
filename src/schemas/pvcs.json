@@ -1,0 +1,70 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/pvcs",
+    "title": "The persistent volume claims",
+    "description": "",
+    "type": "array",
+    "default": [],
+    "items": {
+        "$id": "#/items",
+        "title": "The persistent volume claim",
+        "description": "The schema of a PVC.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "storageClassName",
+            "accessModes",
+            "size"
+        ],
+        "properties": {
+            "name": {
+                "$id": "#/items/properties/name",
+                "title": "PVC name",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "storageClassName": {
+                "$id": "#/items/properties/storageClassName",
+                "title": "Storage class name",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "accessModes": {
+                "$id": "#/items/properties/accessModes",
+                "title": "Access modes",
+                "description": "",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "size": {
+                "$id": "#/items/properties/size",
+                "title": "Requested size",
+                "description": "The size requested from the persistent volume",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "volumeMode": {
+                "$id": "#/items/properties/volumeMode",
+                "title": "Volume mode",
+                "description": "",
+                "type": "string",
+                "default": "Filesystem",
+                "enum": [
+                    "Block",
+                    "Filesystem"
+                ]
+            }
+        }
+    }
+} 

@@ -1,0 +1,433 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/containers",
+    "title": "The containers schema",
+    "description": "Schema for container configurations",
+    "type": "array",
+    "default": [],
+    "additionalItems": true,
+    "items": {
+        "title": "The schema of a container",
+        "description": "Container configuration",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "image",
+            "resources"
+        ],
+        "properties": {
+            "name": {
+                "title": "The container",
+                "description": "The name of the container to be created.",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "image": {
+                "title": "The docker image",
+                "description": "The docker image to be used as template for the container.",
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "required": [
+                    "repository",
+                    "tag"
+                ],
+                "properties": {
+                    "repository": {
+                        "title": "The docker image repository",
+                        "description": "The image repository from where to pull it.",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    },
+                    "tag": {
+                        "title": "The docker image tag",
+                        "description": "The image tag to pull (i.e. latest).",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    }
+                }
+            },
+            "imagePullPolicy": {
+                "title": "The image pull policy",
+                "description": "The image pull policy.",
+                "type": "string",
+                "default": "Always",
+                "enum": [
+                    "Always",
+                    "IfNotPresent",
+                    "Never"
+                ]
+            },
+            "securityContext": {
+                "title": "The security context",
+                "description": "Structure of the securityContext object.",
+                "type": "object"
+            },
+            "args": {
+                "title": "The container args",
+                "description": "The arguments to pass to the container entrypoint or the command, if a command is defined.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The argument",
+                    "description": "Argument to be passed to the container entrypoint or command.",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                }
+            },
+            "command": {
+                "title": "The container commands",
+                "description": "The command to be executed by the container.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The command",
+                    "description": "Command to be executed by the container.",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                }
+            },
+            "env": {
+                "title": "The environment variables",
+                "description": "Environment variables to be passed to the container.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The environment variable",
+                    "description": "Structure of an environment variable.",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": false,
+                    "required": [
+                        "name",
+                        "value"
+                    ],
+                    "properties": {
+                        "name": {
+                            "title": "The environment variable",
+                            "description": "The name of the environment variable.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "value": {
+                            "title": "The environment variable value",
+                            "description": "The value of the environment variable.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        }
+                    }
+                }
+            },
+            "envFromSecret": {
+                "title": "The environment variables from secrets",
+                "description": "The environment variables to retrieve from secrets.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The environment variables from secret",
+                    "description": "The environment variables to retrieve from a certain secret.",
+                    "type": "object",
+                    "default": {},
+                    "required": [
+                        "secretName",
+                        "envs"
+                    ],
+                    "properties": {
+                        "secretName": {
+                            "title": "The secret name",
+                            "description": "The name of the secret to retrieve environment variables from.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "envs": {
+                            "title": "The environment variables",
+                            "description": "The environment variables to retrieve from the secret.",
+                            "type": "array",
+                            "default": [],
+                            "additionalItems": true,
+                            "items": {
+                                "title": "The environment variable",
+                                "description": "The environment variable to retrie from the secret.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": false,
+                                "required": [
+                                    "name",
+                                    "key"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "title": "The environment variable name",
+                                        "description": "The name of the environment variable inside the container.",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    },
+                                    "key": {
+                                        "title": "The secret key",
+                                        "description": "The key from the secret to retrieve the environment variable from.",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "envFromConfigmap": {
+                "title": "The environment variables from configMaps",
+                "description": "The environment variables to retrieve from configMaps.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The environment variables from configMap",
+                    "description": "The environment variables to retrieve from a certain configMap.",
+                    "type": "object",
+                    "default": {},
+                    "required": [
+                        "configMapName",
+                        "envs"
+                    ],
+                    "properties": {
+                        "configMapName": {
+                            "title": "The configMap name",
+                            "description": "The name of the configMap to retrieve environment variables from.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "envs": {
+                            "title": "The environment variables",
+                            "description": "The environment variables to retrieve from the configMap.",
+                            "type": "array",
+                            "default": [],
+                            "additionalItems": true,
+                            "items": {
+                                "title": "The environment variable",
+                                "description": "The environment variable to retrie from the configMap.",
+                                "type": "object",
+                                "default": {},
+                                "additionalProperties": false,
+                                "required": [
+                                    "name",
+                                    "key"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "title": "The environment variable name",
+                                        "description": "The name of the environment variable inside the container.",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    },
+                                    "key": {
+                                        "title": "The configMap key",
+                                        "description": "The key from the configMap to retrieve the environment variable from.",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "envFromFieldRef": {
+                "title": "The environment variables from field refs",
+                "description": "Environment variables from field references",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The env from field ref",
+                    "description": "Environment variable from field reference",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": false,
+                    "required": [
+                        "name",
+                        "fieldPath"
+                    ],
+                    "properties": {
+                        "name": {
+                            "title": "The environment variable name",
+                            "description": "Name of the environment variable",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "fieldPath": {
+                            "title": "The field path",
+                            "description": "Path to the field to reference",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        }
+                    }
+                }
+            },
+            "ports": {
+                "title": "The container ports",
+                "description": "The container ports to forward to the outside.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The container port",
+                    "description": "Structure of the port object.",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": false,
+                    "required": [
+                        "name",
+                        "containerPort"
+                    ],
+                    "properties": {
+                        "name": {
+                            "title": "The port name",
+                            "description": "The name of the port outside of the container.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "containerPort": {
+                            "title": "The container port",
+                            "description": "The port of the container to forward outside of it.",
+                            "type": "number",
+                            "default": 0,
+                            "minimum": 0
+                        },
+                        "protocol": {
+                            "title": "The port protocol",
+                            "description": "Protocol for the port",
+                            "type": "string",
+                            "default": "TCP",
+                            "enum": [
+                                "TCP",
+                                "UDP",
+                                "SCTP",
+                                "HTTP"
+                            ]
+                        }
+                    }
+                }
+            },
+            "lifecycle": {},
+            "livenessProbe": {},
+            "readinessProbe": {},
+            "resources": {
+                "title": "The container resources",
+                "description": "Resource requirements and limits",
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "properties": {
+                    "requests": {
+                        "title": "The container resources requests",
+                        "description": "The soft limit for the resources used by the container",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "properties": {
+                            "cpu": {
+                                "title": "The cpu limit",
+                                "description": "Required to be at least 10m",
+                                "type": "string",
+                                "default": "100m",
+                                "pattern": "^(0|[1-9][0-9]*)m$"
+                            },
+                            "memory": {
+                                "title": "The memory limit",
+                                "description": "Required to be at least 10Mi",
+                                "type": "string",
+                                "default": "128Mi",
+                                "pattern": "^(0|[1-9][0-9]*)Mi$"
+                            }
+                        }
+                    },
+                    "limits": {
+                        "title": "The container resources limits",
+                        "description": "The hard limit for the resources used by the container",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "properties": {
+                            "cpu": {
+                                "title": "The cpu limit",
+                                "description": "Required to be at least 10m",
+                                "type": "string",
+                                "default": "100m",
+                                "pattern": "^[1-9][0-9]+m$"
+                            },
+                            "memory": {
+                                "title": "The memory limit",
+                                "description": "Required to be at least 10Mi",
+                                "type": "string",
+                                "default": "128Mi",
+                                "pattern": "^[1-9][0-9]+Mi$"
+                            }
+                        }
+                    }
+                }
+            },
+            "volumeMounts": {
+                "title": "The volume mounts",
+                "description": "The volumes to be mounted inside the container.",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "The volume mount",
+                    "description": "The volume to be mounted inside the container.",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": false,
+                    "required": [
+                        "name",
+                        "mountPath"
+                    ],
+                    "properties": {
+                        "name": {
+                            "title": "The volume name",
+                            "description": "The name of the volume to mount.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "mountPath": {
+                            "title": "The mount path",
+                            "description": "The path where to mount the volume inside the container.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "subPath": {
+                            "title": "The sub path",
+                            "description": "The sub directory to create and use inside the persistent volume.",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 

@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/certificates",
+    "title": "Cert-manager Certificates",
+    "description": "List of Certificate resources to create",
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "required": [
+            "name",
+            "secretName",
+            "issuerRef",
+            "commonName",
+            "dnsNames"
+        ],
+        "properties": {
+            "name": {
+                "type": "string",
+                "title": "Certificate name",
+                "description": "The name of the Certificate resource"
+            },
+            "labels": {
+                "type": "object",
+                "title": "Labels",
+                "description": "Labels to apply to the Certificate"
+            },
+            "annotations": {
+                "type": "object",
+                "title": "Annotations",
+                "description": "Annotations to apply to the Certificate"
+            },
+            "secretName": {
+                "type": "string",
+                "title": "Secret name",
+                "description": "Name of the secret that will store the certificate"
+            },
+            "issuerRef": {
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Issuer name",
+                        "description": "Name of the Issuer or ClusterIssuer"
+                    },
+                    "kind": {
+                        "type": "string",
+                        "title": "Issuer kind",
+                        "description": "Kind of the Issuer (Issuer or ClusterIssuer)",
+                        "default": "ClusterIssuer"
+                    },
+                    "group": {
+                        "type": "string",
+                        "title": "Issuer group",
+                        "description": "Group of the Issuer"
+                    }
+                }
+            },
+            "commonName": {
+                "type": "string",
+                "title": "Common name",
+                "description": "Common name for the certificate"
+            },
+            "dnsNames": {
+                "type": "array",
+                "title": "DNS names",
+                "description": "List of DNS names to include in the certificate",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "duration": {
+                "type": "string",
+                "title": "Duration",
+                "description": "Duration of the certificate validity"
+            },
+            "renewBefore": {
+                "type": "string",
+                "title": "Renew before",
+                "description": "How long before expiry to renew the certificate"
+            },
+            "usages": {
+                "type": "array",
+                "title": "Key usages",
+                "description": "List of key usages for the certificate",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "keySize": {
+                "type": "integer",
+                "title": "Key size",
+                "description": "Size of the private key"
+            },
+            "keyAlgorithm": {
+                "type": "string",
+                "title": "Key algorithm",
+                "description": "Algorithm for the private key"
+            },
+            "keyEncoding": {
+                "type": "string",
+                "title": "Key encoding",
+                "description": "Encoding for the private key"
+            }
+        }
+    }
+} 

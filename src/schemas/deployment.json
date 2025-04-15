@@ -1,0 +1,102 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/deployment",
+    "title": "The deployment",
+    "description": "Schema for Kubernetes Deployment resources",
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+            "name",
+            "containers"
+        ],
+        "properties": {
+            "name": {
+                "title": "Deployment name",
+                "description": "Name of the Deployment resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "containers": {
+                "title": "Containers",
+                "description": "List of containers in the deployment",
+                "$ref": "containers.json"
+            },
+            "volumes": {
+                "title": "Volumes",
+                "description": "List of volumes to mount",
+                "$ref": "volumes.json"
+            },
+            "replicas": {
+                "title": "Replicas",
+                "description": "Number of desired pods",
+                "type": "integer",
+                "default": 1,
+                "minimum": 0
+            },
+            "strategy": {
+                "title": "Deployment strategy",
+                "description": "The deployment strategy to use",
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Strategy type",
+                        "description": "Type of deployment strategy",
+                        "type": "string",
+                        "enum": ["Recreate", "RollingUpdate"],
+                        "default": "RollingUpdate"
+                    },
+                    "rollingUpdate": {
+                        "title": "Rolling update configuration",
+                        "description": "Configuration for rolling update strategy",
+                        "type": "object",
+                        "properties": {
+                            "maxSurge": {
+                                "title": "Max surge",
+                                "description": "Maximum number of pods that can be created above desired number",
+                                "type": ["string", "integer"],
+                                "default": "25%"
+                            },
+                            "maxUnavailable": {
+                                "title": "Max unavailable",
+                                "description": "Maximum number of pods that can be unavailable during update",
+                                "type": ["string", "integer"],
+                                "default": "25%"
+                            }
+                        }
+                    }
+                }
+            },
+            "minReadySeconds": {
+                "title": "Min ready seconds",
+                "description": "Minimum number of seconds for which a newly created pod should be ready",
+                "type": "integer",
+                "default": 0,
+                "minimum": 0
+            },
+            "revisionHistoryLimit": {
+                "title": "Revision history limit",
+                "description": "Number of old ReplicaSets to retain",
+                "type": "integer",
+                "default": 10,
+                "minimum": 0
+            },
+            "paused": {
+                "title": "Paused",
+                "description": "Indicates that the deployment is paused",
+                "type": "boolean",
+                "default": false
+            },
+            "progressDeadlineSeconds": {
+                "title": "Progress deadline seconds",
+                "description": "Maximum time in seconds for a deployment to make progress",
+                "type": "integer",
+                "default": 600,
+                "minimum": 0
+            }
+        }
+    }
+} 

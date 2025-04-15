@@ -1,0 +1,213 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/statefulSet",
+    "title": "StatefulSet Schema",
+    "description": "Schema for defining Kubernetes StatefulSets",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "name",
+        "replicas",
+        "image",
+        "imagePullPolicy"
+    ],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "title": "The name of the statefulset",
+            "description": "The name of the StatefulSet resource",
+            "type": "string",
+            "default": "",
+            "minLength": 1
+        },
+        "replicas": {
+            "$id": "#/properties/replicas",
+            "title": "The number of replicas",
+            "description": "The number of replicas to run",
+            "type": "integer",
+            "default": 1,
+            "minimum": 0
+        },
+        "image": {
+            "$id": "#/properties/image",
+            "title": "The container image",
+            "description": "The container image to use",
+            "type": "string",
+            "default": "",
+            "minLength": 1
+        },
+        "imagePullPolicy": {
+            "$id": "#/properties/imagePullPolicy",
+            "title": "The image pull policy",
+            "description": "The image pull policy to use",
+            "type": "string",
+            "default": "",
+            "enum": [
+                "Always",
+                "IfNotPresent",
+                "Never"
+            ]
+        },
+        "imagePullSecrets": {
+            "$id": "#/properties/imagePullSecrets",
+            "title": "The image pull secrets",
+            "description": "The image pull secrets to use",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "env": {
+            "$id": "#/properties/env",
+            "title": "The environment variables",
+            "description": "The environment variables to set",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "value"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "envFrom": {
+            "$id": "#/properties/envFrom",
+            "title": "The environment variables from",
+            "description": "The environment variables to set from",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "configMapRef"
+                ],
+                "properties": {
+                    "configMapRef": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "resources": {
+            "$id": "#/properties/resources",
+            "title": "The resources",
+            "description": "The resources to allocate",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "requests": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "cpu": {
+                            "type": "string"
+                        },
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "limits": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "cpu": {
+                            "type": "string"
+                        },
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "volumeClaimTemplates": {
+            "$id": "#/properties/volumeClaimTemplates",
+            "title": "The volume claim templates",
+            "description": "The volume claim templates to use",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "accessModes",
+                    "resources"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "accessModes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "ReadWriteOnce",
+                                "ReadOnlyMany",
+                                "ReadWriteMany"
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "requests"
+                        ],
+                        "properties": {
+                            "requests": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                    "storage"
+                                ],
+                                "properties": {
+                                    "storage": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "storageClassName": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "labels": {
+            "$id": "#/properties/labels",
+            "title": "The labels",
+            "description": "Labels to attach to the StatefulSet",
+            "type": "object"
+        }
+    }
+} 

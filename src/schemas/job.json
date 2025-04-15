@@ -1,0 +1,77 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/job",
+    "title": "The job",
+    "description": "Schema for Kubernetes Job resources",
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+            "name",
+            "containers"
+        ],
+        "properties": {
+            "name": {
+                "title": "Job name",
+                "description": "Name of the Job resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "containers": {
+                "title": "Job containers",
+                "description": "List of containers for the Job",
+                "$ref": "containers.json"
+            },
+            "volumes": {
+                "title": "Job volumes",
+                "description": "List of volumes for the Job",
+                "$ref": "volumes.json"
+            },
+            "restartPolicy": {
+                "title": "Restart policy",
+                "description": "Restart policy for the Job",
+                "type": "string",
+                "default": "Never",
+                "enum": ["Never", "OnFailure"]
+            },
+            "backoffLimit": {
+                "title": "Backoff limit",
+                "description": "Number of retries before marking the job as failed",
+                "type": "integer",
+                "default": 6,
+                "minimum": 0
+            },
+            "activeDeadlineSeconds": {
+                "title": "Active deadline seconds",
+                "description": "Maximum time a job can run before being terminated",
+                "type": "integer",
+                "default": null,
+                "minimum": 1
+            },
+            "parallelism": {
+                "title": "Parallelism",
+                "description": "Number of pods to run in parallel",
+                "type": "integer",
+                "default": 1,
+                "minimum": 1
+            },
+            "completions": {
+                "title": "Completions",
+                "description": "Number of successful pod completions required",
+                "type": "integer",
+                "default": 1,
+                "minimum": 1
+            },
+            "ttlSecondsAfterFinished": {
+                "title": "TTL seconds after finished",
+                "description": "Time to live for completed jobs",
+                "type": "integer",
+                "default": null,
+                "minimum": 0
+            }
+        }
+    }
+} 

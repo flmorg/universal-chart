@@ -1,0 +1,111 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/storageClasses",
+    "title": "Storage Classes Schema",
+    "description": "Schema for defining Kubernetes Storage Classes",
+    "type": "array",
+    "default": [],
+    "items": {
+        "$id": "#/items",
+        "title": "Storage Class",
+        "description": "A Kubernetes Storage Class definition",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "provisioner",
+            "volumeBindingMode",
+            "reclaimPolicy"
+        ],
+        "properties": {
+            "name": {
+                "$id": "#/items/properties/name",
+                "title": "The name of the storage class",
+                "description": "The name of the Storage Class resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "parameters": {
+                "$id": "#/items/properties/parameters",
+                "title": "The storage class parameters",
+                "description": "Parameters for the storage class",
+                "type": "object",
+                "default": {}
+            },
+            "provisioner": {
+                "$id": "#/items/properties/provisioner",
+                "title": "The provisioner",
+                "description": "The provisioner to use for this Storage Class",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "volumeBindingMode": {
+                "$id": "#/items/properties/volumeBindingMode",
+                "title": "The volume binding mode",
+                "description": "The volume binding mode for this Storage Class",
+                "type": "string",
+                "default": "",
+                "enum": [
+                    "Immediate",
+                    "WaitForFirstConsumer"
+                ]
+            },
+            "reclaimPolicy": {
+                "$id": "#/items/properties/reclaimPolicy",
+                "title": "The reclaim policy",
+                "description": "The reclaim policy for this Storage Class",
+                "type": "string",
+                "default": "",
+                "enum": [
+                    "Delete",
+                    "Retain"
+                ]
+            },
+            "allowedTopologies": {
+                "$id": "#/items/properties/allowedTopologies",
+                "title": "Allowed topologies",
+                "description": "Specifies the allowed topologies for the storage class",
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                        "matchLabelExpressions"
+                    ],
+                    "properties": {
+                        "matchLabelExpressions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                    "key",
+                                    "values"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "values": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "labels": {
+                "$id": "#/items/properties/labels",
+                "title": "The labels",
+                "description": "Labels to attach to the StorageClass",
+                "type": "object"
+            }
+        }
+    }
+} 

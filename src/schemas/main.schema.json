@@ -1,0 +1,103 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "values.schema.json",
+    "type": "object",
+    "additionalProperties": false,
+    "default": {},
+    "examples": [
+        {
+            "todo": "TODO"
+        }
+    ],
+    "properties": {
+        "var": {
+            "$id": "#/properties/var",
+            "title": "Chart variables",
+            "type": "object",
+            "default": null
+        },
+        "nameOverride": {
+            "$id": "#/properties/nameOverride",
+            "title": "The overriden name",
+            "description": "The custom release name to use instead of .Release.Name",
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": null
+        },
+        "forceRedeploy": {
+            "$id": "#/properties/forceRedeploy",
+            "title": "The force redeploy flag",
+            "description": "True if should redeploy even if the chart is unchanged, false otherwise",
+            "type": "boolean",
+            "default": false
+        },
+        "clusterIssuers": {
+            "$ref": "schemas/clusterIssuers.json"
+        },
+        "certificates": {
+            "$ref": "schemas/certificates.json"
+        },
+        "clusterRole": {
+            "$ref": "schemas/clusterRole.json"
+        },
+        "clusterRoleBinding": {
+            "$ref": "schemas/clusterRoleBinding.json"
+        },
+        "configMaps": {
+            "$ref": "schemas/configMaps.json"
+        },
+        "deployment": {
+            "$ref": "schemas/deployment.json"
+        },
+        "hpa": {
+            "$ref": "schemas/hpa.json"
+        },
+        "infisicalSecrets": {
+            "$ref": "schemas/infisicalSecrets.json"
+        },
+        "ingress": {
+            "$ref": "schemas/ingress.json"
+        },
+        "ingresses": {
+            "$ref": "schemas/ingresses.json"
+        },
+        "job": {
+            "$ref": "schemas/job.json"
+        },
+        "pvs": {
+            "$ref": "schemas/pvs.json"
+        },
+        "pvcs": {
+            "$ref": "schemas/pvcs.json"
+        },
+        "role": {
+            "$id": "#/properties/role",
+            "title": "The role",
+            "description": "",
+            "$ref": "schemas/clusterRole.json"
+        },
+        "roleBinding": {
+            "$ref": "schemas/roleBinding.json"
+        },
+        "secrets": {
+            "$ref": "schemas/secrets.json"
+        },
+        "serviceAccount": {
+            "$ref": "schemas/serviceAccount.json"
+        },
+        "services": {
+            "$ref": "schemas/service.json"
+        },
+        "statefulSet": {
+            "$ref": "schemas/statefulSet.json"
+        },
+        "storageClasses": {
+            "$ref": "schemas/storageClasses.json"
+        },
+        "vaultSecrets": {
+            "$ref": "schemas/vaultSecrets.json"
+        }
+    }
+} 

@@ -1,0 +1,134 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/service",
+    "title": "The service",
+    "description": "Schema for Kubernetes Service resources",
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+            "name",
+            "ports"
+        ],
+        "properties": {
+            "name": {
+                "title": "Service name",
+                "description": "Name of the Service resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "type": {
+                "title": "Service type",
+                "description": "Type of Service",
+                "type": "string",
+                "enum": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"],
+                "default": "ClusterIP"
+            },
+            "ports": {
+                "title": "Service ports",
+                "description": "List of ports exposed by the service",
+                "type": "array",
+                "default": [],
+                "items": {
+                    "type": "object",
+                    "required": ["port"],
+                    "properties": {
+                        "name": {
+                            "title": "Port name",
+                            "description": "Name of the port",
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "port": {
+                            "title": "Port number",
+                            "description": "Port number exposed by the service",
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 65535
+                        },
+                        "targetPort": {
+                            "title": "Target port",
+                            "description": "Port number of the target pod",
+                            "type": ["integer", "string"],
+                            "minimum": 1,
+                            "maximum": 65535
+                        },
+                        "protocol": {
+                            "title": "Protocol",
+                            "description": "Protocol for the port",
+                            "type": "string",
+                            "enum": ["TCP", "UDP", "SCTP"],
+                            "default": "TCP"
+                        },
+                        "nodePort": {
+                            "title": "Node port",
+                            "description": "Port exposed on each node (for NodePort type)",
+                            "type": "integer",
+                            "minimum": 30000,
+                            "maximum": 32767
+                        }
+                    }
+                }
+            },
+            "selector": {
+                "title": "Service selector",
+                "description": "Label selector for pods",
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string"
+                }
+            },
+            "clusterIP": {
+                "title": "Cluster IP",
+                "description": "ClusterIP address to assign to the service",
+                "type": "string",
+                "pattern": "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^$"
+            },
+            "externalIPs": {
+                "title": "External IPs",
+                "description": "List of external IP addresses",
+                "type": "array",
+                "items": {
+                    "type": "string",
+                    "pattern": "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                }
+            },
+            "externalName": {
+                "title": "External name",
+                "description": "External name for ExternalName type service",
+                "type": "string"
+            },
+            "sessionAffinity": {
+                "title": "Session affinity",
+                "description": "Session affinity type",
+                "type": "string",
+                "enum": ["None", "ClientIP"],
+                "default": "None"
+            },
+            "sessionAffinityConfig": {
+                "title": "Session affinity config",
+                "description": "Configuration for session affinity",
+                "type": "object",
+                "properties": {
+                    "clientIP": {
+                        "title": "Client IP timeout",
+                        "description": "Timeout for client IP based session affinity",
+                        "type": "object",
+                        "properties": {
+                            "timeoutSeconds": {
+                                "title": "Timeout seconds",
+                                "description": "Number of seconds the session stays active",
+                                "type": "integer",
+                                "minimum": 1,
+                                "default": 10800
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 

@@ -1,0 +1,147 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/ingresses",
+    "title": "The ingress",
+    "description": "Schema for Kubernetes Ingress resources",
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+            "name",
+            "hosts"
+        ],
+        "properties": {
+            "name": {
+                "title": "Ingress name",
+                "description": "Name of the Ingress resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "hosts": {
+                "title": "Ingress hosts",
+                "description": "List of hosts for the Ingress",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "title": "Ingress host",
+                    "description": "The schema of an ingress host.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                        "host",
+                        "paths"
+                    ],
+                    "properties": {
+                        "host": {
+                            "title": "Domain name",
+                            "description": "Hostname for the Ingress",
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        },
+                        "paths": {
+                            "title": "Paths for the host",
+                            "description": "List of paths for the host",
+                            "type": "array",
+                            "default": [],
+                            "additionalItems": true,
+                            "items": {
+                                "title": "Host paths",
+                                "description": "Path configuration for the host",
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                    "path",
+                                    "pathType",
+                                    "serviceName",
+                                    "servicePort"
+                                ],
+                                "properties": {
+                                    "path": {
+                                        "title": "Host path",
+                                        "description": "Path for the host",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    },
+                                    "pathType": {
+                                        "title": "Host path type",
+                                        "description": "Type of path matching",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    },
+                                    "serviceName": {
+                                        "title": "Service name",
+                                        "description": "Name of the service to route to",
+                                        "type": "string",
+                                        "default": "",
+                                        "minLength": 1
+                                    },
+                                    "servicePort": {
+                                        "title": "Service port",
+                                        "description": "The port of the service where to forward the requests. This can be the name or the number of the port.",
+                                        "type": [
+                                            "string",
+                                            "integer"
+                                        ],
+                                        "default": "",
+                                        "anyOf": [
+                                            {
+                                                "title": "Service port name",
+                                                "description": "Name of the service port",
+                                                "type": "string",
+                                                "default": "",
+                                                "minLength": 1
+                                            },
+                                            {
+                                                "title": "Service port number",
+                                                "description": "Number of the service port",
+                                                "type": "integer",
+                                                "default": 0,
+                                                "minimum": 1
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "tls": {
+                "title": "TLS reference",
+                "description": "TLS configuration for the Ingress",
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "default": null,
+                "additionalProperties": false,
+                "required": [
+                    "secretName"
+                ],
+                "properties": {
+                    "secretName": {
+                        "title": "Secret name",
+                        "description": "The name of the secret that contains the TLS certificate and key.",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    }
+                }
+            },
+            "class": {
+                "title": "Ingress class",
+                "description": "Ingress class to use",
+                "type": "string",
+                "default": "nginx",
+                "minLength": 1
+            }
+        }
+    }
+} 

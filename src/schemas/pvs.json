@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/pvs",
+    "title": "The persistent volumes",
+    "description": "The persistent volumes to create.",
+    "type": "array",
+    "default": [],
+    "items": {
+        "$id": "#/items",
+        "title": "The persistent volume",
+        "description": "The schema of a persistent volume.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "storageClassName",
+            "size",
+            "accessModes",
+            "hostPath"
+        ],
+        "properties": {
+            "name": {
+                "$id": "#/items/properties/name",
+                "title": "PV name",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "storageClassName": {
+                "$id": "#/items/properties/storageClassName",
+                "title": "Storage class name",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "size": {
+                "$id": "#/items/properties/size",
+                "title": "Size of the persistent volume",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "accessModes": {
+                "$id": "#/items/properties/accessModes",
+                "title": "Access modes",
+                "description": "",
+                "type": "array",
+                "default": [],
+                "additionalItems": true,
+                "items": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "hostPath": {
+                "$id": "#/items/properties/hostPath",
+                "title": "Host path",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            }
+        }
+    }
+} 

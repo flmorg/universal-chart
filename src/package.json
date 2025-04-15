@@ -1,0 +1,9 @@
+{
+  "name": "universal-chart-schema",
+  "version": "1.0.0",
+  "description": "Schema dereferencer for Universal Chart",
+  "type": "module",
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.9"
+  }
+}

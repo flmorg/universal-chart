@@ -1,0 +1,76 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/clusterRole",
+    "title": "The cluster role",
+    "description": "Schema for Kubernetes ClusterRole resources",
+    "type": "object",
+    "default": {},
+    "additionalProperties": false,
+    "required": [
+        "name",
+        "rules"
+    ],
+    "properties": {
+        "name": {
+            "title": "The name of the cluster role",
+            "description": "Name of the ClusterRole resource",
+            "type": "string",
+            "default": "",
+            "minLength": 1
+        },
+        "rules": {
+            "title": "The service account rules",
+            "description": "List of rules that define the permissions",
+            "type": "array",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "required": [
+                    "apiGroups",
+                    "resources",
+                    "verbs"
+                ],
+                "properties": {
+                    "apiGroups": {
+                        "title": "The api groups to get access for",
+                        "description": "List of API groups this rule applies to",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    "resources": {
+                        "title": "The resources to get access for",
+                        "description": "List of resources this rule applies to",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        }
+                    },
+                    "verbs": {
+                        "title": "The verbs to get access for",
+                        "description": "List of verbs this rule applies to",
+                        "type": "array",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "type": "string",
+                            "default": "",
+                            "minLength": 1
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 
