@@ -1,5 +1,20 @@
 nameOverride: CUSTOM_RELEASE_NAME
 
+# Certificate for wildcard domain
+certificates:
+  - name: wildcard-example-com
+    namespace: your-ingress-namespace
+    secretName: wildcard-example-com-tls
+    issuerRef:
+      name: letsencrypt-dns
+      kind: ClusterIssuer
+    commonName: "*.example.com"
+    dnsNames:
+      - "*.example.com"
+      - "example.com"
+    duration: 2160h  # 90 days
+    renewBefore: 360h  # 15 days
+
 clusterRole:
   name: role
   rules:
@@ -7,6 +22,22 @@ clusterRole:
       apiGroups: [ "" ]
       resources: [ "nodes" ]
       verbs: [ "get" ]
+
+# ClusterIssuer for Let's Encrypt with DNS01 challenge using Cloudflare
+clusterIssuers:
+  - name: letsencrypt-dns
+    acme:
+      email: your-email@example.com
+      server: https://acme-v02.api.letsencrypt.org/directory
+      privateKeySecretRef:
+        name: letsencrypt-dns-key
+      solvers:
+        - dns01:
+            cloudflare:
+              email: your-cloudflare-account-email
+              apiTokenSecretRef:
+                name: cloudflare-api-token-secret
+                key: api-token
 
 clusterRoleBinding:
   name: binding

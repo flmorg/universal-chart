@@ -33,6 +33,233 @@
             "type": "boolean",
             "default": false
         },
+        "clusterIssuers": {
+            "$id": "#/properties/clusterIssuers",
+            "title": "Cert-manager ClusterIssuers",
+            "description": "List of ClusterIssuer resources to create",
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "acme"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "ClusterIssuer name",
+                        "description": "The name of the ClusterIssuer resource"
+                    },
+                    "labels": {
+                        "type": "object",
+                        "title": "Labels",
+                        "description": "Labels to apply to the ClusterIssuer"
+                    },
+                    "annotations": {
+                        "type": "object",
+                        "title": "Annotations",
+                        "description": "Annotations to apply to the ClusterIssuer"
+                    },
+                    "acme": {
+                        "type": "object",
+                        "required": [
+                            "email",
+                            "privateKeySecretRef"
+                        ],
+                        "properties": {
+                            "email": {
+                                "type": "string",
+                                "title": "Email",
+                                "description": "Email address for ACME account"
+                            },
+                            "server": {
+                                "type": "string",
+                                "title": "ACME server",
+                                "description": "ACME server URL",
+                                "default": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            "privateKeySecretRef": {
+                                "type": "object",
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "title": "Secret name",
+                                        "description": "Name of the secret containing the ACME account private key"
+                                    }
+                                }
+                            },
+                            "solvers": {
+                                "type": "array",
+                                "title": "Solvers",
+                                "description": "List of solvers for ACME challenges",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "dns01": {
+                                            "type": "object",
+                                            "properties": {
+                                                "cloudflare": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "email",
+                                                        "apiTokenSecretRef"
+                                                    ],
+                                                    "properties": {
+                                                        "email": {
+                                                            "type": "string",
+                                                            "title": "Cloudflare email",
+                                                            "description": "Cloudflare account email"
+                                                        },
+                                                        "apiTokenSecretRef": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "name",
+                                                                "key"
+                                                            ],
+                                                            "properties": {
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "title": "Secret name",
+                                                                    "description": "Name of the secret containing the Cloudflare API token"
+                                                                },
+                                                                "key": {
+                                                                    "type": "string",
+                                                                    "title": "Secret key",
+                                                                    "description": "Key in the secret containing the Cloudflare API token",
+                                                                    "default": "api-token"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "certificates": {
+            "$id": "#/properties/certificates",
+            "title": "Cert-manager Certificates",
+            "description": "List of Certificate resources to create",
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "secretName",
+                    "issuerRef",
+                    "commonName",
+                    "dnsNames"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Certificate name",
+                        "description": "The name of the Certificate resource"
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "title": "Namespace",
+                        "description": "The namespace where the Certificate will be created"
+                    },
+                    "labels": {
+                        "type": "object",
+                        "title": "Labels",
+                        "description": "Labels to apply to the Certificate"
+                    },
+                    "annotations": {
+                        "type": "object",
+                        "title": "Annotations",
+                        "description": "Annotations to apply to the Certificate"
+                    },
+                    "secretName": {
+                        "type": "string",
+                        "title": "Secret name",
+                        "description": "Name of the secret that will store the certificate"
+                    },
+                    "issuerRef": {
+                        "type": "object",
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "title": "Issuer name",
+                                "description": "Name of the Issuer or ClusterIssuer"
+                            },
+                            "kind": {
+                                "type": "string",
+                                "title": "Issuer kind",
+                                "description": "Kind of the Issuer (Issuer or ClusterIssuer)",
+                                "default": "ClusterIssuer"
+                            },
+                            "group": {
+                                "type": "string",
+                                "title": "Issuer group",
+                                "description": "Group of the Issuer"
+                            }
+                        }
+                    },
+                    "commonName": {
+                        "type": "string",
+                        "title": "Common name",
+                        "description": "Common name for the certificate"
+                    },
+                    "dnsNames": {
+                        "type": "array",
+                        "title": "DNS names",
+                        "description": "List of DNS names to include in the certificate",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "duration": {
+                        "type": "string",
+                        "title": "Duration",
+                        "description": "Duration of the certificate validity"
+                    },
+                    "renewBefore": {
+                        "type": "string",
+                        "title": "Renew before",
+                        "description": "How long before expiry to renew the certificate"
+                    },
+                    "usages": {
+                        "type": "array",
+                        "title": "Key usages",
+                        "description": "List of key usages for the certificate",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "keySize": {
+                        "type": "integer",
+                        "title": "Key size",
+                        "description": "Size of the private key"
+                    },
+                    "keyAlgorithm": {
+                        "type": "string",
+                        "title": "Key algorithm",
+                        "description": "Algorithm for the private key"
+                    },
+                    "keyEncoding": {
+                        "type": "string",
+                        "title": "Key encoding",
+                        "description": "Encoding for the private key"
+                    }
+                }
+            }
+        },
         "clusterRole": {
             "$id": "#/properties/clusterRole",
             "title": "The cluster role",

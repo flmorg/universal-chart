@@ -1,0 +1,48 @@
+{{- range .Values.certificates }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace | default $.Release.Namespace | quote }}
+  labels:
+    {{- include "helpers.app.labels" $ | nindent 4 }}
+    {{- with .labels }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+  annotations:
+    {{- include "helpers.app.hooksAnnotations" $ | nindent 4 }}
+    {{- with .annotations }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+spec:
+  secretName: {{ .secretName }}
+  issuerRef:
+    name: {{ .issuerRef.name }}
+    kind: {{ .issuerRef.kind | default "ClusterIssuer" }}
+    {{- if .issuerRef.group }}
+    group: {{ .issuerRef.group }}
+    {{- end }}
+  commonName: {{ .commonName | quote }}
+  dnsNames:
+  {{- range .dnsNames }}
+  - {{ . | quote }}
+  {{- end }}
+  {{- if .duration }}
+  duration: {{ .duration }}
+  {{- end }}
+  {{- if .renewBefore }}
+  renewBefore: {{ .renewBefore }}
+  {{- end }}
+  {{- if .usages }}
+  usages:
+  {{- range .usages }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+  {{- if .keySize }}
+  keySize: {{ .keySize }}
+  {{- end }}
+  {{- if .keyAlgorithm }}
+  keyAlgorithm: {{ .keyAlgorithm }}
+  {{- end }}
+  {{- if .keyEncoding }}
+  keyEncoding: {{ .keyEncoding }}
+  {{- end }}
+{{- end }} 

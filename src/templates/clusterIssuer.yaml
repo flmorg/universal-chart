@@ -1,0 +1,25 @@
+{{- range .Values.clusterIssuers }}
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- include "helpers.app.labels" $ | nindent 4 }}
+    {{- with .labels }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+  annotations:
+    {{- include "helpers.app.hooksAnnotations" $ | nindent 4 }}
+    {{- with .annotations }}{{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{- end }}
+spec:
+  acme:
+    email: {{ .acme.email }}
+    server: {{ .acme.server | default "https://acme-v02.api.letsencrypt.org/directory" }}
+    privateKeySecretRef:
+      name: {{ .acme.privateKeySecretRef.name }}
+    {{- if .acme.solvers }}
+    solvers:
+    {{- range .acme.solvers }}
+    - {{- include "helpers.tplvalues.render" (dict "value" . "context" $) | nindent 6 }}
+    {{- end }}
+    {{- end }}
+{{- end }} 
