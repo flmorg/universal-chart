@@ -1,12 +1,16 @@
+{{/*
+Helper for ingress backend
+*/}}
 {{- define "helpers.ingress.backend" -}}
+{{- $serviceName := .serviceName -}}
+{{- $servicePort := .servicePort -}}
+{{- $context := .context -}}
 service:
-  name: {{ .serviceName }}
+  name: {{ $serviceName }}
   port:
-    {{- if typeIs "string" .servicePort }}
-    name: {{ .servicePort }}
-    {{- else if typeIs "float64" .servicePort }}
-    number: {{ .servicePort }}
-    {{- else if typeIs "int64" .servicePort }}
-    number: {{ .servicePort }}
+    {{- if kindIs "string" $servicePort }}
+    name: {{ $servicePort }}
+    {{- else }}
+    number: {{ $servicePort }}
     {{- end }}
 {{- end -}}
