@@ -14,6 +14,7 @@
         ],
         "properties": {
             "name": {
+                "$id": "#/deployment/properties/name",
                 "title": "Deployment name",
                 "description": "Name of the Deployment resource",
                 "type": "string",
@@ -21,16 +22,19 @@
                 "minLength": 1
             },
             "containers": {
+                "$id": "#/deployment/properties/containers",
                 "title": "Containers",
                 "description": "List of containers in the deployment",
                 "$ref": "containers.json"
             },
             "volumes": {
+                "$id": "#/deployment/properties/volumes",
                 "title": "Volumes",
                 "description": "List of volumes to mount",
                 "$ref": "volumes.json"
             },
             "replicas": {
+                "$id": "#/deployment/properties/replicas",
                 "title": "Replicas",
                 "description": "Number of desired pods",
                 "type": "integer",
@@ -38,6 +42,7 @@
                 "minimum": 0
             },
             "strategy": {
+                "$id": "#/deployment/properties/strategy",
                 "title": "Deployment strategy",
                 "description": "The deployment strategy to use",
                 "type": "object",
@@ -71,6 +76,7 @@
                 }
             },
             "minReadySeconds": {
+                "$id": "#/deployment/properties/minReadySeconds",
                 "title": "Min ready seconds",
                 "description": "Minimum number of seconds for which a newly created pod should be ready",
                 "type": "integer",
@@ -78,6 +84,7 @@
                 "minimum": 0
             },
             "revisionHistoryLimit": {
+                "$id": "#/deployment/properties/revisionHistoryLimit",
                 "title": "Revision history limit",
                 "description": "Number of old ReplicaSets to retain",
                 "type": "integer",
@@ -85,12 +92,14 @@
                 "minimum": 0
             },
             "paused": {
+                "$id": "#/deployment/properties/paused",
                 "title": "Paused",
                 "description": "Indicates that the deployment is paused",
                 "type": "boolean",
                 "default": false
             },
             "progressDeadlineSeconds": {
+                "$id": "#/deployment/properties/progressDeadlineSeconds",
                 "title": "Progress deadline seconds",
                 "description": "Maximum time in seconds for a deployment to make progress",
                 "type": "integer",
