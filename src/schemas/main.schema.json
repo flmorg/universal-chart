@@ -34,70 +34,70 @@
             "default": false
         },
         "clusterIssuers": {
-            "$ref": "schemas/clusterIssuers.json"
+            "$ref": "clusterIssuers.json#/clusterIssuers"
         },
         "certificates": {
-            "$ref": "schemas/certificates.json"
+            "$ref": "certificates.json#/certificates"
         },
         "clusterRole": {
-            "$ref": "schemas/clusterRole.json"
+            "$ref": "clusterRole.json#/clusterRole"
         },
         "clusterRoleBinding": {
-            "$ref": "schemas/clusterRoleBinding.json"
+            "$ref": "clusterRoleBinding.json#/clusterRoleBinding"
         },
         "configMaps": {
-            "$ref": "schemas/configMaps.json"
+            "$ref": "configMaps.json#/configMaps"
         },
         "deployment": {
-            "$ref": "schemas/deployment.json"
+            "$ref": "deployment.json#/deployment"
         },
         "hpa": {
-            "$ref": "schemas/hpa.json"
+            "$ref": "hpa.json#/hpa"
         },
         "infisicalSecrets": {
-            "$ref": "schemas/infisicalSecrets.json"
+            "$ref": "infisicalSecrets.json#/infisicalSecrets"
         },
         "ingress": {
-            "$ref": "schemas/ingress.json"
+            "$ref": "ingress.json#/ingress"
         },
         "ingresses": {
-            "$ref": "schemas/ingresses.json"
+            "$ref": "ingresses.json#/ingresses"
         },
         "job": {
-            "$ref": "schemas/job.json"
+            "$ref": "job.json#/job"
         },
         "pvs": {
-            "$ref": "schemas/pvs.json"
+            "$ref": "pvs.json#/pvs"
         },
         "pvcs": {
-            "$ref": "schemas/pvcs.json"
+            "$ref": "pvcs.json#/pvcs"
         },
         "role": {
             "$id": "#/properties/role",
             "title": "The role",
             "description": "",
-            "$ref": "schemas/clusterRole.json"
+            "$ref": "clusterRole.json#/clusterRole"
         },
         "roleBinding": {
-            "$ref": "schemas/roleBinding.json"
+            "$ref": "roleBinding.json#/roleBinding"
         },
         "secrets": {
-            "$ref": "schemas/secrets.json"
+            "$ref": "secrets.json#/secrets"
         },
         "serviceAccount": {
-            "$ref": "schemas/serviceAccount.json"
+            "$ref": "serviceAccount.json#/serviceAccount"
         },
         "services": {
-            "$ref": "schemas/service.json"
+            "$ref": "service.json#/service"
         },
         "statefulSet": {
-            "$ref": "schemas/statefulSet.json"
+            "$ref": "statefulSet.json#/statefulSet"
         },
         "storageClasses": {
-            "$ref": "schemas/storageClasses.json"
+            "$ref": "storageClasses.json#/storageClasses"
         },
         "vaultSecrets": {
-            "$ref": "schemas/vaultSecrets.json"
+            "$ref": "vaultSecrets.json#/vaultSecrets"
         }
     }
-} 
+}

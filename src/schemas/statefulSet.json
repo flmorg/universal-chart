@@ -1,53 +1,58 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "#/statefulSet",
-  "title": "StatefulSet Schema",
-  "description": "Schema for defining Kubernetes StatefulSets",
-  "type": "object",
-  "default": {},
-  "additionalProperties": false,
-  "required": ["serviceName", "containers"],
-  "properties": {
-    "annotations": {},
-    "serviceName": {
-      "$id": "#/statefulSet/properties/serviceName",
-      "title": "The name of the service that governs this StatefulSet",
-      "description": "",
-      "type": "string",
-      "default": "",
-      "minLength": 1
-    },
-    "replicas": {
-      "$id": "#/statefulSet/properties/replicas",
-      "$ref": "deployment.json#/deployment/properties/replicas"
-    },
-    "serviceAccountName": {
-      "$id": "#/statefulSet/properties/serviceAccountName",
-      "$ref": "deployment.json#/deployment/properties/serviceAccountName"
-    },
-    "securityContext": {
-      "$id": "#/statefulSet/properties/securityContext",
-      "$ref": "deployment.json#/deployment/properties/securityContext"
-    },
-    "imagePullSecrets": {
-      "$id": "#/statefulSet/properties/imagePullSecrets",
-      "$ref": "deployment.json#/deployment/properties/imagePullSecrets"
-    },
-    "terminationGracePeriodSeconds": {
-      "$id": "#/statefulSet/properties/terminationGracePeriodSeconds",
-      "$ref": "deployment.json#/deployment/properties/terminationGracePeriodSeconds"
-    },
-    "initContainers": {
-      "$id": "#/statefulSet/properties/initContainers",
-      "$ref": "deployment.json#/deployment/properties/initContainers"
-    },
-    "containers": {
-      "$id": "#/statefulSet/properties/containers",
-      "$ref": "deployment.json#/deployment/properties/containers"
-    },
-    "volumes": {
-      "$id": "#/statefulSet/properties/volumes",
-      "$ref": "deployment.json#/deployment/properties/volumes"
+    "statefulSet": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/statefulSet",
+        "title": "StatefulSet Schema",
+        "description": "Schema for defining Kubernetes StatefulSets",
+        "type": "object",
+        "default": {},
+        "additionalProperties": false,
+        "required": [
+            "serviceName",
+            "containers"
+        ],
+        "properties": {
+            "annotations": {},
+            "serviceName": {
+                "$id": "#/statefulSet/properties/serviceName",
+                "title": "The name of the service that governs this StatefulSet",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "replicas": {
+                "$id": "#/statefulSet/properties/replicas",
+                "$ref": "deployment.json#/deployment/properties/replicas"
+            },
+            "serviceAccountName": {
+                "$id": "#/statefulSet/properties/serviceAccountName",
+                "$ref": "deployment.json#/deployment/properties/serviceAccountName"
+            },
+            "securityContext": {
+                "$id": "#/statefulSet/properties/securityContext",
+                "$ref": "deployment.json#/deployment/properties/securityContext"
+            },
+            "imagePullSecrets": {
+                "$id": "#/statefulSet/properties/imagePullSecrets",
+                "$ref": "deployment.json#/deployment/properties/imagePullSecrets"
+            },
+            "terminationGracePeriodSeconds": {
+                "$id": "#/statefulSet/properties/terminationGracePeriodSeconds",
+                "$ref": "deployment.json#/deployment/properties/terminationGracePeriodSeconds"
+            },
+            "initContainers": {
+                "$id": "#/statefulSet/properties/initContainers",
+                "$ref": "deployment.json#/deployment/properties/initContainers"
+            },
+            "containers": {
+                "$id": "#/statefulSet/properties/containers",
+                "$ref": "deployment.json#/deployment/properties/containers"
+            },
+            "volumes": {
+                "$id": "#/statefulSet/properties/volumes",
+                "$ref": "deployment.json#/deployment/properties/volumes"
+            }
+        }
     }
-  }
 }

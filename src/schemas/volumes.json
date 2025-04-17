@@ -1,153 +1,169 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#/volumes",
-    "title": "The volumes",
-    "description": "Schema for Kubernetes Volume resources",
-    "type": "array",
-    "default": [],
-    "items": {
-        "type": "object",
-        "additionalProperties": true,
-        "required": [
-            "name",
-            "type"
-        ],
-        "properties": {
-            "name": {
-                "title": "Volume name",
-                "description": "Name of the volume",
-                "type": "string",
-                "default": "",
-                "minLength": 1
-            },
-            "type": {
-                "title": "Volume type",
-                "description": "Type of the volume",
-                "type": "string",
-                "enum": [
-                    "emptyDir",
-                    "configMap",
-                    "secret",
-                    "persistentVolumeClaim",
-                    "hostPath"
-                ]
-            },
-            "configMap": {
-                "title": "ConfigMap volume",
-                "description": "ConfigMap volume configuration",
-                "type": "object",
-                "required": ["name"],
-                "properties": {
-                    "name": {
-                        "title": "ConfigMap name",
-                        "description": "Name of the ConfigMap",
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "items": {
-                        "title": "ConfigMap items",
-                        "description": "Items to project from the ConfigMap",
-                        "type": "array",
+    "volumes": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/volumes",
+        "title": "The volumes",
+        "description": "Schema for Kubernetes Volume resources",
+        "type": "array",
+        "default": [],
+        "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+                "name",
+                "type"
+            ],
+            "properties": {
+                "name": {
+                    "title": "Volume name",
+                    "description": "Name of the volume",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "type": {
+                    "title": "Volume type",
+                    "description": "Type of the volume",
+                    "type": "string",
+                    "enum": [
+                        "emptyDir",
+                        "configMap",
+                        "secret",
+                        "persistentVolumeClaim",
+                        "hostPath"
+                    ]
+                },
+                "configMap": {
+                    "title": "ConfigMap volume",
+                    "description": "ConfigMap volume configuration",
+                    "type": "object",
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "name": {
+                            "title": "ConfigMap name",
+                            "description": "Name of the ConfigMap",
+                            "type": "string",
+                            "minLength": 1
+                        },
                         "items": {
-                            "type": "object",
-                            "required": ["key", "path"],
-                            "properties": {
-                                "key": {
-                                    "title": "ConfigMap key",
-                                    "description": "Key to project",
-                                    "type": "string",
-                                    "minLength": 1
-                                },
-                                "path": {
-                                    "title": "Mount path",
-                                    "description": "Path to mount the key at",
-                                    "type": "string",
-                                    "minLength": 1
+                            "title": "ConfigMap items",
+                            "description": "Items to project from the ConfigMap",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "key",
+                                    "path"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "title": "ConfigMap key",
+                                        "description": "Key to project",
+                                        "type": "string",
+                                        "minLength": 1
+                                    },
+                                    "path": {
+                                        "title": "Mount path",
+                                        "description": "Path to mount the key at",
+                                        "type": "string",
+                                        "minLength": 1
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            },
-            "secret": {
-                "title": "Secret volume",
-                "description": "Secret volume configuration",
-                "type": "object",
-                "required": ["secretName"],
-                "properties": {
-                    "secretName": {
-                        "title": "Secret name",
-                        "description": "Name of the Secret",
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "items": {
-                        "title": "Secret items",
-                        "description": "Items to project from the Secret",
-                        "type": "array",
+                },
+                "secret": {
+                    "title": "Secret volume",
+                    "description": "Secret volume configuration",
+                    "type": "object",
+                    "required": [
+                        "secretName"
+                    ],
+                    "properties": {
+                        "secretName": {
+                            "title": "Secret name",
+                            "description": "Name of the Secret",
+                            "type": "string",
+                            "minLength": 1
+                        },
                         "items": {
-                            "type": "object",
-                            "required": ["key", "path"],
-                            "properties": {
-                                "key": {
-                                    "title": "Secret key",
-                                    "description": "Key to project",
-                                    "type": "string",
-                                    "minLength": 1
-                                },
-                                "path": {
-                                    "title": "Mount path",
-                                    "description": "Path to mount the key at",
-                                    "type": "string",
-                                    "minLength": 1
+                            "title": "Secret items",
+                            "description": "Items to project from the Secret",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "key",
+                                    "path"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "title": "Secret key",
+                                        "description": "Key to project",
+                                        "type": "string",
+                                        "minLength": 1
+                                    },
+                                    "path": {
+                                        "title": "Mount path",
+                                        "description": "Path to mount the key at",
+                                        "type": "string",
+                                        "minLength": 1
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            },
-            "persistentVolumeClaim": {
-                "title": "PersistentVolumeClaim volume",
-                "description": "PersistentVolumeClaim volume configuration",
-                "type": "object",
-                "required": ["claimName"],
-                "properties": {
-                    "claimName": {
-                        "title": "PVC name",
-                        "description": "Name of the PersistentVolumeClaim",
-                        "type": "string",
-                        "minLength": 1
+                },
+                "persistentVolumeClaim": {
+                    "title": "PersistentVolumeClaim volume",
+                    "description": "PersistentVolumeClaim volume configuration",
+                    "type": "object",
+                    "required": [
+                        "claimName"
+                    ],
+                    "properties": {
+                        "claimName": {
+                            "title": "PVC name",
+                            "description": "Name of the PersistentVolumeClaim",
+                            "type": "string",
+                            "minLength": 1
+                        }
                     }
-                }
-            },
-            "hostPath": {
-                "title": "HostPath volume",
-                "description": "HostPath volume configuration",
-                "type": "object",
-                "required": ["path"],
-                "properties": {
-                    "path": {
-                        "title": "Host path",
-                        "description": "Path on the host",
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "type": {
-                        "title": "HostPath type",
-                        "description": "Type of the host path",
-                        "type": "string",
-                        "enum": [
-                            "Directory",
-                            "DirectoryOrCreate",
-                            "File",
-                            "FileOrCreate",
-                            "Socket",
-                            "CharDevice",
-                            "BlockDevice"
-                        ]
+                },
+                "hostPath": {
+                    "title": "HostPath volume",
+                    "description": "HostPath volume configuration",
+                    "type": "object",
+                    "required": [
+                        "path"
+                    ],
+                    "properties": {
+                        "path": {
+                            "title": "Host path",
+                            "description": "Path on the host",
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "type": {
+                            "title": "HostPath type",
+                            "description": "Type of the host path",
+                            "type": "string",
+                            "enum": [
+                                "Directory",
+                                "DirectoryOrCreate",
+                                "File",
+                                "FileOrCreate",
+                                "Socket",
+                                "CharDevice",
+                                "BlockDevice"
+                            ]
+                        }
                     }
                 }
             }
         }
     }
-} 
+}

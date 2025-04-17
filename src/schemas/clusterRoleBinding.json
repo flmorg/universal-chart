@@ -1,37 +1,39 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#/clusterRoleBinding",
-    "title": "The cluster role binding",
-    "description": "Describes a binding between a cluster role and a service account",
-    "type": "object",
-    "default": {},
-    "additionalProperties": false,
-    "required": [
-        "name",
-        "clusterRoleName",
-        "serviceAccountName"
-    ],
-    "properties": {
-        "name": {
-            "title": "The binding name",
-            "description": "Name of the ClusterRoleBinding resource",
-            "type": "string",
-            "default": "",
-            "minLength": 1
-        },
-        "clusterRoleName": {
-            "title": "The cluster role name to bind",
-            "description": "Name of the ClusterRole to bind",
-            "type": "string",
-            "default": "",
-            "minLength": 1
-        },
-        "serviceAccountName": {
-            "title": "The service account name to bind",
-            "description": "Name of the ServiceAccount to bind",
-            "type": "string",
-            "default": "",
-            "minLength": 1
+    "clusterRoleBinding": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/clusterRoleBinding",
+        "title": "The cluster role binding",
+        "description": "Describes a binding between a cluster role and a service account",
+        "type": "object",
+        "default": {},
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "clusterRoleName",
+            "serviceAccountName"
+        ],
+        "properties": {
+            "name": {
+                "title": "The binding name",
+                "description": "Name of the ClusterRoleBinding resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "clusterRoleName": {
+                "title": "The cluster role name to bind",
+                "description": "Name of the ClusterRole to bind",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "serviceAccountName": {
+                "title": "The service account name to bind",
+                "description": "Name of the ServiceAccount to bind",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            }
         }
     }
-} 
+}

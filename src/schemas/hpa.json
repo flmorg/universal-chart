@@ -1,88 +1,90 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#/hpa",
-    "title": "The horizontal pod autoscaler",
-    "description": "Schema for Kubernetes HorizontalPodAutoscaler resources",
-    "type": "object",
-    "default": {},
-    "additionalProperties": false,
-    "required": [
-        "name",
-        "scaleTargetRef",
-        "minReplicas",
-        "maxReplicas",
-        "targetCPU",
-        "targetMemory"
-    ],
-    "properties": {
-        "name": {
-            "title": "The hpa name",
-            "description": "Name of the HorizontalPodAutoscaler resource",
-            "type": "string",
-            "default": "",
-            "minLength": 1
-        },
-        "scaleTargetRef": {
-            "title": "The scaled target ref",
-            "description": "The target of the HPA.",
-            "type": "object",
-            "default": {},
-            "additionalProperties": false,
-            "required": [
-                "kind",
-                "name"
-            ],
-            "properties": {
-                "kind": {
-                    "title": "The target kind",
-                    "description": "The kind to target with the HPA (i.e. Deployment)",
-                    "type": "string",
-                    "default": "",
-                    "enum": [
-                        "Deployment",
-                        "StatefulSet"
-                    ]
-                },
-                "name": {
-                    "title": "The target name",
-                    "description": "The name of the target for HPA.",
-                    "type": "string",
-                    "default": "",
-                    "minLength": 1
+    "hpa": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/hpa",
+        "title": "The horizontal pod autoscaler",
+        "description": "Schema for Kubernetes HorizontalPodAutoscaler resources",
+        "type": "object",
+        "default": {},
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "scaleTargetRef",
+            "minReplicas",
+            "maxReplicas",
+            "targetCPU",
+            "targetMemory"
+        ],
+        "properties": {
+            "name": {
+                "title": "The hpa name",
+                "description": "Name of the HorizontalPodAutoscaler resource",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "scaleTargetRef": {
+                "title": "The scaled target ref",
+                "description": "The target of the HPA.",
+                "type": "object",
+                "default": {},
+                "additionalProperties": false,
+                "required": [
+                    "kind",
+                    "name"
+                ],
+                "properties": {
+                    "kind": {
+                        "title": "The target kind",
+                        "description": "The kind to target with the HPA (i.e. Deployment)",
+                        "type": "string",
+                        "default": "",
+                        "enum": [
+                            "Deployment",
+                            "StatefulSet"
+                        ]
+                    },
+                    "name": {
+                        "title": "The target name",
+                        "description": "The name of the target for HPA.",
+                        "type": "string",
+                        "default": "",
+                        "minLength": 1
+                    }
                 }
+            },
+            "minReplicas": {
+                "title": "The min replicas",
+                "description": "The minimum number of replicas for the HPA target.",
+                "type": "integer",
+                "default": 0,
+                "minimum": 1,
+                "maximum": 3
+            },
+            "maxReplicas": {
+                "title": "The max replicas",
+                "description": "The maximum number of replicas for the HPA target.",
+                "type": "integer",
+                "default": 0,
+                "minimum": 2,
+                "maximum": 5
+            },
+            "targetCPU": {
+                "title": "The CPU target",
+                "description": "The CPU target for each replica before firing up a new one, in percentage.",
+                "type": "integer",
+                "default": 0,
+                "minimum": 70,
+                "maximum": 100
+            },
+            "targetMemory": {
+                "title": "The memory target",
+                "description": "The memory target for each replica before firing up a new one, in percentage.",
+                "type": "integer",
+                "default": 0,
+                "minimum": 70,
+                "maximum": 100
             }
-        },
-        "minReplicas": {
-            "title": "The min replicas",
-            "description": "The minimum number of replicas for the HPA target.",
-            "type": "integer",
-            "default": 0,
-            "minimum": 1,
-            "maximum": 3
-        },
-        "maxReplicas": {
-            "title": "The max replicas",
-            "description": "The maximum number of replicas for the HPA target.",
-            "type": "integer",
-            "default": 0,
-            "minimum": 2,
-            "maximum": 5
-        },
-        "targetCPU": {
-            "title": "The CPU target",
-            "description": "The CPU target for each replica before firing up a new one, in percentage.",
-            "type": "integer",
-            "default": 0,
-            "minimum": 70,
-            "maximum": 100
-        },
-        "targetMemory": {
-            "title": "The memory target",
-            "description": "The memory target for each replica before firing up a new one, in percentage.",
-            "type": "integer",
-            "default": 0,
-            "minimum": 70,
-            "maximum": 100
         }
     }
-} 
+}

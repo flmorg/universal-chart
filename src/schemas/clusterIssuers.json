@@ -1,102 +1,104 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#/clusterIssuers",
-    "title": "Cert-manager ClusterIssuers",
-    "description": "List of ClusterIssuer resources to create",
-    "type": "array",
-    "default": [],
-    "items": {
-        "type": "object",
-        "required": [
-            "name",
-            "acme"
-        ],
-        "properties": {
-            "name": {
-                "type": "string",
-                "title": "ClusterIssuer name",
-                "description": "The name of the ClusterIssuer resource"
-            },
-            "labels": {
-                "type": "object",
-                "title": "Labels",
-                "description": "Labels to apply to the ClusterIssuer"
-            },
-            "annotations": {
-                "type": "object",
-                "title": "Annotations",
-                "description": "Annotations to apply to the ClusterIssuer"
-            },
-            "acme": {
-                "type": "object",
-                "required": [
-                    "email",
-                    "privateKeySecretRef"
-                ],
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "title": "Email",
-                        "description": "Email address for ACME account"
-                    },
-                    "server": {
-                        "type": "string",
-                        "title": "ACME server",
-                        "description": "ACME server URL",
-                        "default": "https://acme-v02.api.letsencrypt.org/directory"
-                    },
-                    "privateKeySecretRef": {
-                        "type": "object",
-                        "required": [
-                            "name"
-                        ],
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "title": "Secret name",
-                                "description": "Name of the secret containing the ACME account private key"
-                            }
-                        }
-                    },
-                    "solvers": {
-                        "type": "array",
-                        "title": "Solvers",
-                        "description": "List of solvers for ACME challenges",
-                        "items": {
+    "clusterIssuers": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/clusterIssuers",
+        "title": "Cert-manager ClusterIssuers",
+        "description": "List of ClusterIssuer resources to create",
+        "type": "array",
+        "default": [],
+        "items": {
+            "type": "object",
+            "required": [
+                "name",
+                "acme"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "title": "ClusterIssuer name",
+                    "description": "The name of the ClusterIssuer resource"
+                },
+                "labels": {
+                    "type": "object",
+                    "title": "Labels",
+                    "description": "Labels to apply to the ClusterIssuer"
+                },
+                "annotations": {
+                    "type": "object",
+                    "title": "Annotations",
+                    "description": "Annotations to apply to the ClusterIssuer"
+                },
+                "acme": {
+                    "type": "object",
+                    "required": [
+                        "email",
+                        "privateKeySecretRef"
+                    ],
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "title": "Email",
+                            "description": "Email address for ACME account"
+                        },
+                        "server": {
+                            "type": "string",
+                            "title": "ACME server",
+                            "description": "ACME server URL",
+                            "default": "https://acme-v02.api.letsencrypt.org/directory"
+                        },
+                        "privateKeySecretRef": {
                             "type": "object",
+                            "required": [
+                                "name"
+                            ],
                             "properties": {
-                                "dns01": {
-                                    "type": "object",
-                                    "properties": {
-                                        "cloudflare": {
-                                            "type": "object",
-                                            "required": [
-                                                "email",
-                                                "apiTokenSecretRef"
-                                            ],
-                                            "properties": {
-                                                "email": {
-                                                    "type": "string",
-                                                    "title": "Cloudflare email",
-                                                    "description": "Cloudflare account email"
-                                                },
-                                                "apiTokenSecretRef": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "name",
-                                                        "key"
-                                                    ],
-                                                    "properties": {
-                                                        "name": {
-                                                            "type": "string",
-                                                            "title": "Secret name",
-                                                            "description": "Name of the secret containing the Cloudflare API token"
-                                                        },
-                                                        "key": {
-                                                            "type": "string",
-                                                            "title": "Secret key",
-                                                            "description": "Key in the secret containing the Cloudflare API token",
-                                                            "default": "api-token"
+                                "name": {
+                                    "type": "string",
+                                    "title": "Secret name",
+                                    "description": "Name of the secret containing the ACME account private key"
+                                }
+                            }
+                        },
+                        "solvers": {
+                            "type": "array",
+                            "title": "Solvers",
+                            "description": "List of solvers for ACME challenges",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "dns01": {
+                                        "type": "object",
+                                        "properties": {
+                                            "cloudflare": {
+                                                "type": "object",
+                                                "required": [
+                                                    "email",
+                                                    "apiTokenSecretRef"
+                                                ],
+                                                "properties": {
+                                                    "email": {
+                                                        "type": "string",
+                                                        "title": "Cloudflare email",
+                                                        "description": "Cloudflare account email"
+                                                    },
+                                                    "apiTokenSecretRef": {
+                                                        "type": "object",
+                                                        "required": [
+                                                            "name",
+                                                            "key"
+                                                        ],
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string",
+                                                                "title": "Secret name",
+                                                                "description": "Name of the secret containing the Cloudflare API token"
+                                                            },
+                                                            "key": {
+                                                                "type": "string",
+                                                                "title": "Secret key",
+                                                                "description": "Key in the secret containing the Cloudflare API token",
+                                                                "default": "api-token"
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -111,4 +113,4 @@
             }
         }
     }
-} 
+}

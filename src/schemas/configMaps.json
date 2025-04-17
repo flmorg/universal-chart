@@ -1,56 +1,58 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#/configMaps",
-    "title": "The configMaps schema",
-    "description": "Structure of the configMap object collection.",
-    "type": "array",
-    "additionalItems": true,
-    "default": [],
-    "items": {
-        "title": "The configMap schema",
-        "description": "Structure of the configMap object.",
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-            "name",
-            "data"
-        ],
-        "properties": {
-            "name": {
-                "title": "The configMap",
-                "description": "The name of the configMap to be created.",
-                "type": "string",
-                "default": "",
-                "minLength": 1
-            },
-            "namespace": {
-                "title": "The namespace",
-                "description": "The namespace of the configMap to be created.",
-                "type": "string",
-                "default": "",
-                "minLength": 1
-            },
-            "data": {
-                "title": "The data of the configMap",
-                "description": "Collection of key-value pairs to represent the configMap data.",
-                "type": "object",
-                "additionalProperties": true,
-                "default": {}
-            },
-            "labels": {
-                "title": "The labels schema",
-                "description": "Additional labels to be added to the configMap.",
-                "type": "object",
-                "default": {},
-                "additionalProperties": true
-            },
-            "annotations": {
-                "title": "The annotations schema",
-                "description": "Additional annotations to be added to the configMap.",
-                "type": "object",
-                "default": {},
-                "additionalProperties": true
+    "configMaps": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/configMaps",
+        "title": "The configMaps schema",
+        "description": "Structure of the configMap object collection.",
+        "type": "array",
+        "additionalItems": true,
+        "default": [],
+        "items": {
+            "title": "The configMap schema",
+            "description": "Structure of the configMap object.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "data"
+            ],
+            "properties": {
+                "name": {
+                    "title": "The configMap",
+                    "description": "The name of the configMap to be created.",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "namespace": {
+                    "title": "The namespace",
+                    "description": "The namespace of the configMap to be created.",
+                    "type": "string",
+                    "default": "",
+                    "minLength": 1
+                },
+                "data": {
+                    "title": "The data of the configMap",
+                    "description": "Collection of key-value pairs to represent the configMap data.",
+                    "type": "object",
+                    "additionalProperties": true,
+                    "default": {}
+                },
+                "labels": {
+                    "title": "The labels schema",
+                    "description": "Additional labels to be added to the configMap.",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": true
+                },
+                "annotations": {
+                    "title": "The annotations schema",
+                    "description": "Additional annotations to be added to the configMap.",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": true
+                }
             }
         }
     }
-} 
+}

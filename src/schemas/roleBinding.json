@@ -1,40 +1,42 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#/roleBinding",
-    "title": "The role binding",
-    "description": "Describes a binding between a role and a service account",
-    "type": "object",
-    "default": {},
-    "additionalProperties": false,
-    "required": [
-        "name",
-        "roleName",
-        "serviceAccountName"
-    ],
-    "properties": {
-        "name": {
-            "$id": "#/properties/name",
-            "title": "The binding name",
-            "description": "",
-            "type": "string",
-            "default": "",
-            "minLength": 1
-        },
-        "roleName": {
-            "$id": "#/properties/roleName",
-            "title": "The role name to bind",
-            "description": "",
-            "type": "string",
-            "default": "",
-            "minLength": 1
-        },
-        "serviceAccountName": {
-            "$id": "#/properties/serviceAccountName",
-            "title": "The service account name to bind",
-            "description": "",
-            "type": "string",
-            "default": "",
-            "minLength": 1
+    "roleBinding": {
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "#/roleBinding",
+        "title": "The role binding",
+        "description": "Describes a binding between a role and a service account",
+        "type": "object",
+        "default": {},
+        "additionalProperties": false,
+        "required": [
+            "name",
+            "roleName",
+            "serviceAccountName"
+        ],
+        "properties": {
+            "name": {
+                "$id": "#/properties/name",
+                "title": "The binding name",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "roleName": {
+                "$id": "#/properties/roleName",
+                "title": "The role name to bind",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            },
+            "serviceAccountName": {
+                "$id": "#/properties/serviceAccountName",
+                "title": "The service account name to bind",
+                "description": "",
+                "type": "string",
+                "default": "",
+                "minLength": 1
+            }
         }
     }
-} 
+}
